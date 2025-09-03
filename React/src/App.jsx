@@ -1,11 +1,13 @@
+import Splash from './pages/Splash/Splash';
+/* tailwind 호환성을 위해 App.css import했음 */
+import './App.css';
 
 function App() {
-
-    return (
-        <>
-            Hello Vite-React!
-        </>
-    )
+  return (
+    <>
+      <Splash />
+    </>
+  );
 }
 
-export default App
+export default App;

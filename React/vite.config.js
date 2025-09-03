@@ -11,4 +11,7 @@ export default defineConfig({
     outDir: 'dist',
     sourcemap: true,
   },
+  css: {
+    postcss: './postcss.config.cjs', // PostCSS 설정 파일 경로 수정
+  },
 });
