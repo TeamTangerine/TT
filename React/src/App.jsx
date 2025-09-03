@@ -3,11 +3,7 @@ import Splash from './pages/Splash/Splash';
 import './App.css';
 
 function App() {
-  return (
-    <>
-      <Splash />
-    </>
-  );
+  return <></>;
 }
 
 export default App;
