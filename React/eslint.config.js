@@ -45,6 +45,7 @@ export default tseslint.config(
       'react/no-multi-comp': ['warn', { ignoreStateless: true }],
       'react/jsx-key': 'warn',
       'react-hooks/exhaustive-deps': 'warn',
+  'react/jsx-pascal-case': 'error',
     },
   }
 );
