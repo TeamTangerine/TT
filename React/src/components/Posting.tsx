@@ -38,7 +38,9 @@ function Posting() {
             <span className="text-[12px] text-[#767676]">12</span>
           </div>
         </div>
-        <p className="text-[10px] text-[#767676]">2020년 10월 21일</p>
+        <time dateTime="2020-10-21" className="text-[10px] text-[#767676]">
+          2020년 10월 21일
+        </time>
       </article>
     </li>
   );
