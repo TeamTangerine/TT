@@ -8,7 +8,7 @@ function ProfileModification() {
     <>
       <Header />
       <div>
-        <img src={basicProfileImg} alt="사용자 프로필 이미지" />
+        <img src={basicProfileImg} alt="내 프로필 이미지" />
         <button>
           <img src={ImgBtn} alt="프로필 이미지 변경 버튼" />
         </button>
