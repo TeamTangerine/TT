@@ -6,7 +6,7 @@ import NavButton from './component/NavButton';
 
 function Footer() {
   return (
-    <nav className="fixed bottom-0 flex justify-center gap-[14px] w-full h-[60px] border-t border-t-[#DBDBDB]">
+    <nav className="fixed bottom-0 flex justify-center gap-[14px] w-full h-[60px] border-t border-t-[#DBDBDB] bg-white">
       <NavButton imgSrc={iconHome} name="홈" />
       <NavButton imgSrc={iconMessageCircle} name="채팅" />
       <NavButton imgSrc={iconEdit} name="게시물 작성" />
