@@ -4,7 +4,7 @@ import basicProfileImg from '../../assets/basic-profile-img.png';
 function ProfileModification() {
   return (
     <>
-      <Header></Header>
+      <Header />
       <div>
         <img src={basicProfileImg} alt="사용자 프로필 이미지" />
         {/* 버튼 이미지는 배경 이미지로 넣기 */}
