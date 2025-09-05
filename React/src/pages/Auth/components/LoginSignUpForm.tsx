@@ -23,7 +23,11 @@ export default function LoginSignUpForm({ formName, btnText }: LoginSignUpFormPr
                 type="email"
                 className="border-[#DBDBDB] border-b-2 focus:outline-none focus:border-b-1 focus:border-[#F26E22] text-[#000000]"
               />
+
+              {/* span 태그 렌더링 기능 조건부 구현으로 구성할지 고민중 */}
+              {/* <span className="text-[12px] text-[#EB5757] mt-[6px]">*이미 가입된 이메일 주소입니다.</span> */}
             </div>
+
             <div className="flex flex-col px-[34px]">
               <label htmlFor="password" className="text-[12px] text-[#767676]">
                 비밀번호
@@ -33,10 +37,14 @@ export default function LoginSignUpForm({ formName, btnText }: LoginSignUpFormPr
                 type="password"
                 className="border-[#DBDBDB] border-b-2 focus:outline-none focus:border-b-1 focus:border-[#F26E22] text-[#000000]"
               />
-              <span className="text-[12px] text-[#EB5757] mt-[6px]">*이메일 또는 비밀번호가 일치하지 않습니다.</span>
+
+              {/* span 태그 렌더링 기능 조건부 구현으로 구성할지 고민중 */}
+              {/* <span className="text-[12px] text-[#EB5757] mt-[6px]">*이메일 또는 비밀번호가 일치하지 않습니다.</span> */}
             </div>
           </div>
+
           {/* 
+          버튼활성화 관련 기능 구현
           {isTrue ? 'bg-[#F26E22]' : 'bg-[#FFC7A7]'}
           버튼 클래스 안 해당 조건문 넣은 이유:
           버튼이 활성화 되었을때 디자인을 변경하기 위해 미리 디자인.
