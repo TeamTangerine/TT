@@ -12,7 +12,7 @@ function HomeCardGrid() {
   return (
     <section className="flex flex-col">
       <div className="flex justify-center bg-white border-b border-b-[#DBDBDB]">
-        <div className="min-w-[384px] flex justify-end gap-4 px-4 py-[9px]">
+        <div className="min-w-[390px] flex justify-end gap-4 px-4 py-[9px]">
           <button className="w-[26px] h-[26px]">
             <img src={listBtn} alt="리스트로 보기" />
           </button>
