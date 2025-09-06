@@ -29,7 +29,7 @@ export default function Button({
     <>
       <button
         type="button"
-        className={`block bg-[#FFC7A7] mx-[34px] py-[14px] font-medium text-white ${btnTextSize} ${btnWidth} ${btnHeight} ${btnRadius} ${btnColor}`}
+        className={`flex justify-center items-center mx-[34px] py-[14px] font-medium text-white ${btnTextSize} ${btnWidth} ${btnHeight} ${btnRadius} ${btnColor}`}
       >
         {btnText}
       </button>
