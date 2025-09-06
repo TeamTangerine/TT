@@ -1,7 +1,7 @@
 import Header from '../../components/Header';
 import basicProfileImg from '../../assets/basic-profile-img.png';
 import ImgBtn from '../../assets/img-button.png';
-import TextInput from './components/TextInput';
+import TextInput from '../../components/TextInput';
 
 function ProfileModification() {
   return (
