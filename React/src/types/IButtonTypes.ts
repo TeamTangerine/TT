@@ -18,7 +18,7 @@ export interface IButtonProps {
 
 /**
  * @param IBtnTextSize 버튼 텍스트 크기
- * - 사용방법 예시: BtnTextSize.Large
+ * - 사용방법 예시: IBtnTextSize.Large
  * - L, M, MS => Large
  * - S => Small
  * - Large: 'text-[14px]'
@@ -31,7 +31,7 @@ export enum IBtnTextSize {
 
 /**
  * @param IBtnWidth 버튼 가로 길이
- * - 사용방법 예시: BtnWidth.Large
+ * - 사용방법 예시: IBtnWidth.Large
  * - Large: 'w-[322px]'
  * - Medium: 'w-[120px]'
  * - MediumSmall: 'w-[90px]'
@@ -46,7 +46,7 @@ export enum IBtnWidth {
 
 /**
  * @param IBtnHeight 버튼 세로 길이
- * - 사용방법 예시: BtnHeight.Large
+ * - 사용방법 예시: IBtnHeight.Large
  * - Large: 'h-[44px]'
  * - Medium: 'h-[34px]'
  * - MediumSmall: 'h-[32px]'
@@ -61,7 +61,7 @@ export enum IBtnHeight {
 
 /**
  * @param IBtnRadius 버튼 border-radius
- * - 사용방법 예시: BtnRadius.Large
+ * - 사용방법 예시: IBtnRadius.Large
  * - Large: 'rounded-[44px]'
  * - Medium: 'rounded-[30px]'
  * - MediumSmall: 'rounded-[32px]'
@@ -76,7 +76,7 @@ export enum IBtnRadius {
 
 /**
  * @param IBtnColor 버튼 배경색
- * - 사용방법 예시: BtnColor.Active
+ * - 사용방법 예시: IBtnColor.Active
  * - Active: 'bg-[#F26E22]'
  * - Inactive: 'bg-[#FFC7A7]'
  * - Disabled: 'bg-[#DBDBDB]'
