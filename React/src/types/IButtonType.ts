@@ -39,8 +39,18 @@ export interface IBtnType {
    */
   btnColor: ButtonColorType;
   /**
-   * @param {}
-   * @returns
+   * @param {function} onClick: 버튼 클릭 시 실행할 함수를 전달하세요. (선택사항)
+   *
+   * @example
+   * // 기본 사용법
+   * onClick={() => console.log('버튼 클릭됨')}
+   *
+   * // 함수 전달
+   * onClick={handleButtonClick}
+   *
+   * // 매개변수가 필요한 경우
+   * onClick={() => handleSubmit(formData)}
    */
+
   onClick?: () => void;
 }

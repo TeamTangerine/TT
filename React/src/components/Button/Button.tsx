@@ -24,12 +24,13 @@ function getButtonColor(color: ButtonColorType) {
   return BUTTON_COLORS[color] || BUTTON_COLORS.normal;
 }
 
-export default function Button({ btnTextContent, btnSize, btnColor }: IBtnType) {
+export default function Button({ btnTextContent, btnSize, btnColor, onClick }: IBtnType) {
   return (
     <>
       <button
         type="button"
         className={`flex justify-center items-center mx-[34px] py-[14px] font-medium ${getButtonSize(btnSize)} ${getButtonColor(btnColor)}`}
+        onClick={onClick}
       >
         {btnTextContent}
       </button>
