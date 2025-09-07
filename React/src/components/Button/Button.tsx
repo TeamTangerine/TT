@@ -1,49 +1,37 @@
 import React from 'react';
-import { IBtnType } from '../../types/IButtonType';
+import { IBtnType, ButtonSizeType, ButtonColorType } from '../../types/IButtonType';
 
-export default function Button({ BtnTextContent, BtnSizeType, BtnColorType }: IBtnType) {
-  function ButtonSize(size: string) {
-    // 버튼 사이즈별 상수 정의
-    const LARGE = 'text-[14px] w-[322px] h-[44px] rounded-[44px]';
-    const MEDIUM = 'text-[14px] w-[120px] h-[34px] rounded-[44px]';
-    const MEDIUMSMALL = 'text-[14px] w-[90px] h-[32px] rounded-[32px]';
-    const SMALL = 'text-[12px] w-[56px] h-[28px] rounded-[26px]';
+// 버튼 사이즈별 상수 정의
+const BUTTON_SIZES = {
+  large: 'text-[14px] w-[322px] h-[44px] rounded-[44px]',
+  medium: 'text-[14px] w-[120px] h-[34px] rounded-[44px]',
+  mediumSmall: 'text-[14px] w-[90px] h-[32px] rounded-[32px]',
+  small: 'text-[12px] w-[56px] h-[28px] rounded-[26px]',
+} as const;
 
-    switch (size) {
-      case 'large':
-        return LARGE;
-      case 'medium':
-        return MEDIUM;
-      case 'mediumSmall':
-        return MEDIUMSMALL;
-      default:
-        return SMALL;
-    }
-  }
+function getButtonSize(size: ButtonSizeType) {
+  return BUTTON_SIZES[size] || BUTTON_SIZES.small;
+}
 
-  function ButtonColor(color: string) {
-    // 버튼 색깔별 상수 정의
-    const NORMAL = 'bg-[#F26E22] text-white';
-    const DISABLE = 'bg-[#FFC7A7] text-white';
-    const ACTIVE = 'bg-[#DBDBDB] text-[#767676]';
+// 버튼 색깔별 상수 정의
+const BUTTON_COLORS = {
+  normal: 'bg-[#F26E22] text-white',
+  disable: 'bg-[#FFC7A7] text-white',
+  active: 'bg-[#DBDBDB] text-[#767676]',
+} as const;
 
-    switch (color) {
-      case 'disable':
-        return DISABLE;
-      case 'active':
-        return ACTIVE;
-      default:
-        return NORMAL;
-    }
-  }
+function getButtonColor(color: ButtonColorType) {
+  return BUTTON_COLORS[color] || BUTTON_COLORS.normal;
+}
 
+export default function Button({ btnTextContent, btnSize, btnColor }: IBtnType) {
   return (
     <>
       <button
         type="button"
-        className={`flex justify-center items-center mx-[34px] py-[14px] font-medium ${ButtonSize(BtnSizeType)} ${ButtonColor(BtnColorType)}`}
+        className={`flex justify-center items-center mx-[34px] py-[14px] font-medium ${getButtonSize(btnSize)} ${getButtonColor(btnColor)}`}
       >
-        {BtnTextContent}
+        {btnTextContent}
       </button>
     </>
   );
