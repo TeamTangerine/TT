@@ -14,7 +14,7 @@ function UserProfile({ image, username, accountname, actionButton }: UserProfile
     <article className="flex justify-between">
       <div className="flex gap-3">
         <img src={image || defaultImage} alt={`${username}의 프로필 사진`} className="w-[42px] h-[42px] rounded-full" />
-        <div className="flex flex-col gap-[2px]">
+        <div className="flex flex-col gap-[6px]">
           <h2 className="text-sm font-medium">{username}</h2>
           <p className="text-[12px] text-[#767676]">@{accountname}</p>
         </div>

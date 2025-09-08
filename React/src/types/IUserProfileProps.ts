@@ -11,5 +11,7 @@ export interface UserProfileProps {
   follower?: string[];
   followerCount?: number;
   followingCount?: number;
+
+  //팔로우 버튼을 위한 속성
   actionButton?: React.ReactNode;
 }
