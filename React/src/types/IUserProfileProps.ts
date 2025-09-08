@@ -1,4 +1,4 @@
-export interface UserProfileProps {
+export interface IUserProfileProps {
   // 컴포넌트에서 사용하는 속성
   image: string;
   username: string;
