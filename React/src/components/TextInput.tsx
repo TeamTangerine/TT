@@ -48,7 +48,7 @@ function TextInput({
         value={inputValue ?? ''}
         onChange={(e) => onChange?.(inputType === 'number' ? Number(e.target.value) : e.target.value)}
         placeholder={placeholderText}
-        className="border-[#DBDBDB] border-b-[1px] focus:outline-none  focus:border-[#F26E22] text-[#000000] text-[14px]"
+        className="border-[#DBDBDB] border-b-[1px] focus:outline-none  focus:border-[#F26E22] text-[14px] placeholder-[#DBDBDB]"
       />
 
       {showErrorMessage && errorMessage && <span className="text-[12px] text-[#EB5757] mt-[6px]">{errorMessage}</span>}
