@@ -17,12 +17,12 @@ export type ButtonColorType = 'normal' | 'disable' | 'active';
  */
 export interface IBtnType {
   /**
-   * @param {string} BtnTextContent: 버튼에 들어갈 내용을 기입하세요.
+   * @param {string} btnTextContent: 버튼에 들어갈 내용을 기입하세요.
    * ex) "다음", "로그인", "팔로우", "언팔로우" 등
    */
   btnTextContent: string;
   /**
-   * @param {ButtonSizeType} BtnSize: "large", "medium", "mediumSmall", "small" 문자열을 기입하여 버튼의 사이즈를 결정하세요.
+   * @param {ButtonSizeType} btnSize: "large", "medium", "mediumSmall", "small" 문자열을 기입하여 버튼의 사이즈를 결정하세요.
    *
    * - "large" = 'text-[14px] w-[322px] h-[44px] rounded-[44px]'
    * - "medium" = 'text-[14px] w-[120px] h-[34px] rounded-[44px]'
@@ -31,7 +31,7 @@ export interface IBtnType {
    */
   btnSize: ButtonSizeType;
   /**
-   * @param {ButtonColorType} BtnColor: "normal", "disable", "active" 문자열을 기입하여 버튼의 색깔을 결정하세요.
+   * @param {ButtonColorType} btnColor: "normal", "disable", "active" 문자열을 기입하여 버튼의 색깔을 결정하세요.
    *
    * - "normal" : 주황색
    * - "disable" : 연주황색
