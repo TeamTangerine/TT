@@ -47,18 +47,18 @@ function ChatRoom() {
         </div>
       </section>
       <form className="fixed bottom-0 flex items-center justify-center w-full h-[60px] border-t border-t-[#DBDBDB] bg-white">
-        <label className="w-9 h-9 cursor-pointer" htmlFor="imgSelectBtn">
+        <label className="w-9 h-9 rounded-full cursor-pointer" htmlFor="imgSelectBtn">
           <img src={uploadFileImg} alt="채팅에 보낼 이미지 파일 선택" />
           <input id="imgSelectBtn" type="file" className="hidden" onChange={handleFileChange} />
         </label>
         <input
-          className="w-[278px] ml-[18px] text-[14px] placeholder-[#C4C4C4]"
+          className="w-[278px] ml-[18px] text-[14px] focus:outline-none  placeholder-[#C4C4C4]"
           type="text"
           placeholder="메세지 입력하기..."
           onChange={(e) => setMessage(e.target.value)}
         />
         <button
-          className={`text-[14px] ${message || fileSelected ? 'text-[#F26E22]' : 'text-[#C4C4C4]'}`}
+          className={`text-[14px] ${message || fileSelected ? 'text-[#F26E22]' : 'text-[#C4C4C4] font-medium'}`}
           type="button"
         >
           전송
