@@ -1,3 +1,21 @@
+/**
+ * 계정이 사용가능한지 유효성 검사하는 API
+ * @param {string} accountName - 검사할 계정을 기입해주세요.
+ * - // SUCCESS
+ * - // 사용 가능한 계정ID인 경우
+ * - {
+ * -     "message": "사용 가능한 계정ID 입니다."
+ * - }
+ * - // 가입한 계정ID가 있는 경우
+ * - {
+ * -     "message": "이미 가입된 계정ID 입니다."
+ * - }
+ * -
+ * - // FAIL
+ * - {
+ * -     "message": "잘못된 접근입니다."
+ * - }
+ */
 export default async function postIdValid(accountName: string) {
   const url = 'https://dev.wenivops.co.kr/services/mandarin';
 

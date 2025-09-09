@@ -1,4 +1,6 @@
 /**
+ *
+ * @param {string} token - 토큰을 입력해주세요.
  * 응답예시
  * // SUCCESS
  * -

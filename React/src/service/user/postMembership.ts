@@ -8,13 +8,13 @@ type SignupType = {
 };
 
 /**
- *
- * @param {string} userName : (필수)user의 이름을 적어주세요.
- * @param {string} userEmail : (필수)user의 email을 넣어주세요.
- * @param {string} userPassword : (필수)user의 패스워드를 넣어주세요.
- * @param {string} userAccount : (필수)user의 accountname을 넣어주세요.
- * @param {string} userIntro : user의 intro를 넣어주세요.
- * @param {string} userImage : user의 사진을 넣어주세요. 이미지를 넣지 않을 경우, 기본 이미지가 적용됩니다.
+ * 회원가입 시 유효성 검사를 하는 API
+ * @param {string} userName - (필수)user의 이름을 적어주세요.
+ * @param {string} userEmail - (필수)user의 email을 넣어주세요.
+ * @param {string} userPassword - (필수)user의 패스워드를 넣어주세요.
+ * @param {string} userAccount - (필수)user의 accountname을 넣어주세요.
+ * @param {string} userIntro - user의 intro를 넣어주세요.
+ * @param {string} userImage - user의 사진을 넣어주세요. 이미지를 넣지 않을 경우, 기본 이미지가 적용됩니다.
  *
  * 응답예시
  * // SUCCESS
