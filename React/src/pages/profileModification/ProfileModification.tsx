@@ -10,7 +10,7 @@ function ProfileModification() {
       <main>
         <div className="my-[30px] flex flex-col items-center relative">
           <img className="w-[110px] h-[110px] rounded-full " src={basicProfileImg} alt="내 프로필 이미지" />
-          <button className="absolute bottom-0 translate-x-[37.5px]">
+          <button className="absolute bottom-0 translate-x-[37px]">
             <img className="w-9 h-9 rounded-full " src={ImgBtn} alt="프로필 이미지 변경 버튼" />
           </button>
         </div>
