@@ -38,17 +38,17 @@ function TextInput({
   showErrorMessage = false,
 }: TextInputProps) {
   return (
-    <div className="flex flex-col w-[322px]">
-      <label htmlFor={inputId} className="text-[12px] text-[#767676] ">
+    <div className="flex flex-col w-[322px] justity-between h-12">
+      <label htmlFor={inputId} className="text-[12px] text-[#767676] font-medium ">
         {labelText}
       </label>
       <input
         id={inputId}
         type={inputType}
-        value={inputValue ?? ''}
+        value={inputValue}
         onChange={(e) => onChange?.(inputType === 'number' ? Number(e.target.value) : e.target.value)}
         placeholder={placeholderText}
-        className="border-[#DBDBDB] border-b-[1px] focus:outline-none  focus:border-[#F26E22] text-[14px] placeholder-[#DBDBDB]"
+        className="border-[#DBDBDB] border-b-[1px] pb-2 focus:outline-none  focus:border-[#F26E22] text-[14px] placeholder-[#DBDBDB]"
       />
 
       {showErrorMessage && errorMessage && <span className="text-[12px] text-[#EB5757] mt-[6px]">{errorMessage}</span>}

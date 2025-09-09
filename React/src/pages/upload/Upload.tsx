@@ -6,13 +6,18 @@ function Upload() {
   return (
     <>
       <Header />
-      <div>
-        <img src={profileImg} alt="프로필" />
-        <input type="text" placeholder="게시글 입력하기..." />
-      </div>
-      <button>
-        <img src={uploadFileImg} alt="이미지 추가 버튼" />
-      </button>
+      <main className="pt-5 px-4 pb-4 h-[calc(100%-48px)]">
+        <div className="flex justify-start h-[80vh] gap-[13px]">
+          <img className="w-[42px] h-[42px] rounded-full" src={profileImg} alt="프로필" />
+          <textarea
+            className="text-[14px] mt-3 w-full h-[100%] focus:outline-none placeholder-[#C4C4C4]"
+            placeholder="게시글 입력하기..."
+          ></textarea>
+        </div>
+        <button className="fixed bottom-4 right-4">
+          <img className="w-[50px] h-[50px] rounded-full" src={uploadFileImg} alt="이미지 추가 버튼" />
+        </button>
+      </main>
     </>
   );
 }
