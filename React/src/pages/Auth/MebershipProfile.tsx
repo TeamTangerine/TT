@@ -7,6 +7,12 @@ import Button from '../../components/Button/Button';
 export default function MebershipProfile() {
   return (
     <>
+      <header>
+        <div className="flex flex-col gap-3 items-center mt-[30px]">
+          <h1 className="text-[24px] font-medium">프로필 설정</h1>
+          <p className="text-[14px] text-[#767676]">나중에 언제든지 변경할 수 있습니다.</p>
+        </div>
+      </header>
       <main>
         <div className="my-[30px] flex flex-col items-center relative">
           <img className="w-[110px] h-[110px] rounded-full " src={basicProfileImg} alt="내 프로필 이미지" />
