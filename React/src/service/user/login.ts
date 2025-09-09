@@ -58,5 +58,6 @@ export default async function login({ userEmail, userPassword }: LoginType) {
     const resJson = await res.json();
   } catch (error) {
     console.error(error);
+    throw error;
   }
 }
