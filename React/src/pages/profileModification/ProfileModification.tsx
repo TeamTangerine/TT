@@ -14,7 +14,7 @@ function ProfileModification() {
             <img className="w-9 h-9 rounded-full " src={ImgBtn} alt="프로필 이미지 변경 버튼" />
           </button>
         </div>
-        <form className="flex flex-col gap-[16px] px-[34px]">
+        <form className="flex flex-col items-center gap-[16px] px-[34px]">
           <TextInput inputId="userName" labelText="사용자 이름" placeholderText="2~10자 이내여야 합니다." />
           <TextInput
             inputId="accountId"
