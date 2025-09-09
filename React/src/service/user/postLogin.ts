@@ -34,7 +34,7 @@ type LoginType = {
  * -     "status": 422
  * - }
  */
-export default async function login({ userEmail, userPassword }: LoginType) {
+export default async function postLogin({ userEmail, userPassword }: LoginType) {
   const url = 'https://dev.wenivops.co.kr/services/mandarin';
 
   try {
