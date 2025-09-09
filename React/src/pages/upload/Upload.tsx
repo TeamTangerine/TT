@@ -6,8 +6,8 @@ function Upload() {
   return (
     <>
       <Header />
-      <main className="pt-5 px-4 pb-4 h-screen">
-        <div className="flex justify-start h-[calc(100%-68px)] gap-[13px]">
+      <main className="pt-5 px-4 pb-4 h-[calc(100%-48px)]">
+        <div className="flex justify-start h-[80vh] gap-[13px]">
           <img className="w-[42px] h-[42px] rounded-full" src={profileImg} alt="프로필" />
           <textarea
             className="text-[14px] mt-3 w-full h-[100%] focus:outline-none placeholder-[#C4C4C4]"
