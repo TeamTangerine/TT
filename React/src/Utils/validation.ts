@@ -7,7 +7,7 @@ type Validation = {
 };
 
 /**
- * 이메일 양식 검사
+ * 이메일 검증 함수
  * @param email - ***@***.*** 이메일 기본 형식
  * @returns {boolean}
  */
@@ -18,14 +18,14 @@ function validateEmail({ email }: Validation) {
 }
 
 /**
- * 유저이름
- * @param userName - 10자 이내의 영문 대소문자 및 숫자
+ * 사용자 이름 검증 함수
+ * @param userName - 2자 ~ 10자 이내의 영문 대소문자, 한글 및 숫자 (단어사이 공백 허용, 연속된 공백이나 단어 시작 끝은 공백 불허)
  * @returns {boolean}
  */
 
 function validateUserName({ userName }: Validation) {
-  const idRegex = /^[a-zA-Z0-9]{2,10}$/;
-  let isOk = idRegex.test(userName);
+  const idRegex = /^[a-zA-Z0-9가-힣]+( [a-zA-Z0-9가-힣]+)*$/;
+  let isOk = idRegex.test(userName) && userName.length >= 2 && userName.length <= 10;
   return isOk;
 }
 
