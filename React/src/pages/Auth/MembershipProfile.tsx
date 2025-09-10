@@ -4,7 +4,7 @@ import ImgBtn from '../../assets/upload-file.png';
 import TextInput from '../../components/TextInput';
 import Button from '../../components/Button/Button';
 
-export default function MebershipProfile() {
+function MembershipProfile() {
   return (
     <>
       <header>
@@ -36,3 +36,5 @@ export default function MebershipProfile() {
     </>
   );
 }
+
+export default MembershipProfile;
