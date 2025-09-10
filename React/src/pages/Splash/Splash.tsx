@@ -1,11 +1,13 @@
 import React from 'react';
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 import Login from '../Auth/Login';
 import fullLogo from '../../assets/full-logo.png';
 
 function Splash() {
   const [showSplash, setShowSplash] = useState('opacity-100');
+  const navigate = useNavigate();
 
   if (showSplash === 'opacity-100') {
     const timer = setTimeout(() => {
@@ -17,7 +19,7 @@ function Splash() {
   // Login 되지 않은 상태의 경우 - <Login /> 으로 이동
   // Login 된 상태의 경우 - <Home /> 으로 이동
   if (showSplash === 'hidden') {
-    return <Login />;
+    navigate('/login');
   }
 
   return (
