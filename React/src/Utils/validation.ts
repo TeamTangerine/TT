@@ -1,19 +1,31 @@
 //form validation 함수입니다
 
 type Validation = {
-  id: string;
+  userName: string;
   password: string;
+  email: string;
 };
 
 /**
- * 아이디 검증 함수
- * @param id - 10자 이내의 영문 대소문자 및 숫자
+ * 이메일 양식 검사
+ * @param email - ***@***.*** 이메일 기본 형식
+ * @returns {boolean}
+ */
+function validateEmail({ email }: Validation) {
+  const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+  let isOk = emailRegex.test(email);
+  return isOk;
+}
+
+/**
+ * 유저이름
+ * @param userName - 10자 이내의 영문 대소문자 및 숫자
  * @returns {boolean}
  */
 
-function validateId({ id }: Validation) {
+function validateUserName({ userName }: Validation) {
   const idRegex = /^[a-zA-Z0-9]{2,10}$/;
-  let isOk = idRegex.test(id);
+  let isOk = idRegex.test(userName);
   return isOk;
 }
 
@@ -28,4 +40,4 @@ function validatePassword({ password }: Validation) {
   let isOk = passwordRegex.test(password);
   return isOk;
 }
-export { validateId, validatePassword };
+export { validateEmail, validateUserName, validatePassword };
