@@ -1,4 +1,10 @@
+type TokenType = {
+  token: string;
+};
+
 /**
+ *
+ * @param {string} token - 토큰을 입력해주세요.
  * 응답예시
  * // SUCCESS
  * -
@@ -16,7 +22,7 @@
  * -	    }
  * -	}
  */
-export default async function getProfile(token: string) {
+async function getProfile({ token }: TokenType) {
   const url = 'https://dev.wenivops.co.kr/services/mandarin';
 
   try {
@@ -32,8 +38,11 @@ export default async function getProfile(token: string) {
     }
 
     const resJson = await res.json();
+    return resJson;
   } catch (error) {
     console.error(error);
     throw error;
   }
 }
+
+export default getProfile;

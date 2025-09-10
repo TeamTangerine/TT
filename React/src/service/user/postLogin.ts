@@ -4,9 +4,9 @@ type LoginType = {
 };
 
 /**
- *
- * @param {string} userEmail : user의 이메일을 적어주세요.
- * @param {string} userPassword : user의 패스워드를 넣어주세요.
+ * 로그인 시 아이디 또는 비밀번호를 올바르게 입력했는지 검사하는 API
+ * @param {string} userEmail - user의 이메일을 적어주세요.
+ * @param {string} userPassword - user의 패스워드를 넣어주세요.
  *
  * - 응답값 예시)
  * - // SUCCESS
@@ -34,7 +34,7 @@ type LoginType = {
  * -     "status": 422
  * - }
  */
-export default async function postLogin({ userEmail, userPassword }: LoginType) {
+async function postLogin({ userEmail, userPassword }: LoginType) {
   const url = 'https://dev.wenivops.co.kr/services/mandarin';
 
   try {
@@ -56,8 +56,11 @@ export default async function postLogin({ userEmail, userPassword }: LoginType) 
     }
 
     const resJson = await res.json();
+    return resJson;
   } catch (error) {
     console.error(error);
     throw error;
   }
 }
+
+export default postLogin;
