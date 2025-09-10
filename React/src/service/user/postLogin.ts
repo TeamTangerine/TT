@@ -9,7 +9,7 @@ type LoginType = {
  * @param {string} userPassword : user의 패스워드를 넣어주세요.
  *
  * - 응답값 예시)
- * // SUCCESS
+ * - // SUCCESS
  * - {
  * -     "user": {
  * -         "_id": String,
