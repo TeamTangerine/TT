@@ -1,10 +1,10 @@
 import React from 'react';
 import EmailLogin from './components/EmailLogin';
-import SymbolLogoW from '../assets/symbol-logo-W.png';
+import SymbolLogoW from '../../assets/symbol-logo-W.png';
 
-import kakaoLogo from '../assets/kakao-logo.png';
-import googleLogo from '../assets/google.png';
-import facebookLogo from '../assets/facebook.png';
+import kakaoLogo from '../../assets/kakao-logo.png';
+import googleLogo from '../../assets/google.png';
+import facebookLogo from '../../assets/facebook.png';
 
 export default function Login() {
   const borderColors = {
