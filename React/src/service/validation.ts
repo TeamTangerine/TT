@@ -7,7 +7,7 @@ type validation = {
 
 /**
  * 아이디 검증 함수
- * @param {string} id - 20자 이내의 영문 대소문자 및 숫자
+ * @param id - 20자 이내의 영문 대소문자 및 숫자
  * @returns {boolean}
  */
 
