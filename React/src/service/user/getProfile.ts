@@ -22,7 +22,7 @@ type TokenType = {
  * -	    }
  * -	}
  */
-async function getProfile(token: TokenType) {
+async function getProfile({ token }: TokenType) {
   const url = 'https://dev.wenivops.co.kr/services/mandarin';
 
   try {

@@ -19,7 +19,7 @@ type IdValidation = {
  * -     "message": "잘못된 접근입니다."
  * - }
  */
-async function postIdValid(accountName: IdValidation) {
+async function postIdValid({ accountName }: IdValidation) {
   const url = 'https://dev.wenivops.co.kr/services/mandarin';
 
   try {

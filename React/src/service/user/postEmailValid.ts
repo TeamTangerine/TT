@@ -22,7 +22,7 @@ type EmailValidation = {
  * -     "message": "잘못된 접근입니다."
  * - }
  */
-async function postEmailValid(userEmail: EmailValidation) {
+async function postEmailValid({ userEmail }: EmailValidation) {
   const url = 'https://dev.wenivops.co.kr/services/mandarin';
 
   try {
