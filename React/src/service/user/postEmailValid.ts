@@ -1,4 +1,4 @@
-type emailValidation = {
+type EmailValidation = {
   userEmail: string;
 };
 
@@ -22,7 +22,7 @@ type emailValidation = {
  * -     "message": "잘못된 접근입니다."
  * - }
  */
-export default async function postEmailValid(userEmail: emailValidation) {
+async function postEmailValid(userEmail: EmailValidation) {
   const url = 'https://dev.wenivops.co.kr/services/mandarin';
 
   try {
@@ -43,8 +43,11 @@ export default async function postEmailValid(userEmail: emailValidation) {
     }
 
     const resJson = await res.json();
+    return resJson;
   } catch (error) {
     console.error(error);
     throw error;
   }
 }
+
+export default postEmailValid;

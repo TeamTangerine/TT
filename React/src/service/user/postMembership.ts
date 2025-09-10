@@ -45,7 +45,7 @@ type SignupType = {
  * - 이미 사용중인 계정 ID입니다.
  */
 
-export default async function postMembership({
+async function postMembership({
   userName,
   userEmail,
   userPassword,
@@ -78,8 +78,11 @@ export default async function postMembership({
     }
 
     const resJson = await res.json();
+    return resJson;
   } catch (error) {
     console.error(error);
     throw error;
   }
 }
+
+export default postMembership;

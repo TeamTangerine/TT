@@ -1,3 +1,6 @@
+type IdValidation = {
+  accountName: string;
+};
 /**
  * 계정이 사용가능한지 유효성 검사하는 API
  * @param {string} accountName - 검사할 계정을 기입해주세요.
@@ -16,7 +19,7 @@
  * -     "message": "잘못된 접근입니다."
  * - }
  */
-export default async function postIdValid(accountName: string) {
+async function postIdValid(accountName: IdValidation) {
   const url = 'https://dev.wenivops.co.kr/services/mandarin';
 
   try {
@@ -37,8 +40,11 @@ export default async function postIdValid(accountName: string) {
     }
 
     const resJson = await res.json();
+    return resJson;
   } catch (error) {
     console.error(error);
     throw error;
   }
 }
+
+export default postIdValid;
