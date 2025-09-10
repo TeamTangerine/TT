@@ -1,9 +1,9 @@
 export interface IArticleType {
-  id: String;
-  content?: String;
-  image?: String;
-  createdAt?: String;
-  updatedAt?: String;
+  id: string;
+  content?: string;
+  image?: string;
+  createdAt?: string;
+  updatedAt?: string;
   hearted?: boolean;
   heartCount?: number;
   commentCount?: number;
