@@ -1,4 +1,4 @@
-import SearchResult from './component/SearchResult';
+import SearchResult from './components/SearchResult';
 
 function SearchPage() {
   return (

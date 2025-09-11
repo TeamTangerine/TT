@@ -1,8 +1,8 @@
-import UserInfo from './component/UserInfo';
-import ProductList from './component/ProductList';
+import UserInfo from '../../components/profile/UserInfo';
+import ProductList from '../../components/profile/ProductList';
 import PostingGrid from '../../components/PostingGrid';
 import Header from '../../components/Header';
-import Footer from '../../components/Footer/Footer';
+import Footer from '../../components/footer/Footer';
 
 function YourProfile() {
   return (

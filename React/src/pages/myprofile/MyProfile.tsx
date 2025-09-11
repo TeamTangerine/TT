@@ -1,7 +1,7 @@
 import Header from '../../components/Header';
-import Footer from '../../components/Footer/Footer';
-import UserInfo from '../yourprofile/component/UserInfo';
-import ProductList from '../yourprofile/component/ProductList';
+import Footer from '../../components/footer/Footer';
+import UserInfo from '../../components/profile/UserInfo';
+import ProductList from '../../components/profile/ProductList';
 import PostingGrid from '../../components/PostingGrid';
 
 function MyProfile() {

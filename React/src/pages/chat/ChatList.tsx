@@ -1,4 +1,4 @@
-import Footer from '../../components/Footer/Footer';
+import Footer from '../../components/footer/Footer';
 import Header from '../../components/Header';
 import profileImg from '../../assets/basic-profile-img.png';
 
