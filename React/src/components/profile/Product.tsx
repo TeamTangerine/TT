@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import productImgSample from '../../../assets/product-img-example.png';
+import productImgSample from '../../assets/product-img-example.png';
 
 function Product() {
   const [itemImg, setItemImg] = useState(productImgSample);

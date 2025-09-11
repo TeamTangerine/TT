@@ -44,14 +44,3 @@ export default function Button({
     </>
   );
 }
-
-type wooriType = {
-  name: string;
-  age: number;
-};
-
-function woori({ name, age }: wooriType) {
-  return console.log(name, age);
-}
-
-const [item, setItem] = useState();
