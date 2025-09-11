@@ -2,7 +2,7 @@ import React from 'react';
 import basicProfileImg from '../../assets/basic-profile-img.png';
 import ImgBtn from '../../assets/upload-file.png';
 import TextInput from '../../components/TextInput';
-import Button from '../../components/Button/Button';
+import Button from '../../components/button/Button';
 
 function MembershipProfile() {
   return (

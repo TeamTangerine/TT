@@ -1,5 +1,5 @@
 // API 명세서 기반의 명확한 타입
-import { UserProfileProps } from '../types/IUserProfileProps';
+import { IUserProfileProps } from '../types/IUserProfileProps';
 import defaultImage from '../assets/Ellipse-1.png';
 /**
  *
@@ -9,7 +9,7 @@ import defaultImage from '../assets/Ellipse-1.png';
  * @param actionButton:React.ReactNode 팔로우/언팔로우 버튼 (옵셔널입니다. 버튼컴포넌트를 넣어주세요.)
  * @returns
  */
-function UserProfile({ image, username, accountname, actionButton }: UserProfileProps) {
+function UserProfile({ image, username, accountname, actionButton }: IUserProfileProps) {
   return (
     <article className="flex justify-between">
       <div className="flex gap-3">
