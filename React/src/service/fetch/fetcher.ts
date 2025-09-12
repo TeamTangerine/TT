@@ -1,4 +1,4 @@
-import { IOptionsType } from '../types/IOptionsType';
+import { IOptionsType } from '../../types/IOptionsType';
 
 /**
  *
