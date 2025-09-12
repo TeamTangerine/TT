@@ -133,7 +133,7 @@ export default function LoginSignUpForm({ formName, btnText, isLogin }: LoginSig
             />
           </div>
 
-          <div className={`flex justify-center ${error ? 'mt-[30px]' : ''}`}>
+          <div className="flex justify-center">
             <Button
               btnTextContent={btnText}
               btnSize="large"
