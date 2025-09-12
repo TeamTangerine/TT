@@ -1,4 +1,4 @@
-import { IOptionsType } from '../../types/IOptionsType';
+import { IOptionsType } from '../types/IOptionsType';
 
 /**
  *
@@ -8,7 +8,12 @@ import { IOptionsType } from '../../types/IOptionsType';
  * @param token - string | null (옵셔널)
  * @returns Res 객체 - Request
  */
-export const options = ({ method, headers, data, token }: IOptionsType): RequestInit => ({
+export const options = <T = Record<string, unknown>>({
+  method,
+  headers,
+  data,
+  token,
+}: IOptionsType<T>): RequestInit => ({
   method: method,
   headers: {
     'Content-Type': headers || 'application/json',
@@ -28,7 +33,7 @@ export const options = ({ method, headers, data, token }: IOptionsType): Request
  * 204 일때는 삭제했다는 내용을 출력하고(컨텐츠가 안내려와요)
  * 아닌 경우에는 데이터를 받습니다.
  */
-export async function fetchAPI<T>(url: string, option: RequestInit): Promise<T> {
+export async function fetchAPI<T>(url: strㅋing, option: RequestInit): Promise<T> {
   try {
     const response = await fetch(url, option);
 
