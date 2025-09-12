@@ -49,16 +49,16 @@ export const PROFILE_URL = {
    * @param accountname - 계정명(문자열)
    * @returns
    */
-  accountProfile: (accountname: string) => `${BASE_URL}/profile/:${accountname}`,
+  accountProfile: (accountname: string) => `${BASE_URL}/profile/${accountname}`,
   /**
    *
    * @param accountname - 계정명(문자열)
    * @returns
    */
-  accountFollow: (accountname: string) => `${BASE_URL}/profile/:${accountname}/follow`,
-  unFollow: (accountname: string) => `${BASE_URL}/profile/:${accountname}/unfollow`,
-  followerList: (accountname: string) => `${BASE_URL}/profile/:${accountname}/following`,
-  userFollowerList: (accountname: string) => `${BASE_URL}/profile/:${accountname}/follower`,
+  accountFollow: (accountname: string) => `${BASE_URL}/profile/${accountname}/follow`,
+  unFollow: (accountname: string) => `${BASE_URL}/profile/${accountname}/unfollow`,
+  followerList: (accountname: string) => `${BASE_URL}/profile/${accountname}/following`,
+  userFollowerList: (accountname: string) => `${BASE_URL}/profile/${accountname}/follower`,
 };
 
 //유저 검색 URL
@@ -86,16 +86,16 @@ export const HEART_URL = {
 
 //댓글 URL
 export const COMMENT_URL = {
-  postComment: (postId: string) => `${BASE_URL}/post/${postId}/commnets`,
+  postComment: (postId: string) => `${BASE_URL}/post/${postId}/comments`,
   listComment: (postId: string) => `${BASE_URL}/post/${postId}/comments`,
-  deleteComment: (postID: string, commentId: string) => `${BASE_URL}/post/${postID}/comments/${commentId}`,
+  deleteComment: (postId: string, commentId: string) => `${BASE_URL}/post/${postId}/comments/${commentId}`,
   reportComment: (postId: string, commentId: string) => `${BASE_URL}/post/${postId}/comments/${commentId}/report`,
 };
 
 //상품 URL
 export const PRODUCT_URL = {
   postProduct: `${BASE_URL}/product`,
-  listProduct: (accountName: string) => `${BASE_URL}/product/${accountName}`,
+  listProduct: (accountname: string) => `${BASE_URL}/product/${accountname}`,
   productDetail: (productId: string) => `${BASE_URL}/product/detail/${productId}`,
   putProduct: (productId: string) => `${BASE_URL}/product/${productId}`,
   deleteProduct: (productId: string) => `${BASE_URL}/product/${productId}`,
