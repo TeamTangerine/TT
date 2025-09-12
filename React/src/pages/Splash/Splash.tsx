@@ -8,8 +8,8 @@ import logoImage from '../../assets/logo-image.png';
 import logoText from '../../assets/logo-text.png';
 
 function Splash() {
-  const [showSplash, setShowSplash] = useState('opacity-100');
-  // const navigate = useNavigate();
+  const [showSplash, setShowSplash] = useState('');
+  const navigate = useNavigate();
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -25,7 +25,7 @@ function Splash() {
   // Login 된 상태의 경우 - <Home /> 으로 이동
   if (showSplash === 'hidden') {
     // navigate('/login');
-    return <Login />;
+    return navigate('/home');
   }
 
   return (
