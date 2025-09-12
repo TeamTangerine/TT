@@ -7,7 +7,7 @@ type EmailLoginProps = {
   altText: string;
 };
 
-export default function EmailLogin({ name, logoImg, borderColor, altText }: EmailLoginProps) {
+function SNSLogin({ name, logoImg, borderColor, altText }: EmailLoginProps) {
   return (
     <>
       <button
@@ -19,3 +19,5 @@ export default function EmailLogin({ name, logoImg, borderColor, altText }: Emai
     </>
   );
 }
+
+export default SNSLogin;

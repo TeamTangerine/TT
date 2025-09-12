@@ -1,17 +1,29 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import EmailLogin from './components/EmailLogin';
-import SymbolLogoW from '../../assets/symbol-logo-W.png';
 
+import SymbolLogoW from '../../assets/symbol-logo-W.png';
 import kakaoLogo from '../../assets/kakao-logo.png';
 import googleLogo from '../../assets/google.png';
 import facebookLogo from '../../assets/facebook.png';
 
-export default function Login() {
+function Login() {
+  const navigate = useNavigate();
+
+
   const borderColors = {
     kakao: 'border-[#F2C94C]',
     google: 'border-[#767676]',
     facebook: 'border-[#2D9CDB]',
   };
+
+  function handleLoginWithEmailClick() {
+    navigate('/login-with-email');
+  }
+
+  function handleJoinMembershipClick() {
+    navigate('/join-membership');
+  }
 
   return (
     <div className="h-screen bg-[#EA7F42]">
@@ -29,12 +41,14 @@ export default function Login() {
         />
         <div>
           <p className="flex gap-[12px] text-[12px] text-[#767676]">
-            <button>이메일로 로그인</button>
+            <button onClick={handleLoginWithEmailClick}>이메일로 로그인</button>
             <span>|</span>
-            <button>회원가입</button>
+            <button onClick={handleJoinMembershipClick}>회원가입</button>
           </p>
         </div>
       </div>
     </div>
   );
 }
+
+export default Login;
