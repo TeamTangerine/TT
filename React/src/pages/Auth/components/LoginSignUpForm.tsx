@@ -4,6 +4,11 @@ import Button from '../../../components/Button/Button';
 import TextInput from '../../../components/TextInput';
 import postLogin from '../../../service/user/postLogin';
 
+/**
+ * @param formName - form에 들어갈 텍스트를 기입해주세요.
+ * @param btnText - form에서 제출할 버튼에 들어갈 텍스트를 기입해주세요.
+ * @param isLogin - login기능의 경우 true / 회원가입 기능의 경우 false를 넣어주세요.
+ */
 type LoginSignUpFormProps = {
   formName: string;
   btnText: string;
@@ -67,15 +72,13 @@ export default function LoginSignUpForm({ formName, btnText, isLogin }: LoginSig
       }
     } catch (error: any) {
       console.error('로그인 실패:', error);
+      setError(true);
 
       if (error.status === 422) {
-        setError(true);
         setErrorMessage(error.message || '이메일 또는 비밀번호가 일치하지 않습니다.');
       } else if (error.message) {
-        setError(true);
         setErrorMessage(error.message);
       } else {
-        setError(true);
         setErrorMessage('로그인 중 오류가 발생했습니다. 다시 시도해주세요.');
       }
     } finally {
