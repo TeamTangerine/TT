@@ -36,11 +36,11 @@ function validateUserName({ userName }: UserValidation) {
 }
 /**
  * 계정 ID 검증 함수
- * @param id - 1자 이상의 영어 대소문자, 특수문자(.),(_)
+ * @param id - 1자 이상의 영어 대소문자, 숫자, 점(.), 밑줄(_)
  * @returns {boolean}
  */
 function validateId({ id }: UserValidation) {
-  const isRegex = /^[a-zA-Z._]{1,}$/;
+  const isRegex = /^[a-zA-Z0-9._]{1,}$/;
   let isOk = isRegex.test(id);
   return isOk;
 }
@@ -73,7 +73,7 @@ function validateProductName({ productName }: ProductValidation) {
  * @returns {boolean}
  */
 function validateProductPrice({ productPrice }: ProductValidation) {
-  const productPriceRegex = /^[0-9,]$/;
+  const productPriceRegex = /^\d{1,3}(,\d{3})*$/;
   let isOk = productPriceRegex.test(productPrice);
   return isOk;
 }
