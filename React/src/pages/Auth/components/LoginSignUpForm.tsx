@@ -33,8 +33,6 @@ type LoginData = {
   password: string;
 };
 
-// 로그인 유효성 함수
-
 export default function LoginSignUpForm({ formName, btnText, isLogin }: LoginSignUpFormProps) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -42,6 +40,7 @@ export default function LoginSignUpForm({ formName, btnText, isLogin }: LoginSig
   const [errorMessage, setErrorMessage] = useState('');
   const [error, setError] = useState(false);
 
+  // 로그인 유효성 패치 함수
   async function loginValidation(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
 
@@ -84,7 +83,9 @@ export default function LoginSignUpForm({ formName, btnText, isLogin }: LoginSig
     }
   }
 
-  // isLogin 이벤트 핸들러
+  //
+
+  // isLoginEventHandler: 로그인 패치함수 또는 회원가입 패치함수를 조정하는 함수
   async function isLoginEventHandler(e: React.FormEvent<HTMLFormElement>) {
     // 로그인 유효성 검사 함수
     // isLogin && 로그인 패치함수(loginValidation)
