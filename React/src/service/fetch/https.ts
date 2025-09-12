@@ -37,10 +37,11 @@ export const USER_URL = {
 //프로필 URL
 /**
  * @property putUser - 프로필 수정
- * @property accountProfile - 개인 프로필
- * @property
- * @property
- * @property
+ * @property accountProfile - 개인 프로필 조회
+ * @property accountFollow - 사용자 팔로우
+ * @property unFollow - 사용자 언팔로우
+ * @property followerList - 팔로잉 목록 조회
+ * @property userFollowerList - 팔로워 목록 조회
  */
 export const PROFILE_URL = {
   putUser: `${BASE_URL}/user`,
