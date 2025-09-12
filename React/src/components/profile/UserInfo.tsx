@@ -1,6 +1,6 @@
-import basicProfileImg from '../../../assets/basic-profile-img.png';
-import iconMessageCircle from '../../../assets/icon/icon-message-circle.svg';
-import iconShare from '../../../assets/icon/icon-share.png';
+import basicProfileImg from '../../assets/basic-profile-img.png';
+import iconMessageCircle from '../../assets/icon/icon-message-circle.svg';
+import iconShare from '../../assets/icon/icon-share.png';
 function UserInfo() {
   const profileImg = basicProfileImg;
   return (

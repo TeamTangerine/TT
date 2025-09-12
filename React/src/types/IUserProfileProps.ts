@@ -1,6 +1,6 @@
 export interface IUserProfileProps {
   // 컴포넌트에서 사용하는 속성
-  image: string;
+  image?: string;
   username: string;
   accountname: string;
 

@@ -10,6 +10,7 @@ import facebookLogo from '../../assets/facebook.png';
 function Login() {
   const navigate = useNavigate();
 
+
   const borderColors = {
     kakao: 'border-[#F2C94C]',
     google: 'border-[#767676]',

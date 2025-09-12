@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { IBtnType, ButtonSizeType, ButtonColorType } from '../../types/IButtonType';
 
 // 버튼 사이즈별 상수 정의
