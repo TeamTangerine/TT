@@ -1,6 +1,6 @@
-export interface IOptionsType {
+export interface IOptionsType<T = Record<string, unknown>> {
   method: 'GET' | 'POST' | 'PUT' | 'DELETE';
   headers?: string;
-  data?: Record<string, unknown>;
+  data?: T;
   token?: string | null;
 }
