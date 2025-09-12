@@ -1,6 +1,3 @@
-import postArticle from '../article/postArticle';
-import postProduct from '../product/postProduct';
-
 // 기본 URL을 여기에 선언했습니다.
 const BASE_URL = 'https://dev.wenivops.co.kr/services/mandarin';
 
