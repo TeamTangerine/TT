@@ -7,17 +7,103 @@ import postLogin from '../../../service/user/postLogin';
 type LoginSignUpFormProps = {
   formName: string;
   btnText: string;
+  isLogin: boolean;
 };
 
-export default function LoginSignUpForm({ formName, btnText }: LoginSignUpFormProps) {
+// API 응답 타입 정의
+type LoginSuccessResponse = {
+  user: {
+    _id: string;
+    username: string;
+    email: string;
+    accountname: string;
+    image: string;
+    token: string;
+  };
+};
+
+type LoginErrorResponse = {
+  message: string;
+  status: number;
+};
+
+// 로그인 요청 데이터 타입
+type LoginData = {
+  email: string;
+  password: string;
+};
+
+// 로그인 유효성 함수
+
+export default function LoginSignUpForm({ formName, btnText, isLogin }: LoginSignUpFormProps) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [loading, setLoading] = useState(false);
+  const [errorMessage, setErrorMessage] = useState('');
+  const [error, setError] = useState(false);
+
+  async function loginValidation(e: React.FormEvent<HTMLFormElement>) {
+    e.preventDefault();
+
+    setLoading(true);
+    setErrorMessage('');
+    setError(false);
+
+    try {
+      const result = await postLogin({
+        userEmail: email,
+        userPassword: password,
+      });
+
+      console.log('로그인 성공', result);
+
+      // 성공처리
+      if (result.user && result.user.token) {
+        localStorage.setItem('token', result.user.token);
+        localStorage.setItem('user', JSON.stringify(result.user));
+        alert(`${result.user.username}님, 환영합니다!`);
+
+        setEmail('');
+        setPassword('');
+      }
+    } catch (error: any) {
+      console.error('로그인 실패:', error);
+
+      if (error.status === 422) {
+        setError(true);
+        setErrorMessage(error.message || '이메일 또는 비밀번호가 일치하지 않습니다.');
+      } else if (error.message) {
+        setError(true);
+        setErrorMessage(error.message);
+      } else {
+        setError(true);
+        setErrorMessage('로그인 중 오류가 발생했습니다. 다시 시도해주세요.');
+      }
+    } finally {
+      setLoading(false);
+    }
+  }
+
+  // isLogin 이벤트 핸들러
+  async function isLoginEventHandler(e: React.FormEvent<HTMLFormElement>) {
+    // 로그인 유효성 검사 함수
+    // isLogin && 로그인 패치함수(loginValidation)
+    if (isLogin) {
+      loginValidation(e);
+    }
+
+    // 회원가입 패치함수 적용하는 부분
+    // !isLogin && 회원가입 패치함수(signupValidation)
+    if (!isLogin) {
+    }
+  }
 
   return (
     <section className="flex flex-col items-center">
       <h1 className="text-[24px] font-medium mt-[30px]">{formName}</h1>
       <div className="w-screen mt-[40px]">
-        <form className="flex flex-col gap-[30px]">
+        {/* onSubmit 내 isLogin -> true일 경우 loginValidation 함수, false일 경우 signupValidation 함수 작동 */}
+        <form className="flex flex-col gap-[30px]" onSubmit={isLoginEventHandler}>
           <div className="flex flex-col items-center gap-[16px]">
             <TextInput
               inputId="email"
@@ -33,19 +119,21 @@ export default function LoginSignUpForm({ formName, btnText }: LoginSignUpFormPr
               inputId="password"
               labelText="비밀번호"
               inputType="password"
+              errorMessage={'*' + errorMessage}
               onChange={(value) => {
                 if (typeof value === 'string') {
                   setPassword(value);
                 }
               }}
+              showErrorMessage={error}
             />
           </div>
 
-          <div className="flex justify-center">
+          <div className={`flex justify-center ${error ? 'mt-[30px]' : ''}`}>
             <Button
-              btnTextContent="로그인"
+              btnTextContent={btnText}
               btnSize="large"
-              btnColor={email && password ? 'normal' : 'disable'}
+              btnColor={email && password && !loading ? 'normal' : 'disable'}
               btnType="submit"
             />
           </div>

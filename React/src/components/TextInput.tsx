@@ -12,7 +12,7 @@ type TextInputProps = {
   placeholderText?: string;
   errorMessage?: string;
   inputValue?: string | number;
-  onChange?: (value: string | number) => void;
+  onChange?: (value?: string | number) => void;
   showErrorMessage?: boolean;
 };
 
