@@ -73,7 +73,7 @@ function validateProductName({ productName }: ProductValidation) {
  * @returns {boolean}
  */
 function validateProductPrice({ productPrice }: ProductValidation) {
-  const productPriceRegex = /^\d{1,3}(,\d{3})*$/;
+  const productPriceRegex = /^[0-9]$/;
   let isOk = productPriceRegex.test(productPrice);
   return isOk;
 }
