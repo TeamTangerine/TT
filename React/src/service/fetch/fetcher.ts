@@ -32,21 +32,19 @@ export const options = <T = Record<string, unknown>>({
  * 통신 값에 따라
  * 204 일때는 삭제했다는 내용을 출력하고(컨텐츠가 안내려와요)
  * 아닌 경우에는 데이터를 받습니다.
+ * 오류 메세지를 출력하고 싶으실때는 .message를 사용하세요
  */
-export async function fetchAPI<T>(url: strㅋing, option: RequestInit): Promise<T> {
+export async function fetchAPI(url: string, option: RequestInit): Promise<any> {
   try {
     const response = await fetch(url, option);
 
-    if (response.status === 204)
-      return {
-        isSuccessful: true,
-        detail: '삭제되었습니다.',
-      } as T;
-
+    if (response.status === 204) {
+      return null;
+    }
     const data = await response.json();
 
     if (!response.ok) {
-      throw new Error('통신 에러가 발생하였습니다');
+      throw new Error(data?.message || '통신 에러가 발생하였습니다');
     }
 
     return data;
