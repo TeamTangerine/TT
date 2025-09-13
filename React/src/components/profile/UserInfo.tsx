@@ -75,7 +75,7 @@ function UserInfo({ isMyProfile }: UserInfoProps) {
               btnSize="medium"
               btnColor="active"
               btnType="button"
-              onClick={() => navigate('./add-product')}
+              onClick={() => navigate('/add-product')}
               btnFlexBasis="basis-[100px]"
               activeDisable={false}
             />
