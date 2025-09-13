@@ -10,7 +10,7 @@ interface IHeaderProps {
   navStyle: 'top-main' | 'top-search' | 'top-basic' | 'top-chat' | 'top-upload';
   button?: boolean;
   searchValue?: string;
-  searchOnChange?: (e: React.ChangeEvent<HTMLElement>) => void;
+  searchOnChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
 /**
