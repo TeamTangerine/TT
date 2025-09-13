@@ -84,7 +84,7 @@ function Header({ navStyle, button = false, searchValue, searchOnChange }: IHead
               <button onClick={() => navigate(-1)}>
                 <img src={arrowLeft} alt="뒤로가기" />
               </button>
-              <p className="text-sm">애월읍 위니브 감귤농장</p>
+              <p className="text-sm font-medium">애월읍 위니브 감귤농장</p>
             </div>
             <button type="button" onClick={() => setShowModal(true)}>
               <img src={more} alt="더보기" />
