@@ -27,6 +27,7 @@ function Modal({ closeModal }: IModalProps) {
   };
   return createPortal(
     <dialog
+      open={isOpen}
       className={`fixed bottom-0 flex flex-col items-center w-full max-w-[390px] rounded-t-[10px] bg-white shadow-inner
     transition-transform duration-300 ${isOpen ? 'translate-y-0' : 'translate-y-full'}`}
     >
