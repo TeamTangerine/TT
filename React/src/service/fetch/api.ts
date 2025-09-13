@@ -405,14 +405,14 @@ export const postAPI = {
    */
   updatePost: async (
     postId: string,
-    content: string,
-    image: string,
-    token: string
+    token: string,
+    content?: string,
+    image?: string
   ): Promise<PostAPI.IUpdatePostResponse> => {
     const requestData: PostAPI.IUpdatePostRequest = {
       post: {
-        content: content,
-        image: image,
+        ...(content !== undefined && { content }),
+        ...(image !== undefined && { image }),
       },
     };
 
