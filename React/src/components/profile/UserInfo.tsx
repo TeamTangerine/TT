@@ -1,7 +1,25 @@
+import { useState } from 'react';
+import Button from '../Button/Button';
+import { ButtonColorType } from '../../types/IButtonType';
+
 import basicProfileImg from '../../assets/basic-profile-img.png';
 import iconMessageCircle from '../../assets/icon/icon-message-circle.svg';
 import iconShare from '../../assets/icon/icon-share.png';
+
 function UserInfo() {
+  const [buttonColor, setButtonColor] = useState<ButtonColorType>('normal');
+  function changeColor() {
+    if (buttonColor === 'normal') {
+      setButtonColor('disable');
+      console.log('버튼 색깔이 바뀌었습니다.', buttonColor);
+    }
+
+    if (buttonColor === 'disable') {
+      setButtonColor('normal');
+      console.log('버튼 색깔이 바뀌었습니다.', buttonColor);
+    }
+  }
+
   const profileImg = basicProfileImg;
   return (
     <section className="flex flex-col items-center gap-4 pt-[30px] pb-6 bg-white">
@@ -25,7 +43,14 @@ function UserInfo() {
         <button className="flex items-center justify-center w-[34px] h-[34px] rounded-full border-[1px] border-[#DBDBDB]">
           <img src={iconMessageCircle} alt="채팅하기" className="w-5 h-5" />
         </button>
-        <button className="w-[120px] h-[34px] text-white bg-[#f26e22] rounded-[17px]">팔로우</button>
+        <Button
+          btnTextContent="팔로우"
+          btnSize="medium"
+          btnColor={buttonColor}
+          btnType="button"
+          onClick={changeColor}
+          activeDisable={false}
+        />
         <button
           className="flex items-center justify-center w-[34px] h-[34px] rounded-full border-[1px] border-[#DBDBDB]
         "
