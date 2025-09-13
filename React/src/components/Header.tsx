@@ -15,7 +15,7 @@ interface IHeaderProps {
 
 /**
  * Header컴포넌트
- * @param navStyle -string 헤더 네비게이션 스타일을 입력하세요. top-main | top-search | top-basic | top-chat | top-upload
+ * @param navStyle -string 헤더 네비게이션 스타일을 입력하세요. top-main | top-search | top-basic | top-chat | top-upload | top-save
  * @param button -bloolean (옵셔널) top-upload 스타일 사용시 '저장'버튼의 disabled를 컨트롤 하는 prop입니다.
  * @param searchValue - (옵셔널) top-search 스타일 사용시 input의 value로 사용되는 문자열
  * @param searchOnChange - (옵셔널) top-search 스타일 사용시 input의 onChange 핸들러
