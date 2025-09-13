@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import modalBarImg from '../../assets/modal-bar.png';
 import { createPortal } from 'react-dom';
 interface IModalProps {
@@ -10,11 +10,14 @@ interface IModalProps {
  * @returns
  */
 function Modal({ closeModal }: IModalProps) {
+  const dialogRef = useRef(null);
+
   //모달 열렸는지 상태
   const [isOpen, setIsOpen] = useState(false);
   //settimeout을 안하면 바로 올라와서 지연시킴. 렌더링시 Open=true
   useEffect(() => {
     setTimeout(() => {
+      dialogRef.current.showModal();
       setIsOpen(true);
     }, 10);
   }, []);
@@ -27,6 +30,7 @@ function Modal({ closeModal }: IModalProps) {
   };
   return createPortal(
     <dialog
+      ref={dialogRef}
       open={isOpen}
       className={`fixed bottom-0 flex flex-col items-center w-full max-w-[390px] rounded-t-[10px] bg-white shadow-inner
     transition-transform duration-300 ${isOpen ? 'translate-y-0' : 'translate-y-full'}`}
