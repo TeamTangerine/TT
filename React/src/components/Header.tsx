@@ -4,20 +4,33 @@ import arrowLeft from '../assets/icon/icon-arrow-left.png';
 import more from '../assets/icon/icon-more-vertical.png';
 import Modal from './modal/Modal';
 import Button from './button/Button';
-import { useState } from 'react';
+import React, { useState } from 'react';
 
 interface IHeaderProps {
   navStyle: 'top-main' | 'top-search' | 'top-basic' | 'top-chat' | 'top-upload';
   button?: boolean;
+  searchValue?: string;
+  searchOnChange?: (e: React.ChangeEvent<HTMLElement>) => void;
 }
 
 /**
- * @param navStyle - 헤더 네비게이션 스타일을 입력하세요. top-main | top-search | top-basic | top-chat | top-upload
- * @param button - (옵셔널) top-upload 스타일 사용시 '저장'버튼의 disabled를 컨트롤 하는 prop입니다.
+ * Header컴포넌트
+ * @param navStyle -string 헤더 네비게이션 스타일을 입력하세요. top-main | top-search | top-basic | top-chat | top-upload
+ * @param button -bloolean (옵셔널) top-upload 스타일 사용시 '저장'버튼의 disabled를 컨트롤 하는 prop입니다.
+ * @param searchValue - (옵셔널) top-search 스타일 사용시 input의 value로 사용되는 문자열
+ * @param searchOnChange - (옵셔널) top-search 스타일 사용시 input의 onChange 핸들러
  * @returns
- * 사용 예시: <Header navStyle="top-upload" button={true} />
+// top-upload 스타일 사용 예시
+ * <Header navStyle="top-upload" button={true} />
+ *
+ * // top-search 스타일 사용 예시. 상위 컴포넌트에서 상태관리를 통해 가져와야 합니다(밑에 예시 setSearchValue)
+ * <Header
+ *   navStyle="top-search"
+ *   searchValue={searchValue}
+ *   searchOnChange={e => setSearchValue(e.target.value)}
+ * />
  */
-function Header({ navStyle, button = false }: IHeaderProps) {
+function Header({ navStyle, button = false, searchValue, searchOnChange }: IHeaderProps) {
   const [showModal, setShowModal] = useState(false);
   const navigate = useNavigate();
 
@@ -43,6 +56,8 @@ function Header({ navStyle, button = false }: IHeaderProps) {
               type="text"
               name="search"
               id="search"
+              value={searchValue}
+              onChange={searchOnChange}
               placeholder="계정 검색"
               className="placeholder:text-[#c4c4c4] bg-[#F2F2F2] w-[316px] h-[32px] rounded-[16px] pl-[16px] py-[7px] text-sm"
             />
