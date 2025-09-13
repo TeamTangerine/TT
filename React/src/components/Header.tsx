@@ -3,11 +3,11 @@ import iconSearch from '../assets/icon/icon-search.png';
 import arrowLeft from '../assets/icon/icon-arrow-left.png';
 import more from '../assets/icon/icon-more-vertical.png';
 import Modal from './modal/Modal';
-import Button from './button/Button';
+import Button from './Button/Button';
 import React, { useState } from 'react';
 
 interface IHeaderProps {
-  navStyle: 'top-main' | 'top-search' | 'top-basic' | 'top-chat' | 'top-upload';
+  navStyle: 'top-main' | 'top-search' | 'top-basic' | 'top-chat' | 'top-upload' | 'top-save';
   button?: boolean;
   searchValue?: string;
   searchOnChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
@@ -93,6 +93,21 @@ function Header({ navStyle, button = false, searchValue, searchOnChange }: IHead
         );
       }
       case 'top-upload': {
+        return (
+          <>
+            <button onClick={() => navigate(-1)}>
+              <img src={arrowLeft} alt="뒤로가기" />
+            </button>
+            <Button
+              btnTextContent="업로드"
+              btnColor={button ? 'normal' : 'disable'}
+              btnSize="mediumSmall"
+              btnType="submit"
+            />
+          </>
+        );
+      }
+      case 'top-save': {
         return (
           <>
             <button onClick={() => navigate(-1)}>
