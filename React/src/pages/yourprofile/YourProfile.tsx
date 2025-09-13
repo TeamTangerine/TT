@@ -9,7 +9,7 @@ function YourProfile() {
     <>
       <Header />
       <main className="pb-[60px] flex flex-col gap-[6px] bg-[#f2f2f2]">
-        <UserInfo isMyProfile={false} />
+        <UserInfo />
         <ProductList />
         <PostingGrid />
       </main>
