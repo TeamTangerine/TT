@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import Button from '../Button/Button';
 import { ButtonColorType } from '../../types/IButtonType';
 
@@ -6,17 +7,30 @@ import basicProfileImg from '../../assets/basic-profile-img.png';
 import iconMessageCircle from '../../assets/icon/icon-message-circle.svg';
 import iconShare from '../../assets/icon/icon-share.png';
 
-function UserInfo() {
+/**
+ * @param isMyProfile -페이지별 버튼 동적할당을 위한 타입
+ * - MyProfile 페이지인 경우 true
+ * - YourProfile 페이지인 경우 false
+ */
+type UserInfoProps = {
+  isMyProfile: boolean;
+};
+
+function UserInfo({ isMyProfile }: UserInfoProps) {
+  const navigate = useNavigate();
   const [buttonColor, setButtonColor] = useState<ButtonColorType>('normal');
-  function changeColor() {
+  const [isFollow, setIsFollow] = useState<string>('팔로우');
+
+  // 팔로우 버튼 클릭시 색깔 변화
+  function toggleFollow() {
     if (buttonColor === 'normal') {
-      setButtonColor('disable');
-      console.log('버튼 색깔이 바뀌었습니다.', buttonColor);
+      setButtonColor('active');
+      setIsFollow('언팔로우');
     }
 
-    if (buttonColor === 'disable') {
+    if (buttonColor === 'active') {
       setButtonColor('normal');
-      console.log('버튼 색깔이 바뀌었습니다.', buttonColor);
+      setIsFollow('팔로우');
     }
   }
 
@@ -43,14 +57,40 @@ function UserInfo() {
         <button className="flex items-center justify-center w-[34px] h-[34px] rounded-full border-[1px] border-[#DBDBDB]">
           <img src={iconMessageCircle} alt="채팅하기" className="w-5 h-5" />
         </button>
-        <Button
-          btnTextContent="팔로우"
-          btnSize="medium"
-          btnColor={buttonColor}
-          btnType="button"
-          onClick={changeColor}
-          activeDisable={false}
-        />
+
+        {isMyProfile ? (
+          // MyProfile인 경우
+          <div className="flex flex-row gap-3">
+            <Button
+              btnTextContent="프로필 수정"
+              btnSize="medium"
+              btnColor="active"
+              btnType="button"
+              onClick={() => navigate('/profile-modification')}
+              btnFlexBasis="basis-[120px]"
+              activeDisable={false}
+            />
+            <Button
+              btnTextContent="상품 등록"
+              btnSize="medium"
+              btnColor="active"
+              btnType="button"
+              onClick={() => navigate('./add-product')}
+              btnFlexBasis="basis-[100px]"
+              activeDisable={false}
+            />
+          </div>
+        ) : (
+          // MyProfile이 아닌 경우(YourProfile)
+          <Button
+            btnTextContent={isFollow}
+            btnSize="medium"
+            btnColor={buttonColor}
+            btnType="button"
+            onClick={toggleFollow}
+            activeDisable={false}
+          />
+        )}
         <button
           className="flex items-center justify-center w-[34px] h-[34px] rounded-full border-[1px] border-[#DBDBDB]
         "
