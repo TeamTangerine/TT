@@ -130,7 +130,7 @@ function Header({ navStyle, button = false, searchValue, searchOnChange }: IHead
 
   return (
     <>
-      <nav className="flex justify-center w-full h-[48px] border-b border-b-[#DBDBDB] px-[16px] py-[12px]">
+      <nav className="flex justify-center w-full h-[48px] border-b border-b-[#DBDBDB] px-[16px]">
         <div className="flex justify-between items-center w-full max-w-[390px]">{navContent()}</div>
       </nav>
       {(navStyle === 'top-basic' || navStyle === 'top-chat') && showModal && (
