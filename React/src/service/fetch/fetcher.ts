@@ -3,20 +3,14 @@ import { IOptionsType } from '../../types/IOptionsType';
 /**
  *
  * @param method - 'GET' | 'POST' | 'PUT' | 'DELETE'
- * @param headers - string(옵셔널)
  * @param data - Record<string, unknown> (옵셔널)
  * @param token - string | null (옵셔널)
  * @returns Res 객체 - Request
  */
-export const options = <T = Record<string, unknown>>({
-  method,
-  headers,
-  data,
-  token,
-}: IOptionsType<T>): RequestInit => ({
+export const options = <T = Record<string, unknown>>({ method, data, token }: IOptionsType<T>): RequestInit => ({
   method: method,
   headers: {
-    'Content-Type': headers || 'application/json',
+    'Content-Type': 'application/json',
     //토큰이 존재하면(&&) 인증 키밸류를 가진 객체를 만든 다음, 스프레드로 합치고 있어요. 필요없는 헤더값을 넘기지 않기 위해서 이렇게 작성되었습니다.
     ...(token && { Authorization: `Bearer ${token}` }),
   },
