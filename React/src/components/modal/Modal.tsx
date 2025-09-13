@@ -17,7 +17,6 @@ function Modal({ closeModal }: IModalProps) {
   //settimeout을 안하면 바로 올라와서 지연시킴. 렌더링시 Open=true
   useEffect(() => {
     setTimeout(() => {
-      dialogRef.current.showModal();
       setIsOpen(true);
     }, 10);
   }, []);
