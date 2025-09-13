@@ -17,7 +17,7 @@ function getButtonSize(size: ButtonSizeType) {
 const BUTTON_COLORS = {
   normal: 'bg-[#F26E22] text-white active:bg-[#D4541A]',
   disable: 'bg-[#FFC7A7] text-white',
-  active: 'bg-[#DBDBDB] text-[#767676] active:bg-[#BFBFBF]',
+  active: 'bg-[#FFFFFF] text-[#767676] border-[1px] border-[#DBDBDB] active:bg-[#BFBFBF]',
 } as const;
 
 function getButtonColor(color: ButtonColorType) {
