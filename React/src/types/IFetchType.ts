@@ -210,8 +210,8 @@ export namespace PostAPI {
   // 게시글 수정
   export interface IUpdatePostRequest {
     post: {
-      content: string;
-      image: string;
+      content?: string;
+      image?: string;
     };
   }
 
@@ -321,29 +321,11 @@ export namespace ProductAPI {
 }
 
 /**
- * 공통 에러 응답 타입들
+ * 공통 에러 응답 타입
  */
-export namespace ErrorAPI {
-  export interface IValidationError {
-    message: string;
-  }
-
-  export interface IUnauthorizedError {
-    message: string;
-    status: number;
-  }
-
-  export interface INotFoundError {
-    message: string;
-  }
-
-  export interface IBadRequestError {
-    message: string;
-  }
-
-  export interface IForbiddenError {
-    message: string;
-  }
+export interface IAPIError {
+  message: string;
+  status?: number;
 }
 
 /**
