@@ -54,6 +54,8 @@ function HomeCardGrid() {
         <Posting showAlbum={showAlbum} />
         <Posting showAlbum={showAlbum} />
         <Posting showAlbum={showAlbum} />
+        <Posting showAlbum={showAlbum} hasPhoto={false} />
+        <Posting showAlbum={showAlbum} />
       </ul>
     </section>
   );

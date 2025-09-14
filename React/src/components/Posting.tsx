@@ -5,16 +5,26 @@ import iconHeart from '../assets/icon/icon-heart.png';
 import iconMessage from '../assets/icon/icon-message-circle.svg';
 
 // 리스트형 / 앨범형 선택을 위한 props 타입
+/**
+ * @param showAlbum
+ * - 리스트형 랜더링: true
+ * - 앨범형 랜더링: false
+ * @param hasPhoto
+ * - 사진이 있는 경우: true
+ * - 사진이 없는 경우: false
+ */
 type PostingProps = {
   showAlbum?: boolean;
+  hasPhoto?: boolean;
 };
 
-function Posting({ showAlbum = true }: PostingProps) {
+function Posting({ showAlbum = true, hasPhoto = true }: PostingProps) {
   const profileImg = basicProfileImg;
   const postImg = postImgExample;
   return (
     <>
       {showAlbum ? (
+        // 리스트형 랜더링
         <li className="flex gap-3 max-w-[328px]">
           <img src={profileImg} alt="프로필" className="w-[42px] h-[42px]" />
           <article className="flex flex-col gap-4">
@@ -52,7 +62,8 @@ function Posting({ showAlbum = true }: PostingProps) {
           </article>
         </li>
       ) : (
-        <li className="w-full aspect-square">
+        // 앨범형 랜더링
+        <li className={`w-full aspect-square ${hasPhoto ? '' : 'sr-only'}`}>
           <img src={postImg} alt="게시글 이미지" className="w-full h-full object-cover" />
         </li>
       )}
