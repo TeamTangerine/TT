@@ -3,14 +3,16 @@
  */
 export namespace ImageAPI {
   export interface IUploadResponse {
-    fieldname: string;
-    originalname: string;
-    encoding: string;
-    mimetype: string;
-    destination: string;
-    filename: string;
-    path: string;
-    size: number;
+    info: {
+      fieldname: string;
+      originalname: string;
+      encoding: string;
+      mimetype: string;
+      destination: string;
+      filename: string;
+      path: string;
+      size: number;
+    };
   }
 
   export interface IUploadErrorResponse {
