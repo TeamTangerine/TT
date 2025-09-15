@@ -1,7 +1,8 @@
 import Header from '../../components/Header';
 import profileImg from '../../assets/Ellipse 6.png';
 import uploadFileImg from '../../assets/upload-file.png';
-import React, { useState, useEffect } from 'react';
+import ImagePreview from './component/ImagePreview';
+import React, { useState } from 'react';
 import { postAPI, userAPI, imageAPI } from '../../service/fetch/api';
 
 function Upload() {
@@ -21,6 +22,8 @@ function Upload() {
   const [images, setImages] = useState<File[]>([]);
   // 이미지 URL 저장(게시글 업로드용)
   const [imageUrl, setImageUrl] = useState<string[]>([]);
+  // 이미지 URL 저장(이미지 미리보기용)
+  const [previewUrls, setPreviewUrls] = useState<string[]>([]);
   // 토큰 저장
   const [token, setToken] = useState('');
 
@@ -30,9 +33,16 @@ function Upload() {
    * @param token -string 토큰
    * @param imageUrlString -string(옵셔널) 이미지 filename
    */
-  async function postContent(content: string, token: string, imageUrlString: string) {
+  async function postContent(content: string, token: string) {
     try {
-      postAPI.createPost(content, token, imageUrlString);
+      let fileUrl: string[] = [];
+      if (images.length === 1) {
+        const res = await imageAPI.uploadFile(images[0]);
+        fileUrl = [res.filename];
+      } else if (images.length > 1) {
+        const resArr = await imageAPI.uploadFiles();
+      }
+      postAPI.createPost(content, token, ...fileUrl);
     } catch (error) {
       console.log(error, '요청 실패');
     }
@@ -63,36 +73,50 @@ function Upload() {
   }
 
   const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (e.target.files) {
-      const fileArr = Array.from(e.target.files);
-      let urls: string[] = [];
-      //파일을 일단 배열로 만듬
-      setImages(Array.from(e.target.files));
-      // 파일이 한 개면
-      if (fileArr.length === 1) {
-        // 단일 파일 페치 요청
-        const res = await imageAPI.uploadFile(e.target.files[0]);
-        //URL에 파일 이름 배열로 저장
-        urls = [res.info.filename];
-        // 파일이 여러개면
+    try {
+      if (e.target.files) {
+        const files = Array.from(e.target.files);
+        setImages(files);
+        const readFileAsDataURL = (file: File) =>
+          new Promise<string>((resolve, reject) => {
+            const reader = new FileReader();
+            reader.onload = () => resolve(reader.result as string);
+            reader.onerror = reject;
+            reader.readAsDataURL(file);
+          });
+        const urls = await Promise.all(files.map(readFileAsDataURL));
+        setPreviewUrls(urls);
       }
-      // else if (fileArr.length > 1) {
-      //   const resArr = await imageAPI.uploadFiles(e.target.files);
-      //   url
-      // }
-      setImageUrl(urls);
-      console.log('이미지 url = ');
+    } catch (error) {
+      console.error(error);
     }
   };
+
+  // 파일이 한 개면
+  // if (fileArr.length === 1) {
+  //   // 단일 파일 페치 요청
+  //   const res = await imageAPI.uploadFile(e.target.files[0]);
+  //   //URL에 파일 이름 배열로 저장
+  //   urls = [res.info.filename];
+  //   // 파일이 여러개면
+  // }
+  // else if (fileArr.length > 1) {
+  //   const resArr = await imageAPI.uploadFiles(e.target.files);
+  //   url
+  // }
+
   // 업로드 버튼 클릭 시
   const handleUploadClick = (e: React.FormEvent) => {
-    e.preventDefault();
-    const imageUrlString = imageUrl.join(', ');
-    postContent(content, token, imageUrlString);
+    postContent(content, token);
   };
   return (
     <>
-      <form onSubmit={handleUploadClick}>
+      <form
+        onSubmit={(e) => {
+          e.preventDefault();
+          handleUploadClick(e);
+        }}
+      >
         {/* 헤더*/}
         <Header navStyle="top-upload" button={true} />
         {/* 메인 */}
@@ -101,14 +125,22 @@ function Upload() {
             {/* 프로필 이미지 */}
             <img className="w-[42px] h-[42px] rounded-full" src={profileImg} alt="프로필" />
             {/* 게시글 */}
-            <textarea
-              className="text-[14px] mt-3 w-full h-[100%] focus:outline-none placeholder-[#C4C4C4]"
-              placeholder="게시글 입력하기..."
-              value={content}
-              onChange={(e) => setContent(e.target.value)}
-            ></textarea>
-            {/* 업로드 이미지 미리보기*/}
-            <img src={imageAPI.getImage(imageUrl[0])} alt="업로드 이미지" />
+            <div className="flex flex-col gap-4">
+              <textarea
+                className="text-[14px] mt-3 w-full focus:outline-none placeholder-[#C4C4C4] resize-none"
+                placeholder="게시글 입력하기..."
+                value={content}
+                onChange={(e) => {
+                  setContent(e.target.value);
+                  const textarea = e.target as HTMLTextAreaElement;
+                  textarea.style.height = 'auto';
+                  textarea.style.height = textarea.scrollHeight + 'px';
+                }}
+                style={{ overflow: 'hidden' }}
+              ></textarea>
+              {/* 업로드 이미지 미리보기*/}
+              {images.length > 0 ? <ImagePreview url={previewUrls} gridType="single" /> : <div></div>}
+            </div>
           </div>
           {/* 이미지 업로드 버튼 */}
           <button className="fixed bottom-4 right-4 cursor-pointer" onClick={() => getTestPost}>
