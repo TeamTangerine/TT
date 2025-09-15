@@ -46,7 +46,7 @@ export const imageAPI = {
    * @returns Promise<ImageAPI.IUploadResponse[]> 업로드된 이미지 목록
    * @throws {Error} 요청 실패 시 에러
    */
-  uploadFiles: async (file: File[]): Promise<ImageAPI.IUploadResponse[]> => {
+  uploadFiles: async (file: File[]): Promise<ImageAPI.IUploadResponse> => {
     const formData = new FormData();
 
     for (let i = 0; i < file.length; i++) {
