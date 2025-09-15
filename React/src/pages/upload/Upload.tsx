@@ -94,13 +94,14 @@ function Upload() {
         fileUrl = [res.filename];
       } else if (images.length > 1) {
         const resArr = await imageAPI.uploadFiles(Array.from(images));
-        fileUrl = resArr.map((v) => v.filename);
+        fileUrl = resArr.info.map((v) => v.filename);
       }
-      await postAPI.createPost(content, token, fileUrl.join(', '));
+      await postAPI.createPost(content, token, fileUrl.join(','));
       alert('업로드 성공!');
       navigate('/my-profile');
     } catch (error) {
-      console.log(error, '이미지 업로드 요청 실패');
+      console.error(error, '업로드 실패');
+      alert('업로드에 실패하였습니다. 다시 시도해 주세요.');
     }
   }
 
