@@ -121,8 +121,8 @@ function Upload() {
         {/* 헤더*/}
         <Header navStyle="top-upload" button={content ? true : false} />
         {/* 메인 */}
-        <main className="pt-5 px-4 pb-4 ">
-          <div className="flex justify-start h-[80vh] gap-[13px]">
+        <main className="pt-5 px-4 pb-4 max-w-[390px] box-border">
+          <div className="flex justify-start h-[80vh] gap-[13px] w-full">
             {/* 프로필 이미지 */}
             <img
               className="w-[42px] h-[42px] rounded-full"
