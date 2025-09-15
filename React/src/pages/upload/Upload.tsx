@@ -91,7 +91,7 @@ function Upload() {
       let fileUrl: string[] = [];
       if (images.length === 1) {
         const res = await imageAPI.uploadFile(images[0]);
-        fileUrl = [res.filename];
+        fileUrl = [res.info[0].filename];
       } else if (images.length > 1) {
         const resArr = await imageAPI.uploadFiles(Array.from(images));
         fileUrl = resArr.info.map((v) => v.filename);
