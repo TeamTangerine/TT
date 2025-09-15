@@ -2,17 +2,18 @@
  * 이미지 관련 API 타입들
  */
 export namespace ImageAPI {
+  export interface IUploadFileInfo {
+    fieldname: string;
+    originalname: string;
+    encoding: string;
+    mimetype: string;
+    destination: string;
+    filename: string;
+    path: string;
+    size: number;
+  }
   export interface IUploadResponse {
-    info: {
-      fieldname: string;
-      originalname: string;
-      encoding: string;
-      mimetype: string;
-      destination: string;
-      filename: string;
-      path: string;
-      size: number;
-    };
+    info: IUploadFileInfo[];
   }
 
   export interface IUploadErrorResponse {
