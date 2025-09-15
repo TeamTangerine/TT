@@ -48,7 +48,12 @@ function Upload() {
     try {
       if (e.target.files) {
         const files = Array.from(e.target.files);
-        setImages(files);
+        //이미지 최대 3개 까지 만드는 로직
+        if (images.length + files.length > 3) {
+          alert('이미지는 3개까지 업로드 가능합니다.');
+          return;
+        }
+        setImages((prev) => [...prev, ...files]);
         const readFileAsDataURL = (file: File) =>
           new Promise<string>((resolve, reject) => {
             const reader = new FileReader();
@@ -57,7 +62,7 @@ function Upload() {
             reader.readAsDataURL(file);
           });
         const urls = await Promise.all(files.map(readFileAsDataURL));
-        setPreviewUrls(urls);
+        setPreviewUrls((prev) => [...prev, ...urls]);
       }
     } catch (error) {
       console.error(error);
@@ -115,7 +120,7 @@ function Upload() {
         {/* 헤더*/}
         <Header navStyle="top-upload" button={content ? true : false} />
         {/* 메인 */}
-        <main className="pt-5 px-4 pb-4">
+        <main className="pt-5 px-4 pb-4 ">
           <div className="flex justify-start h-[80vh] gap-[13px]">
             {/* 프로필 이미지 */}
             <img
