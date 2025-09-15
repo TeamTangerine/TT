@@ -116,6 +116,7 @@ function Upload() {
           e.preventDefault();
           handleUpload();
         }}
+        className="flex flex-col items-center"
       >
         {/* 헤더*/}
         <Header navStyle="top-upload" button={content ? true : false} />
@@ -152,9 +153,11 @@ function Upload() {
             </div>
           </div>
           {/* 이미지 업로드 버튼 */}
-          <label htmlFor="upload-img" className="fixed bottom-4 right-4 cursor-pointer">
-            <img className="w-[50px] h-[50px] rounded-full" src={uploadFileImg} alt="이미지 추가 버튼" />
-          </label>
+          <div className="flex justify-end ">
+            <label htmlFor="upload-img" className="cursor-pointer">
+              <img className="w-[50px] h-[50px] rounded-full" src={uploadFileImg} alt="이미지 추가 버튼" />
+            </label>
+          </div>
           <input type="file" id="upload-img" multiple accept="image/*" onChange={handleFileChange} className="hidden" />
         </main>
       </form>
