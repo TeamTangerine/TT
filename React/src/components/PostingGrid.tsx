@@ -58,7 +58,6 @@ function HomeCardGrid() {
 
     try {
       const postData = await postAPI.getUserPosts(accountName, token);
-      console.log('포스트 데이터: ', postData);
       setPosts(postData.post);
     } catch (error) {
       console.log('포스트 조회 실패:', error);
@@ -101,7 +100,6 @@ function HomeCardGrid() {
             <li>로딩 중...</li>
           ) : (
             posts.map((post: any) => {
-              console.log(post);
               return (
                 <Posting
                   showAlbum={showAlbum}
