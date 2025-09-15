@@ -72,14 +72,12 @@ export namespace UserAPI {
   }
 
   export interface ILoginResponse {
-    user: {
-      _id: string;
-      username: string;
-      email: string;
-      accountname: string;
-      image: string;
-      token: string;
-    };
+    _id: string;
+    username: string;
+    email: string;
+    accountname: string;
+    image: string;
+    token: string;
   }
 
   // 내 정보 조회
