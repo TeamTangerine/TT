@@ -13,7 +13,7 @@ export namespace ImageAPI {
     size: number;
   }
   export interface IUploadResponse {
-    info: IUploadFileInfo[];
+    info: IUploadFileInfo[] | IUploadResponse;
   }
 
   export interface IUploadErrorResponse {
