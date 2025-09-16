@@ -18,8 +18,6 @@ function AddProduct() {
   const [isItemError, setIsItemError] = useState(false);
   //가격
   const [price, setPrice] = useState('');
-  //가격 에러 메세지
-  const [isPriceError, setPriceError] = useState(false);
   //상품Url
   const [link, setLink] = useState<string>('');
   //상품URL 에러 메세지
@@ -139,9 +137,7 @@ function AddProduct() {
             labelText="product-price"
             inputType="text"
             placeholderText="숫자만 입력 가능합니다."
-            errorMessage="숫자만 입력해주세요!"
             inputValue={Number(price).toLocaleString()}
-            showErrorMessage={isPriceError}
             onChange={handlePrice}
           />
           <TextInput
