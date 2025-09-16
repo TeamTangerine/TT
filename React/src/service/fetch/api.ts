@@ -11,6 +11,25 @@ import {
   HEART_URL,
 } from './https';
 import { ImageAPI, UserAPI, PostAPI, ProfileAPI, CommentAPI, ProductAPI } from '../../types/IFetchType';
+// 토큰관리
+const TOKEN_KEY = 'accessToken';
+const getToken = (): string | null => localStorage.getItem('TOKEN_KEY');
+// 토큰 유효성 관리
+const checkRedirect = async (): Promise<string> => {
+  const token = getToken();
+  if (!token) {
+    alert('로그인이 만료되었습니다.');
+    window.location.href = '/login';
+    throw new Error('토큰 없음');
+  }
+  const result = await userAPI.checkToken();
+  if (!result.isValid) {
+    alert('로그인이 만료되었습니다.');
+    window.location.href = '/login';
+    throw new Error('토큰 만료');
+  }
+  return token;
+};
 
 /**
  * 이미지 API 모음
@@ -22,7 +41,7 @@ export const imageAPI = {
    * @returns Promise<ImageAPI.IUploadResponse> 업로드된 이미지 정보
    * @throws {Error} 요청 실패 시 에러
    */
-  uploadFile: async (file: File): Promise<ImageAPI.IUploadResponse> => {
+  uploadFile: async (file: File): Promise<ImageAPI.IUploadSingleResponse> => {
     const formData = new FormData();
     formData.append('image', file);
 
@@ -46,7 +65,7 @@ export const imageAPI = {
    * @returns Promise<ImageAPI.IUploadResponse[]> 업로드된 이미지 목록
    * @throws {Error} 요청 실패 시 에러
    */
-  uploadFiles: async (file: File[]): Promise<ImageAPI.IUploadResponse> => {
+  uploadFiles: async (file: File[]): Promise<ImageAPI.IUploadMultiResponse> => {
     const formData = new FormData();
 
     for (let i = 0; i < file.length; i++) {
@@ -190,11 +209,11 @@ export const userAPI = {
 
   /**
    * 현재 로그인한 사용자의 정보를 조회합니다.
-   * @param token - 인증 토큰
    * @returns Promise<UserAPI.IMyInfoResponse> 사용자 정보
    * @throws {Error} 요청 실패 시 에러
    */
-  getMyInfo: async (token: string): Promise<UserAPI.IMyInfoResponse> => {
+  getMyInfo: async (): Promise<UserAPI.IMyInfoResponse> => {
+    const token = await checkRedirect();
     return await fetchAPI(
       USER_URL.getInfo,
       options({
@@ -207,11 +226,11 @@ export const userAPI = {
   /**
    * 사용자를 검색합니다.
    * @param keyword - 검색 키워드
-   * @param token - 인증 토큰
    * @returns Promise<UserAPI.ISearchUserResponse> 검색 결과
    * @throws {Error} 요청 실패 시 에러
    */
-  searchUser: async (keyword: string, token: string): Promise<UserAPI.ISearchUserResponse> => {
+  searchUser: async (keyword: string): Promise<UserAPI.ISearchUserResponse> => {
+    const token = await checkRedirect();
     return await fetchAPI(
       SEARCH_USER_URL.searchUser(keyword),
       options({
@@ -223,11 +242,14 @@ export const userAPI = {
 
   /**
    * 토큰의 유효성을 검사합니다.
-   * @param token - 검사할 토큰
    * @returns Promise<UserAPI.ITokenValidResponse> 토큰 검증 결과
    * @throws {Error} 요청 실패 시 에러
    */
-  checkToken: async (token: string): Promise<UserAPI.ITokenValidResponse> => {
+  checkToken: async (): Promise<UserAPI.ITokenValidResponse> => {
+    const token = getToken();
+    if (!token) {
+      throw new Error('토큰 없음');
+    }
     return await fetchAPI(
       TOKEN_URL.checkToken,
       options({
@@ -243,7 +265,6 @@ export const userAPI = {
    * @param accountname - 계정명
    * @param intro - 자기소개
    * @param image - 프로필 이미지 URL
-   * @param token - 인증 토큰
    * @returns Promise<UserAPI.IUpdateProfileResponse> 수정된 프로필 정보
    * @throws {Error} 요청 실패 시 에러
    */
@@ -251,8 +272,7 @@ export const userAPI = {
     username: string,
     accountname: string,
     intro: string,
-    image: string,
-    token: string
+    image: string
   ): Promise<UserAPI.IUpdateProfileResponse> => {
     const userData: UserAPI.IUpdateProfileRequest = {
       user: {
@@ -262,7 +282,7 @@ export const userAPI = {
         image,
       },
     };
-
+    const token = await checkRedirect();
     return await fetchAPI(
       PROFILE_URL.putUser,
       options({
@@ -281,11 +301,11 @@ export const profileAPI = {
   /**
    * 특정 사용자의 프로필 정보를 조회합니다.
    * @param accountname - 조회할 사용자의 계정명
-   * @param token - 인증 토큰
    * @returns Promise<ProfileAPI.IProfileResponse> 프로필 정보
    * @throws {Error} 요청 실패 시 에러
    */
-  getProfile: async (accountname: string, token: string): Promise<ProfileAPI.IProfileResponse> => {
+  getProfile: async (accountname: string): Promise<ProfileAPI.IProfileResponse> => {
+    const token = await checkRedirect();
     return await fetchAPI(
       PROFILE_URL.accountProfile(accountname),
       options({
@@ -298,11 +318,11 @@ export const profileAPI = {
   /**
    * 특정 사용자를 팔로우합니다.
    * @param accountname - 팔로우할 사용자의 계정명
-   * @param token - 인증 토큰
    * @returns Promise<ProfileAPI.IFollowResponse> 팔로우 결과
    * @throws {Error} 요청 실패 시 에러
    */
-  follow: async (accountname: string, token: string): Promise<ProfileAPI.IFollowResponse> => {
+  follow: async (accountname: string): Promise<ProfileAPI.IFollowResponse> => {
+    const token = await checkRedirect();
     return await fetchAPI(
       PROFILE_URL.accountFollow(accountname),
       options({
@@ -315,11 +335,11 @@ export const profileAPI = {
   /**
    * 특정 사용자를 언팔로우합니다.
    * @param accountname - 언팔로우할 사용자의 계정명
-   * @param token - 인증 토큰
    * @returns Promise<ProfileAPI.IFollowResponse> 언팔로우 결과
    * @throws {Error} 요청 실패 시 에러
    */
-  unfollow: async (accountname: string, token: string): Promise<ProfileAPI.IFollowResponse> => {
+  unfollow: async (accountname: string): Promise<ProfileAPI.IFollowResponse> => {
+    const token = await checkRedirect();
     return await fetchAPI(
       PROFILE_URL.unFollow(accountname),
       options({
@@ -332,11 +352,11 @@ export const profileAPI = {
   /**
    * 특정 사용자의 팔로잉 목록을 조회합니다.
    * @param accountname - 조회할 사용자의 계정명
-   * @param token - 인증 토큰
    * @returns Promise<ProfileAPI.IFollowingListResponse> 팔로잉 목록
    * @throws {Error} 요청 실패 시 에러
    */
-  getFollowingList: async (accountname: string, token: string): Promise<ProfileAPI.IFollowingListResponse> => {
+  getFollowingList: async (accountname: string): Promise<ProfileAPI.IFollowingListResponse> => {
+    const token = await checkRedirect();
     return await fetchAPI(
       PROFILE_URL.followerList(accountname),
       options({
@@ -349,11 +369,11 @@ export const profileAPI = {
   /**
    * 특정 사용자의 팔로워 목록을 조회합니다.
    * @param accountname - 조회할 사용자의 계정명
-   * @param token - 인증 토큰
    * @returns Promise<ProfileAPI.IFollowerListResponse> 팔로워 목록
    * @throws {Error} 요청 실패 시 에러
    */
-  getFollowerList: async (accountname: string, token: string): Promise<ProfileAPI.IFollowerListResponse> => {
+  getFollowerList: async (accountname: string): Promise<ProfileAPI.IFollowerListResponse> => {
+    const token = await checkRedirect();
     return await fetchAPI(
       PROFILE_URL.userFollowerList(accountname),
       options({
@@ -371,12 +391,12 @@ export const postAPI = {
   /**
    * 새 게시글을 작성합니다.
    * @param content - 게시글 내용
-   * @param token - 인증 토큰
    * @param image - 첨부할 이미지 URL (선택적)
    * @returns Promise<PostAPI.ICreatePostResponse> 생성된 게시글 정보
    * @throws {Error} 요청 실패 시 에러
    */
-  createPost: async (content: string, token: string, image?: string): Promise<PostAPI.ICreatePostResponse> => {
+  createPost: async (content: string, image?: string): Promise<PostAPI.ICreatePostResponse> => {
+    const token = await checkRedirect();
     const requestData: PostAPI.ICreatePostRequest = {
       post: {
         content: content,
@@ -399,16 +419,11 @@ export const postAPI = {
    * @param postId - 수정할 게시글 ID
    * @param content - 수정할 내용
    * @param image - 수정할 이미지 URL
-   * @param token - 인증 토큰
    * @returns Promise<PostAPI.IUpdatePostResponse> 수정된 게시글 정보
    * @throws {Error} 요청 실패 시 에러
    */
-  updatePost: async (
-    postId: string,
-    token: string,
-    content?: string,
-    image?: string
-  ): Promise<PostAPI.IUpdatePostResponse> => {
+  updatePost: async (postId: string, content?: string, image?: string): Promise<PostAPI.IUpdatePostResponse> => {
+    const token = await checkRedirect();
     const requestData: PostAPI.IUpdatePostRequest = {
       post: {
         ...(content !== undefined && { content }),
@@ -429,11 +444,11 @@ export const postAPI = {
   /**
    * 게시글을 삭제합니다.
    * @param postId - 삭제할 게시글 ID
-   * @param token - 인증 토큰
    * @returns Promise<void> 삭제 결과 (204 응답)
    * @throws {Error} 요청 실패 시 에러
    */
-  deletePost: async (postId: string, token: string): Promise<void> => {
+  deletePost: async (postId: string): Promise<void> => {
+    const token = await checkRedirect();
     return await fetchAPI(
       ARTICLE_URL.deleteArticle(postId),
       options({
@@ -446,11 +461,11 @@ export const postAPI = {
   /**
    * 특정 게시글을 조회합니다.
    * @param postId - 조회할 게시글 ID
-   * @param token - 인증 토큰
    * @returns Promise<PostAPI.IPostDetailResponse> 게시글 정보
    * @throws {Error} 요청 실패 시 에러
    */
-  getPost: async (postId: string, token: string): Promise<PostAPI.IPostDetailResponse> => {
+  getPost: async (postId: string): Promise<PostAPI.IPostDetailResponse> => {
+    const token = await checkRedirect();
     return await fetchAPI(
       ARTICLE_URL.articleDetail(postId),
       options({
@@ -462,15 +477,15 @@ export const postAPI = {
 
   /**
    * 피드를 조회합니다.
-   * @param token - 인증 토큰
    * @param limit - 조회할 개수 (선택적)
    * @param skip - 건너뛸 개수 (선택적)
    * @returns Promise<PostAPI.IPostListResponse> 피드 목록
    * @throws {Error} 요청 실패 시 에러
    */
-  getFeed: async (token: string, limit?: number, skip?: number): Promise<PostAPI.IPostListResponse> => {
+  getFeed: async (limit?: number, skip?: number): Promise<PostAPI.IPostListResponse> => {
     let url = ARTICLE_URL.followFeedArticle;
 
+    const token = await checkRedirect();
     // 쿼리 파라미터 추가
     const params = new URLSearchParams();
     if (limit) params.append('limit', limit.toString());
@@ -492,20 +507,15 @@ export const postAPI = {
   /**
    * 특정 사용자의 게시글 목록을 조회합니다.
    * @param accountname - 조회할 사용자의 계정명
-   * @param token - 인증 토큰
    * @param limit - 조회할 개수 (선택적)
    * @param skip - 건너뛸 개수 (선택적)
    * @returns Promise<PostAPI.IUserPostListResponse> 사용자 게시글 목록
    * @throws {Error} 요청 실패 시 에러
    */
-  getUserPosts: async (
-    accountname: string,
-    token: string,
-    limit?: number,
-    skip?: number
-  ): Promise<PostAPI.IUserPostListResponse> => {
+  getUserPosts: async (accountname: string, limit?: number, skip?: number): Promise<PostAPI.IUserPostListResponse> => {
     let url = ARTICLE_URL.userArticle(accountname);
 
+    const token = await checkRedirect();
     // 쿼리 파라미터 추가
     const params = new URLSearchParams();
     if (limit) params.append('limit', limit.toString());
@@ -527,11 +537,11 @@ export const postAPI = {
   /**
    * 게시글에 좋아요를 추가합니다.
    * @param postId - 좋아요를 추가할 게시글 ID
-   * @param token - 인증 토큰
    * @returns Promise<PostAPI.IHeartResponse> 좋아요 결과
    * @throws {Error} 요청 실패 시 에러
    */
-  likePost: async (postId: string, token: string): Promise<PostAPI.IHeartResponse> => {
+  likePost: async (postId: string): Promise<PostAPI.IHeartResponse> => {
+    const token = await checkRedirect();
     return await fetchAPI(
       HEART_URL.postHeart(postId),
       options({
@@ -544,11 +554,11 @@ export const postAPI = {
   /**
    * 게시글의 좋아요를 취소합니다.
    * @param postId - 좋아요를 취소할 게시글 ID
-   * @param token - 인증 토큰
    * @returns Promise<PostAPI.IHeartResponse> 좋아요 취소 결과
    * @throws {Error} 요청 실패 시 에러
    */
-  unlikePost: async (postId: string, token: string): Promise<PostAPI.IHeartResponse> => {
+  unlikePost: async (postId: string): Promise<PostAPI.IHeartResponse> => {
+    const token = await checkRedirect();
     return await fetchAPI(
       HEART_URL.deleteHeart(postId),
       options({
@@ -561,11 +571,11 @@ export const postAPI = {
   /**
    * 게시글을 신고합니다.
    * @param postId - 신고할 게시글 ID
-   * @param token - 인증 토큰
    * @returns Promise<PostAPI.IReportPostResponse> 신고 결과
    * @throws {Error} 요청 실패 시 에러
    */
-  reportPost: async (postId: string, token: string): Promise<PostAPI.IReportPostResponse> => {
+  reportPost: async (postId: string): Promise<PostAPI.IReportPostResponse> => {
+    const token = await checkRedirect();
     return await fetchAPI(
       ARTICLE_URL.reportArticle(postId),
       options({
@@ -584,11 +594,11 @@ export const commentAPI = {
    * 게시글에 댓글을 작성합니다.
    * @param postId - 댓글을 작성할 게시글 ID
    * @param content - 댓글 내용
-   * @param token - 인증 토큰
    * @returns Promise<CommentAPI.ICreateCommentResponse> 생성된 댓글 정보
    * @throws {Error} 요청 실패 시 에러
    */
-  createComment: async (postId: string, content: string, token: string): Promise<CommentAPI.ICreateCommentResponse> => {
+  createComment: async (postId: string, content: string): Promise<CommentAPI.ICreateCommentResponse> => {
+    const token = await checkRedirect();
     const requestData: CommentAPI.ICreateCommentRequest = {
       comment: { content: content },
     };
@@ -606,20 +616,15 @@ export const commentAPI = {
   /**
    * 특정 게시글의 댓글 목록을 조회합니다.
    * @param postId - 댓글을 조회할 게시글 ID
-   * @param token - 인증 토큰
    * @param limit - 조회할 개수 (선택적)
    * @param skip - 건너뛸 개수 (선택적)
    * @returns Promise<CommentAPI.ICommentListResponse> 댓글 목록
    * @throws {Error} 요청 실패 시 에러
    */
-  getComments: async (
-    postId: string,
-    token: string,
-    limit?: number,
-    skip?: number
-  ): Promise<CommentAPI.ICommentListResponse> => {
+  getComments: async (postId: string, limit?: number, skip?: number): Promise<CommentAPI.ICommentListResponse> => {
     let url = COMMENT_URL.listComment(postId);
 
+    const token = await checkRedirect();
     // 쿼리 파라미터 추가
     const params = new URLSearchParams();
     if (limit) params.append('limit', limit.toString());
@@ -646,7 +651,8 @@ export const commentAPI = {
    * @returns Promise<void> 삭제 결과 (204 응답)
    * @throws {Error} 요청 실패 시 에러
    */
-  deleteComment: async (postId: string, commentId: string, token: string): Promise<void> => {
+  deleteComment: async (postId: string, commentId: string): Promise<void> => {
+    const token = await checkRedirect();
     return await fetchAPI(
       COMMENT_URL.deleteComment(postId, commentId),
       options({
@@ -664,11 +670,8 @@ export const commentAPI = {
    * @returns Promise<CommentAPI.IReportCommentResponse> 신고 결과
    * @throws {Error} 요청 실패 시 에러
    */
-  reportComment: async (
-    postId: string,
-    commentId: string,
-    token: string
-  ): Promise<CommentAPI.IReportCommentResponse> => {
+  reportComment: async (postId: string, commentId: string): Promise<CommentAPI.IReportCommentResponse> => {
+    const token = await checkRedirect();
     return await fetchAPI(
       COMMENT_URL.reportComment(postId, commentId),
       options({
@@ -689,7 +692,6 @@ export const productAPI = {
    * @param price - 가격
    * @param link - 상품 링크
    * @param itemImage - 상품 이미지 URL
-   * @param token - 인증 토큰
    * @returns Promise<ProductAPI.ICreateProductResponse> 생성된 상품 정보
    * @throws {Error} 요청 실패 시 에러
    */
@@ -697,9 +699,9 @@ export const productAPI = {
     itemName: string,
     price: number,
     link: string,
-    itemImage: string,
-    token: string
+    itemImage: string
   ): Promise<ProductAPI.ICreateProductResponse> => {
+    const token = await checkRedirect();
     const requestData: ProductAPI.ICreateProductRequest = {
       product: {
         itemName: itemName,
@@ -735,9 +737,9 @@ export const productAPI = {
     itemName: string,
     price: number,
     link: string,
-    itemImage: string,
-    token: string
+    itemImage: string
   ): Promise<ProductAPI.IUpdateProductResponse> => {
+    const token = await checkRedirect();
     const requestData: ProductAPI.IUpdateProductRequest = {
       product: {
         itemName: itemName,
@@ -764,7 +766,8 @@ export const productAPI = {
    * @returns Promise<void> 삭제 결과 (204 응답)
    * @throws {Error} 요청 실패 시 에러
    */
-  deleteProduct: async (productId: string, token: string): Promise<void> => {
+  deleteProduct: async (productId: string): Promise<void> => {
+    const token = await checkRedirect();
     return await fetchAPI(
       PRODUCT_URL.deleteProduct(productId),
       options({
@@ -781,7 +784,8 @@ export const productAPI = {
    * @returns Promise<ProductAPI.IProductDetailResponse> 상품 정보
    * @throws {Error} 요청 실패 시 에러
    */
-  getProduct: async (productId: string, token: string): Promise<ProductAPI.IProductDetailResponse> => {
+  getProduct: async (productId: string): Promise<ProductAPI.IProductDetailResponse> => {
+    const token = await checkRedirect();
     return await fetchAPI(
       PRODUCT_URL.productDetail(productId),
       options({
@@ -798,7 +802,8 @@ export const productAPI = {
    * @returns Promise<ProductAPI.IProductListResponse> 사용자 상품 목록
    * @throws {Error} 요청 실패 시 에러
    */
-  getUserProducts: async (accountName: string, token: string): Promise<ProductAPI.IProductListResponse> => {
+  getUserProducts: async (accountName: string): Promise<ProductAPI.IProductListResponse> => {
+    const token = await checkRedirect();
     return await fetchAPI(
       PRODUCT_URL.listProduct(accountName),
       options({
