@@ -70,7 +70,7 @@ function AddProduct() {
       //가격 콤마빼고 number로 변환
       const numberPrice = Number(String(price).replace(',', ''));
       //상품명 정규식
-      const itemRegExp = /^[a-zA-Z가-힣]{2,5}$/;
+      const itemRegExp = /^[a-zA-Z가-힣]{2,15}$/;
       //이름 빈 값이면
       if (!itemName) {
         setIsItemError(true);
@@ -128,7 +128,7 @@ function AddProduct() {
             inputId="product-name"
             labelText="product-name"
             inputType="text"
-            placeholderText="2~5자 이내여야 합니다"
+            placeholderText="2~15자 이내여야 합니다"
             errorMessage="2~5자 이내로 작성해 주세요."
             showErrorMessage={isItemError}
             inputValue={itemName}
