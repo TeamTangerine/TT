@@ -2,14 +2,14 @@ import React from 'react';
 import basicProfileImg from '../../assets/basic-profile-img.png';
 import ImgBtn from '../../assets/upload-file.png';
 import TextInput from '../../components/TextInput';
-import Button from '../../components/button/Button';
+import Button from '../../components/Button/Button';
 
 function MembershipProfile() {
   return (
     <>
-      <header>
-        <h1 className="text-[24px] font-medium">프로필 설정</h1>
-        <p className="text-[14px] text-[#767676]">나중에 언제든지 변경할 수 있습니다.</p>
+      <header className="flex flex-col items-center gap-3 mt-[30px]">
+        <h1 className="text-[24px] font-medium h-[30px]">프로필 설정</h1>
+        <p className="text-[14px] text-[#767676] h-[14px]">나중에 언제든지 변경할 수 있습니다.</p>
       </header>
       <main>
         <div className="my-[30px] flex flex-col items-center relative">
