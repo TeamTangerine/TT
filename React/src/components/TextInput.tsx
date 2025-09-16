@@ -12,7 +12,7 @@ type TextInputProps = {
   placeholderText?: string;
   errorMessage?: string;
   inputValue?: string | number;
-  onChange?: (value?: string | number) => void;
+  onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
   showErrorMessage?: boolean;
 };
 
@@ -47,7 +47,7 @@ function TextInput({
           id={inputId}
           type={inputType}
           value={inputValue}
-          onChange={(e) => onChange?.(inputType === 'number' ? Number(e.target.value) : e.target.value)}
+          onChange={onChange}
           placeholder={placeholderText}
           className="border-[#DBDBDB] border-b-[1px] pb-2 focus:outline-none  focus:border-[#F26E22] text-[14px] placeholder-[#DBDBDB]"
         />
