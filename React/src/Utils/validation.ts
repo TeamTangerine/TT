@@ -82,8 +82,8 @@ function validateProductPrice({ productPrice }: ProductValidation) {
  * @param param0 -URL형태 https://***.***.***
  *  @returns {boolean}
  */
-function validateProductURL({ productURL }: ProductValidation) {
-  const productPriceRegex = /^(https?|ftp):\/\/(-\.)?([^\s\/?\.#-]+\.?)+(\/[^\s]*)?$/i;
+function validateProductURL(productURL: string) {
+  const productPriceRegex = /^(http|https):\/\/[\w\-]+(\.[\w\-]+)+[/#?]?.*$/;
   let isOk = productPriceRegex.test(productURL);
   return isOk;
 }
