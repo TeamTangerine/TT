@@ -30,7 +30,7 @@ function HomeCardGrid() {
     }
   }
 
-  // 토큰 발급 함수
+  // 토큰 발급 함수 -> 추후 useContext로 수정 예정
   async function getTestToken() {
     const email = 'tt1team@example.com'; // 테스트 계정 이메일
     const password = 'test1team_'; // 테스트 계정 비밀번호
@@ -94,21 +94,21 @@ function HomeCardGrid() {
           </div>
         </div>
         <ul
-          className={`${showAlbum ? 'flex flex-col items-center gap-6' : 'grid grid-cols-3 justify-items-center gap-x-[6px] gap-y-[6px] min-h-[144px]'} pt-6  px-4 bg-white`}
+          className={`${showAlbum ? 'flex flex-col items-center gap-6' : 'grid grid-cols-3 gap-x-[6px] gap-y-[6px] min-h-[144px]'} pt-6  px-4 bg-white`}
         >
           {loading ? (
             <li>로딩 중...</li>
           ) : (
-            posts.map((post: any) => {
+            posts.map((post: any, index: number) => {
               return (
                 <Posting
+                  key={post.id}
                   showAlbum={showAlbum}
-                  hasPhoto={true}
                   userProfileImage={post.author.image}
                   userName={post.author.username}
                   userId={post.author.accountname}
                   userContent={post.content}
-                  contentImage={''}
+                  contentImage={post.image}
                   heartCount={post.heartCount}
                   commentCount={post.commentCount}
                   updatedAt={post.updatedAt}
