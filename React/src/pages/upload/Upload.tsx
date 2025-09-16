@@ -33,6 +33,9 @@ function Upload() {
       const token = res.token;
       const img = res.image;
       console.log(token);
+      const TOKEN_KEY = 'TOKEN_KEY';
+      localStorage.setItem(TOKEN_KEY, token);
+
       setToken(token);
       setUserImg(img);
     } catch (e) {
@@ -78,25 +81,20 @@ function Upload() {
   /**
    * 게시글을 submit하는 함수
    * @param content -string 게시글 내용
-   * @param token -string 토큰
    * @param imageUrlString -string(옵셔널) 이미지 filename
    */
-  async function postContent(content: string, token: string) {
-    if (!token) {
-      alert('로그인이 필요합니다.');
-      navigate('/login');
-      return;
-    }
+  async function postContent(content: string) {
     try {
       let fileUrl: string[] = [];
       if (images.length === 1) {
         const res = await imageAPI.uploadFile(images[0]);
-        fileUrl = [res.info[0].filename];
+        console.log('파일구조', res);
+        fileUrl = [res.info.filename];
       } else if (images.length > 1) {
         const resArr = await imageAPI.uploadFiles(Array.from(images));
         fileUrl = resArr.info.map((v) => v.filename);
       }
-      await postAPI.createPost(content, token, fileUrl.join(','));
+      await postAPI.createPost(content, fileUrl.join(','));
       alert('업로드 성공!');
       navigate('/my-profile');
     } catch (error) {
@@ -107,7 +105,7 @@ function Upload() {
 
   //업로드하려고 onSubmit에 담는 함수
   const handleUpload = () => {
-    postContent(content, token);
+    postContent(content);
   };
 
   return (
