@@ -67,29 +67,33 @@ function AddProduct() {
   // 상품을 업로드 하는 함수
   async function postProduct() {
     try {
+      //이미지 업로드해서 url저장
       const res = await imageAPI.uploadFile(image[0]);
       if (!res) {
+        alert('이미지를 업로드해 주세요!🍊');
         throw new Error('이미지 업로드에 실패하였습니다.');
       }
       const fileUrl = res.info.filename;
+      //가격 콤마빼고 number로 변환
       const numberPrice = Number(String(price).replace(',', ''));
+      //상품명 정규식
       const itemRegExp = /^[a-zA-Z가-힣]{2,5}$/;
+      //이름 빈 값이면
       if (!itemName) {
         setIsItemError(true);
         return;
       }
+      //이름이 정규식에 맞지 않으면
       if (!itemRegExp.test(itemName)) {
         setIsItemError(true);
         return;
       }
-      if (!price) {
-        setPriceError(true);
-        return;
-      }
+      //링크가 정규식에 맞지 않으면
       if (!validateProductURL(link)) {
         setIsLinkError(true);
         return;
       }
+      //다 맞으면 업로드 진행
       await productAPI.createProduct(itemName, numberPrice, link, fileUrl);
       alert('상품 게시 성공!');
       navigate('/my-profile');
