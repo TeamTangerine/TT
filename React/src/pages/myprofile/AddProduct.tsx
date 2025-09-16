@@ -67,13 +67,9 @@ function AddProduct() {
   // 상품을 업로드 하는 함수
   async function postProduct() {
     try {
-      //이미지 업로드해서 url저장
-      const res = await imageAPI.uploadFile(image[0]);
-      if (!res) {
+      if (image.length === 0) {
         alert('이미지를 업로드해 주세요!🍊');
-        throw new Error('이미지 업로드에 실패하였습니다.');
       }
-      const fileUrl = res.info.filename;
       //가격 콤마빼고 number로 변환
       const numberPrice = Number(String(price).replace(',', ''));
       //상품명 정규식
@@ -93,6 +89,12 @@ function AddProduct() {
         setIsLinkError(true);
         return;
       }
+      //이미지 업로드해서 url저장
+      const res = await imageAPI.uploadFile(image[0]);
+      if (!res) {
+        throw new Error('이미지 업로드에 실패하였습니다.');
+      }
+      const fileUrl = res.info.filename;
       //다 맞으면 업로드 진행
       await productAPI.createProduct(itemName, numberPrice, link, fileUrl);
       alert('상품 게시 성공!');
@@ -111,7 +113,7 @@ function AddProduct() {
           postProduct();
         }}
       >
-        <Header navStyle="top-save" button={image && itemName && price && link ? true : false} />
+        <Header navStyle="top-save" button={image.length === 1 && itemName && price && link ? true : false} />
         <div className="flex flex-col gap-[18px]">
           <label htmlFor="img" className="cursor-pointer">
             이미지 등록
