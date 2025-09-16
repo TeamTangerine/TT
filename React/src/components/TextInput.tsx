@@ -12,6 +12,7 @@ type TextInputProps = {
   placeholderText?: string;
   errorMessage?: string;
   inputValue?: string | number;
+  inputBlur?: () => void;
   onChange?: (value?: string | number) => void;
   showErrorMessage?: boolean;
 };
@@ -34,6 +35,7 @@ function TextInput({
   placeholderText,
   errorMessage,
   inputValue,
+  inputBlur = () => {},
   onChange,
   showErrorMessage = false,
 }: TextInputProps) {
@@ -47,6 +49,7 @@ function TextInput({
           id={inputId}
           type={inputType}
           value={inputValue}
+          onBlur={inputBlur}
           onChange={(e) => onChange?.(inputType === 'number' ? Number(e.target.value) : e.target.value)}
           placeholder={placeholderText}
           className="border-[#DBDBDB] border-b-[1px] pb-2 focus:outline-none  focus:border-[#F26E22] text-[14px] placeholder-[#DBDBDB]"
