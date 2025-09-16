@@ -41,7 +41,7 @@ export const imageAPI = {
    * @returns Promise<ImageAPI.IUploadResponse> 업로드된 이미지 정보
    * @throws {Error} 요청 실패 시 에러
    */
-  uploadFile: async (file: File): Promise<ImageAPI.IUploadResponse> => {
+  uploadFile: async (file: File): Promise<ImageAPI.IUploadSingleResponse> => {
     const formData = new FormData();
     formData.append('image', file);
 
@@ -65,7 +65,7 @@ export const imageAPI = {
    * @returns Promise<ImageAPI.IUploadResponse[]> 업로드된 이미지 목록
    * @throws {Error} 요청 실패 시 에러
    */
-  uploadFiles: async (file: File[]): Promise<ImageAPI.IUploadResponse> => {
+  uploadFiles: async (file: File[]): Promise<ImageAPI.IUploadMultiResponse> => {
     const formData = new FormData();
 
     for (let i = 0; i < file.length; i++) {
