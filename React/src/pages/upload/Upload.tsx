@@ -33,8 +33,8 @@ function Upload() {
       const token = res.token;
       const img = res.image;
       console.log(token);
-      setUserImg(img);
       setToken(token);
+      setUserImg(img);
     } catch (e) {
       console.error('테스트 토큰 발급 실패:');
       return null;
@@ -127,7 +127,7 @@ function Upload() {
             {/* 프로필 이미지 */}
             <img
               className="w-[42px] h-[42px] rounded-full"
-              src={userImg === 'Elipse.png' ? userImg : profileImg}
+              src={!userImg || userImg === '/Ellipse.png' ? profileImg : userImg}
               alt="프로필"
             />
             {/* 게시글 */}
