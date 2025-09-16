@@ -13,7 +13,7 @@ import {
 import { ImageAPI, UserAPI, PostAPI, ProfileAPI, CommentAPI, ProductAPI } from '../../types/IFetchType';
 // 토큰관리
 const TOKEN_KEY = 'accessToken';
-const getToken = (): string | null => localStorage.getItem(TOKEN_KEY);
+const getToken = (): string | null => localStorage.getItem('TOKEN_KEY');
 // 토큰 유효성 관리
 const checkRedirect = async (): Promise<string> => {
   const token = getToken();
