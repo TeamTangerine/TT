@@ -67,9 +67,6 @@ function AddProduct() {
   // 상품을 업로드 하는 함수
   async function postProduct() {
     try {
-      if (image.length === 0) {
-        alert('이미지를 업로드해 주세요!🍊');
-      }
       //가격 콤마빼고 number로 변환
       const numberPrice = Number(String(price).replace(',', ''));
       //상품명 정규식
