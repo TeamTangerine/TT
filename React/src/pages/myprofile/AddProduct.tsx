@@ -4,8 +4,18 @@ import TextInput from '../../components/TextInput';
 import uploadImg from '../../assets/icon/icon-upload.png';
 import { imageAPI, postAPI, productAPI } from '../../service/fetch/api';
 import { validateProductURL } from '../../Utils/validation';
-import { useNavigate } from 'react-router-dom';
-function AddProduct(isAddProduct:boolean=false productId: string) {
+import { useNavigate, useSearchParams } from 'react-router-dom';
+
+interface AddProductProps {
+  isAddProduct?: boolean;
+  productId?: string;
+}
+
+function AddProduct() {
+  //쿼리-를 사용해서 상품수정여부와 상품 아이디를 받습니다.
+  const [searchParams] = useSearchParams();
+  const isAddProduct = searchParams.get('isAddProduct');
+  const productId = searchParams.get('productId');
   // 라우팅
   const navigate = useNavigate();
   //인풋에 담기는 이미지 파일
@@ -96,7 +106,12 @@ function AddProduct(isAddProduct:boolean=false productId: string) {
         alert('상품 게시 성공!');
         navigate('/my-profile');
       } else {
-        //상품 수정이라면
+        //상품 수정시
+        if (!productId) {
+          alert('상품 정보를 불러오지 못했습니다. 다시 시도해주세요.');
+          navigate('/my-profile');
+          return;
+        }
         await productAPI.updateProduct(productId, itemName, numberPrice, link, fileUrl);
         navigate('/my-profile');
       }
@@ -110,7 +125,12 @@ function AddProduct(isAddProduct:boolean=false productId: string) {
   const getProduct = async () => {
     try {
       if (!isAddProduct) {
-        const res = await productAPI.getProduct('68ca0ebd9000a777b4e33263');
+        if (!productId) {
+          alert('상품을 불러오지 못했습니다. 다시 시도해 주세요.');
+          navigate('/my-profile');
+          return;
+        }
+        const res = await productAPI.getProduct(productId);
         setItemName(res.product.itemName);
         setPreviewUrls([imageAPI.getImage(res.product.itemImage)]);
         setPrice(res.product.price.toLocaleString());
