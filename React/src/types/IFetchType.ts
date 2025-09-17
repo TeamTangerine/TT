@@ -2,7 +2,7 @@
  * 이미지 관련 API 타입들
  */
 export namespace ImageAPI {
-  export interface IUploadResponse {
+  export interface IUploadFileInfo {
     fieldname: string;
     originalname: string;
     encoding: string;
@@ -11,6 +11,9 @@ export namespace ImageAPI {
     filename: string;
     path: string;
     size: number;
+  }
+  export interface IUploadResponse {
+    info: IUploadFileInfo[];
   }
 
   export interface IUploadErrorResponse {
@@ -72,14 +75,12 @@ export namespace UserAPI {
   }
 
   export interface ILoginResponse {
-    user: {
-      _id: string;
-      username: string;
-      email: string;
-      accountname: string;
-      image: string;
-      token: string;
-    };
+    _id: string;
+    username: string;
+    email: string;
+    accountname: string;
+    image: string;
+    token: string;
   }
 
   // 내 정보 조회
