@@ -7,7 +7,7 @@ interface IModalProps {
 }
 /**
  * 모달 컴포넌트
- * @param showModal
+ * @param showModal - showModal을 상위 컴포넌트에서 관리
  * @param closeModal - setShowModal(false)를 콜백으로 받음
  * @returns
  */

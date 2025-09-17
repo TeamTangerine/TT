@@ -20,14 +20,14 @@ import iconImgLayers from '../assets/icon/iccon-img-layers.png';
  */
 type PostingProps = {
   showList?: boolean;
-  userProfileImage?: string;
-  userName?: string;
-  userId?: string;
-  userContent?: string;
-  contentImage?: string;
-  heartCount?: number;
-  commentCount?: number;
-  updatedAt?: string;
+  userProfileImage: string;
+  userName: string;
+  userId: string;
+  userContent: string;
+  contentImage: string;
+  heartCount: number;
+  commentCount: number;
+  updatedAt: string;
 };
 
 function Posting({
@@ -58,11 +58,7 @@ function Posting({
   const contentImageArray = makeArray();
 
   // 날짜 형식 변환 함수
-  function formatDate(dateString: string | undefined) {
-    if (!dateString) {
-      return '날짜 없음';
-    }
-
+  function formatDate(dateString: string) {
     return new Date(dateString).toLocaleString('ko-KR', {
       year: 'numeric',
       month: 'long',
@@ -111,7 +107,7 @@ function Posting({
                 <span className="text-[12px] text-[#767676]">{commentCount}</span>
               </div>
             </div>
-            <time dateTime="2020-10-21" className="text-[10px] text-[#767676]">
+            <time dateTime={formatDate(updatedAt)} className="text-[10px] text-[#767676]">
               {formatDate(updatedAt)}
             </time>
           </article>
