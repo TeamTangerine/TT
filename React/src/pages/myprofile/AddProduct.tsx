@@ -7,14 +7,14 @@ import { validateProductURL } from '../../Utils/validation';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 
 interface AddProductProps {
-  isAddProduct?: boolean;
+  isUpdateProduct?: boolean;
   productId?: string;
 }
 
 function AddProduct() {
   //쿼리-를 사용해서 상품수정여부와 상품 아이디를 받습니다.
   const [searchParams] = useSearchParams();
-  const isAddProduct = searchParams.get('isAddProduct');
+  const isUpdateProduct = searchParams.get('isUpdateProduct');
   const productId = searchParams.get('productId');
   // 라우팅
   const navigate = useNavigate();
@@ -101,7 +101,7 @@ function AddProduct() {
       }
       const fileUrl = res.info.filename;
       //상품 추가시
-      if (isAddProduct) {
+      if (!isUpdateProduct) {
         await productAPI.createProduct(itemName, numberPrice, link, fileUrl);
         alert('상품 게시 성공!');
         navigate('/my-profile');
@@ -124,7 +124,7 @@ function AddProduct() {
 
   const getProduct = async () => {
     try {
-      if (!isAddProduct) {
+      if (isUpdateProduct) {
         if (!productId) {
           alert('상품을 불러오지 못했습니다. 다시 시도해 주세요.');
           navigate('/my-profile');
@@ -156,14 +156,16 @@ function AddProduct() {
       >
         <Header navStyle="top-save" button={image.length === 1 && itemName && price && link ? true : false} />
         <div className="flex flex-col gap-[18px]">
-          <label htmlFor="img" className="cursor-pointer">
+          <label htmlFor="img" className="cursor-pointer relative">
             이미지 등록
             <img
               src={previewUrls[0]}
               alt=""
-              className="w-[322px] h-[204px] rounded-[10px] relative bg-[#DBDBDB] object-cover "
+              className="w-[322px] h-[204px] rounded-[10px] bg-[#DBDBDB] object-cover "
             />
-            <img src={uploadImg} alt="" className="absolute bottom-3 right-3" />
+            <div className="absolute bottom-3 right-3 right-3 w-9 h-9 rounded-2xl flex items-center justify-center bg-[#C4C4C4]">
+              <img src={uploadImg} alt="" />
+            </div>
             <input onChange={handleFileChange} type="file" id="img" name="img" accept="image/*" className="hidden" />
           </label>
         </div>
