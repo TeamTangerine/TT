@@ -4,9 +4,8 @@ import Button from '../../../components/Button/Button';
 import TextInput from '../../../components/TextInput';
 import postLogin from '../../../service/user/postLogin';
 import { userAPI } from '../../../service/fetch/api';
-import { validateEmail, validatePassword, validateUserName } from '../../../Utils/validation';
+import { validateEmail, validateId, validatePassword, validateUserName } from '../../../Utils/validation';
 import { useNavigate } from 'react-router-dom';
-import MembershipProfile from '../MembershipProfile';
 import basicProfileImg from '../../../assets/basic-profile-img.png';
 import ImgBtn from '../../../assets/upload-file.png';
 
@@ -54,9 +53,13 @@ type LoginData = {
 export default function LoginSignUpForm({ formName, btnText, isLogin }: LoginSignUpFormProps) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [userImg, setUserImg] = useState(basicProfileImg);
   const [userName, setUserName] = useState('');
   const [id, setId] = useState('');
+  const [intro, setIntro] = useState('');
+
   const [loading, setLoading] = useState(false);
+
   const [emailErrorMessage, setEmailErrorMessage] = useState('');
   const [pwErrorMessage, setPwErrorMessage] = useState('');
   const [idErrorMessage, setIdErrorMessage] = useState('');
@@ -116,30 +119,28 @@ export default function LoginSignUpForm({ formName, btnText, isLogin }: LoginSig
     setLoading(true);
     setEmailErrorMessage('');
     setPwErrorMessage('');
+    setIdErrorMessage('');
+
     setEmailError(false);
     setPwError(false);
+    setIdError(false);
 
     try {
       const res = await userAPI.validateEmail(email);
-      console.log(res);
 
       if (res.message === '이미 가입된 이메일 주소 입니다.') {
         setEmailError(true);
         setEmailErrorMessage(res.message);
-      } else {
-        setEmailError(false);
-        setEmailErrorMessage('');
+        return;
       }
 
       if (!validatePassword(password)) {
         setPwError(true);
         setPwErrorMessage('비밀번호는 6자 이상이어야 합니다.');
-      } else {
-        setPwError(false);
-        setPwErrorMessage('');
+        return;
       }
 
-      setNext(true);
+      setIsNext(true);
     } catch (error: any) {
       console.error(error.message);
     } finally {
@@ -148,8 +149,10 @@ export default function LoginSignUpForm({ formName, btnText, isLogin }: LoginSig
   }
 
   // 이메일 입력창 포커스 잃었을 때 이메일 유효성 검사
-  const handeEmaillBlur = async () => {
   const handleEmailBlur = async () => {
+    if (isLogin) {
+      return;
+    }
     if (!validateEmail(email)) {
       setEmailError(true);
       setEmailErrorMessage('잘못된 이메일 형식입니다.');
@@ -157,7 +160,6 @@ export default function LoginSignUpForm({ formName, btnText, isLogin }: LoginSig
     }
 
     const res = await userAPI.validateEmail(email);
-    console.log(res);
 
     if (res.message === '이미 가입된 이메일 주소 입니다.') {
       setEmailError(true);
@@ -179,6 +181,49 @@ export default function LoginSignUpForm({ formName, btnText, isLogin }: LoginSig
 
     setPwErrorMessage('');
     setPwError(false);
+  };
+
+  // 프로필 이미지 변경 함수
+  const handleFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    if (!file.type.startsWith('image/')) {
+      alert('이미지 파일만 업로드 가능합니다.');
+      return;
+    }
+
+    const reader = new FileReader();
+
+    reader.onload = () => {
+      const result = reader.result;
+      if (typeof result === 'string') setUserImg(result);
+    };
+    reader.onerror = () => {
+      console.error('파일 읽기 실패');
+    };
+
+    reader.readAsDataURL(file);
+  };
+
+  // 계정 ID 입력창 포커스 잃었을 때 계정 ID 유효성 검사
+  const handleIdBlur = async () => {
+    if (!validateId(id)) {
+      setIdError(true);
+      setIdErrorMessage('영문, 숫자, 밑줄 및 마침표만 사용할 수 있습니다.');
+      return;
+    }
+
+    const res = await userAPI.validateAccountName(id);
+
+    if (res.message === '이미 사용중인 계정 ID입니다.') {
+      setIdError(true);
+      setIdErrorMessage(res.message);
+      return;
+    }
+
+    setIdErrorMessage('');
+    setIdError(false);
   };
 
   // 이메일 onChange 관리
