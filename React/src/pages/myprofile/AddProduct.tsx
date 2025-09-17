@@ -175,7 +175,7 @@ function AddProduct() {
             labelText="product-name"
             inputType="text"
             placeholderText="2~15자 이내여야 합니다"
-            errorMessage="2~5자 이내로 작성해 주세요."
+            errorMessage="2~15자 이내로 작성해 주세요."
             showErrorMessage={isItemError}
             inputValue={itemName}
             onChange={handleProductName}
