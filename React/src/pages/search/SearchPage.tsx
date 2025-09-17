@@ -5,7 +5,7 @@ import UserProfile from '../../components/UserProfile';
 function SearchPage() {
   return (
     <>
-      <Header />
+      <Header navStyle="top-search" />
       <ul className="flex flex-col gap-4 mt-5 mx-4">
         <UserProfile username="애월읍 위니브 감귤농장" accountname="@ weniv_Mandarin" />
         <UserProfile username="애월읍 한라봉 최고 맛집" accountname="@ hanlabong" />
