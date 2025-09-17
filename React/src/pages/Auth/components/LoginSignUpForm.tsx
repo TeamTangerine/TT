@@ -149,6 +149,7 @@ export default function LoginSignUpForm({ formName, btnText, isLogin }: LoginSig
 
   // 이메일 입력창 포커스 잃었을 때 이메일 유효성 검사
   const handeEmaillBlur = async () => {
+  const handleEmailBlur = async () => {
     if (!validateEmail(email)) {
       setEmailError(true);
       setEmailErrorMessage('잘못된 이메일 형식입니다.');
@@ -169,7 +170,7 @@ export default function LoginSignUpForm({ formName, btnText, isLogin }: LoginSig
   };
 
   // 비밀번호 입력창 포커스 잃었을 때 비밀번호 유효성 검사
-  const handelPwBlur = () => {
+  const handlePwBlur = () => {
     if (!validatePassword(password)) {
       setPwError(true);
       setPwErrorMessage('비밀번호는 6자 이상이어야 합니다.');
@@ -210,7 +211,7 @@ export default function LoginSignUpForm({ formName, btnText, isLogin }: LoginSig
                   inputType="email"
                   errorMessage={'*' + emailErrorMessage}
                   showErrorMessage={emailError}
-                  inputBlur={handeEmaillBlur}
+                  inputBlur={handleEmailBlur}
                   onChange={(value) => {
                     if (typeof value === 'string') {
                       setEmail(value);
@@ -223,7 +224,7 @@ export default function LoginSignUpForm({ formName, btnText, isLogin }: LoginSig
                   inputType="password"
                   errorMessage={'*' + pwErrorMessage}
                   showErrorMessage={pwError}
-                  inputBlur={handelPwBlur}
+                  inputBlur={handlePwBlur}
                   onChange={(value) => {
                     if (typeof value === 'string') {
                       setPassword(value);
