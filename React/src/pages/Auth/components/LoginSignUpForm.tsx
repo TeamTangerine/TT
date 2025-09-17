@@ -51,6 +51,7 @@ type LoginData = {
 // 버튼 디자인: 계정id 존재 시, 사용자 이름 2-10자 이내 시 버튼 활성화
 
 export default function LoginSignUpForm({ formName, btnText, isLogin }: LoginSignUpFormProps) {
+  // input값 관리
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [userImg, setUserImg] = useState(basicProfileImg);
@@ -58,17 +59,23 @@ export default function LoginSignUpForm({ formName, btnText, isLogin }: LoginSig
   const [id, setId] = useState('');
   const [intro, setIntro] = useState('');
 
+  // api 함수 동작중인지 판별
   const [loading, setLoading] = useState(false);
 
+  // 에러 메세지
   const [emailErrorMessage, setEmailErrorMessage] = useState('');
   const [pwErrorMessage, setPwErrorMessage] = useState('');
   const [idErrorMessage, setIdErrorMessage] = useState('');
+
+  // 에러인지 판별
   const [emailError, setEmailError] = useState(false);
   const [pwError, setPwError] = useState(false);
   const [idError, setIdError] = useState(false);
 
+  // 이메일과 비밀번호 입력 완료 후 다음 버튼 클릭이 됐는지 확인
   const [isNext, setIsNext] = useState(false);
 
+  // 라우팅
   const navigate = useNavigate();
 
   // 로그인 유효성 패치 함수
