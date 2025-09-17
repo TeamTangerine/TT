@@ -43,13 +43,6 @@ type LoginData = {
   password: string;
 };
 
-// todo:
-// 1. 검사랑 제출 로직 분리하기
-// 2. MembershipProfile 페이지를 컴포넌트로 사용하기 => 페이지 내용 모두 가져옴, 페이지 삭제 해야함
-// 3. login페이지, membership페이지, profile페이지를 조건부 렌더링하기
-// useState, useEffect, async await 각 실행순서 알아보기
-// 버튼 디자인: 계정id 존재 시, 사용자 이름 2-10자 이내 시 버튼 활성화
-
 export default function LoginSignUpForm({ formName, btnText, isLogin }: LoginSignUpFormProps) {
   // input값 관리
   const [email, setEmail] = useState('');
