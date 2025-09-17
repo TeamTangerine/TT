@@ -181,6 +181,30 @@ export default function LoginSignUpForm({ formName, btnText, isLogin }: LoginSig
     setPwError(false);
   };
 
+  // 이메일 onChange 관리
+  const handleEmail = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setEmail(e.target.value);
+  };
+
+  // 비밀번호 onChange 관리
+  const handlePw = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setPassword(e.target.value);
+  };
+
+  // 사용자 이름 onChange 관리
+  const handleUserName = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setUserName(e.target.value);
+  };
+
+  // 계정 ID onChange 관리
+  const handleId = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setId(e.target.value);
+  };
+
+  // 소개 onChange 관리
+  const handleIntro = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setIntro(e.target.value);
+  };
   // isLoginEventHandler: 로그인 패치함수 또는 회원가입 패치함수를 조정하는 함수
   async function isLoginEventHandler(e: React.FormEvent<HTMLFormElement>) {
     // 로그인 유효성 검사 함수
@@ -212,11 +236,7 @@ export default function LoginSignUpForm({ formName, btnText, isLogin }: LoginSig
                   errorMessage={'*' + emailErrorMessage}
                   showErrorMessage={emailError}
                   inputBlur={handleEmailBlur}
-                  onChange={(value) => {
-                    if (typeof value === 'string') {
-                      setEmail(value);
-                    }
-                  }}
+                  onChange={handleEmail}
                 />
                 <TextInput
                   inputId="password"
@@ -225,11 +245,7 @@ export default function LoginSignUpForm({ formName, btnText, isLogin }: LoginSig
                   errorMessage={'*' + pwErrorMessage}
                   showErrorMessage={pwError}
                   inputBlur={handlePwBlur}
-                  onChange={(value) => {
-                    if (typeof value === 'string') {
-                      setPassword(value);
-                    }
-                  }}
+                  onChange={handlePw}
                 />
               </div>
 
