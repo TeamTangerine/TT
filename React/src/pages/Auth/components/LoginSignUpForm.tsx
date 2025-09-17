@@ -245,6 +245,57 @@ export default function LoginSignUpForm({ formName, btnText, isLogin }: LoginSig
           </div>
         </>
       )}
+        <>
+          <header className="flex flex-col items-center gap-3 mt-[30px]">
+            <h1 className="text-[24px] font-medium h-[30px]">프로필 설정</h1>
+            <p className="text-[14px] text-[#767676] h-[14px]">나중에 언제든지 변경할 수 있습니다.</p>
+          </header>
+          <main>
+            <div className="my-[30px] flex flex-col items-center relative">
+              <img className="w-[110px] h-[110px] rounded-full " src={userImg} alt="내 프로필 이미지" />
+              <label
+                className=" w-9 h-9 rounded-full absolute bottom-0 translate-x-[37px]  cursor-pointer"
+                htmlFor="userImgSelectBtn"
+              >
+                <img src={ImgBtn} alt="프로필 이미지 파일 선택" />
+                <input className="hidden" id="userImgSelectBtn" type="file" onChange={handleFileUpload} />
+              </label>
+            </div>
+            <form className="flex flex-col items-center gap-[16px] px-[34px]" onSubmit={handleSignUp}>
+              <TextInput
+                inputId="userName"
+                labelText="사용자 이름"
+                placeholderText="2~10자 이내여야 합니다."
+                inputMaxLength={10}
+                onChange={handleUserName}
+              />
+              <TextInput
+                inputId="accountId"
+                labelText="계정 ID"
+                inputBlur={handleIdBlur}
+                placeholderText="영문, 숫자, 특수문자(.),(_)만 사용 가능합니다."
+                errorMessage={'*' + idErrorMessage}
+                showErrorMessage={idError}
+                onChange={handleId}
+              />
+              <TextInput
+                inputId="userName"
+                labelText="소개"
+                placeholderText="자신과 판매할 상품에 대해 소개해 주세요!"
+                onChange={handleIntro}
+              />
+              <div className="mt-[14px]">
+                <Button
+                  btnTextContent="감귤마켓 시작하기"
+                  btnSize="large"
+                  btnColor={userName.length >= 2 && id && !loading ? 'normal' : 'disable'}
+                  btnType="submit"
+                />
+              </div>
+            </form>
+          </main>
+        </>
+      )}
     </section>
   );
 }
