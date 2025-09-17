@@ -5,20 +5,12 @@ import { userAPI } from '../../service/fetch/api';
 import Modal from '../modal/Modal';
 import { ProductAPI } from '../../types/IFetchType';
 
-type ProductType = {
-  itemName: string;
-  price: number;
-  link: string;
-  itemImage: string;
-};
-
+// onEditProduct
 type ProductListProps = {
-  onEditProduct?: (product: ProductType) => void;
-  onBuyProduct?: (product: ProductType) => void;
   isOwner: boolean;
 };
 
-function ProductList({ onEditProduct, onBuyProduct, isOwner }: ProductListProps) {
+function ProductList({ isOwner }: ProductListProps) {
   const [token, setToken] = useState('');
   const [accountName, setAccountName] = useState('');
   const [products, setProducts] = useState<ProductAPI.IProduct[]>([]);
