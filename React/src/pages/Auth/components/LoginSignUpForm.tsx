@@ -63,10 +63,10 @@ export default function LoginSignUpForm({ formName, btnText, isLogin }: LoginSig
   const [emailError, setEmailError] = useState(false);
   const [pwError, setPwError] = useState(false);
   const [idError, setIdError] = useState(false);
-  const [next, setNext] = useState(false);
+
+  const [isNext, setIsNext] = useState(false);
 
   const navigate = useNavigate();
-  const [token, setToken] = useState('');
 
   // 로그인 유효성 패치 함수
   // async function loginValidation(e: React.FormEvent<HTMLFormElement>) {
@@ -198,7 +198,7 @@ export default function LoginSignUpForm({ formName, btnText, isLogin }: LoginSig
 
   return (
     <section className="flex flex-col items-center">
-      {!next && (
+      {!isNext && (
         <>
           <h1 className="text-[24px] font-medium mt-[30px]">{formName}</h1>
           <div className="w-screen mt-[40px]">
@@ -245,6 +245,7 @@ export default function LoginSignUpForm({ formName, btnText, isLogin }: LoginSig
           </div>
         </>
       )}
+      {isNext && (
         <>
           <header className="flex flex-col items-center gap-3 mt-[30px]">
             <h1 className="text-[24px] font-medium h-[30px]">프로필 설정</h1>
