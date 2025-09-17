@@ -11,7 +11,7 @@ function MyProfile() {
       <main className="pb-[60px] flex flex-col gap-[6px] bg-[#f2f2f2]">
         <UserInfo />
         {/* 버튼을 피그마 디자인에 맞게 동적 할당하는 로직 추가 필요합니다! */}
-        <ProductList />
+        <ProductList isOwner={true} />
         <PostingGrid />
       </main>
       <Footer />
