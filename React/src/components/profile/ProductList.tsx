@@ -51,10 +51,10 @@ function ProductList({ isOwner }: ProductListProps) {
     <>
       <button onClick={getTestToken}>토큰 받기</button>
       <button onClick={getUserProducts}>get User Products</button>
-      <section className={`w-full flex justify-center pl-4 py-5  bg-white ${products.length === 0 ? 'sr-only' : ''}`}>
+      <section className={`w-full flex justify-center pl-4 py-5  bg-white ${products.length === 0 ? 'hidden' : ''}`}>
         <div className="flex flex-col gap-4">
           <h2 className="font-bold">판매 중인 상품</h2>
-          <ul className="flex gap-[10px] max-w-[374px] overflow-hidden">
+          <ul className="flex gap-[10px] w-[390px] overflow-hidden overflow-x-auto">
             {loading ? (
               <li>로딩 중...</li>
             ) : (

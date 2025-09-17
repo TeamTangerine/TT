@@ -6,7 +6,7 @@ import iconImgLayers from '../assets/icon/iccon-img-layers.png';
 
 // 리스트형 / 앨범형 선택을 위한 props 타입
 /**
- * @param showAlbum
+ * @param showList
  * - 리스트형 랜더링: true
  * - 앨범형 랜더링: false
  * @param userProfileImage - 유저의 프로필 이미지
@@ -19,7 +19,7 @@ import iconImgLayers from '../assets/icon/iccon-img-layers.png';
  * @param createdAt - 게시물 작성 일자
  */
 type PostingProps = {
-  showAlbum?: boolean;
+  showList?: boolean;
   userProfileImage?: string;
   userName?: string;
   userId?: string;
@@ -31,7 +31,7 @@ type PostingProps = {
 };
 
 function Posting({
-  showAlbum = true,
+  showList = true,
   userProfileImage,
   userName,
   userId,
@@ -72,7 +72,7 @@ function Posting({
 
   return (
     <>
-      {showAlbum ? (
+      {showList ? (
         // 리스트형 랜더링
         <li className="flex gap-3 max-w-[328px] min-w-[328px]">
           <img

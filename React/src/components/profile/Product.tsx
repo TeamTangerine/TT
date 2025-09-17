@@ -3,7 +3,7 @@ import productImgSample from '../../assets/product-img-example.png';
 import Modal from '../modal/Modal';
 
 /**
- * @param itemImgae - 상품 이미지, 없는 경우 샘플이미지
+ * @param itemImgae - 상품 이미지
  * @param itemName - 상품 이름
  * @param price - 상품 가격
  * @param productLink - 상품 판매 페이지 링크
@@ -31,7 +31,6 @@ function Product({ itemImage, itemName, price, productLink, isOwner, setShowModa
   // handleLink 함수를 통해 myProfile인지 yourProfile인지 구별
   function handleLink() {
     if (isOwner === true) {
-      console.log('hello');
       setShowModal(true);
     }
 
@@ -42,7 +41,7 @@ function Product({ itemImage, itemName, price, productLink, isOwner, setShowModa
 
   return (
     <>
-      <li className="w-25 h-34 flex flex-col flex-shrink-0" onClick={() => handleLink()}>
+      <li className="w-[140px] h-[132px] flex flex-col flex-shrink-0" onClick={() => handleLink()}>
         <img src={imgUrl + itemImage} alt="샘플이미지" className="w-[140px] h-[90px] rounded-[8px] object-cover" />
         <h3 className="mt-[6px]">{itemName}</h3>
         <p className="mt-1 text-bold text-[12px] text-[#F26E22]">{formattedPrice}원</p>

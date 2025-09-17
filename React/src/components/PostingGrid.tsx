@@ -8,7 +8,7 @@ import { userAPI, postAPI } from '../service/fetch/api';
 import { PostAPI } from '../types/IFetchType';
 
 function HomeCardGrid() {
-  const [showAlbum, setShowAlbum] = useState(true);
+  const [showList, setShowList] = useState(true);
   const [token, setToken] = useState('');
   const [accountName, setAccountName] = useState('');
   const [posts, setPosts] = useState<PostAPI.IPost[]>([]);
@@ -22,11 +22,11 @@ function HomeCardGrid() {
   // 토글 상태 관리 함수
   function toggleAlbum(value: boolean) {
     if (value === true) {
-      setShowAlbum(false);
+      setShowList(false);
     }
 
     if (value === false) {
-      setShowAlbum(true);
+      setShowList(true);
     }
   }
 
@@ -70,12 +70,12 @@ function HomeCardGrid() {
     <>
       <button onClick={getTestToken}>get Token</button>
       <button onClick={getUserPosts}>get User Posts</button>
-      <section className={`flex flex-col ${posts.length === 0 ? 'sr-only' : ''}`}>
+      <section className={`flex flex-col ${posts.length === 0 ? 'hidden' : ''}`}>
         <div className="flex justify-center bg-white border-b border-b-[#DBDBDB]">
           <div className="min-w-[390px] flex justify-end gap-4 px-4 py-[9px]">
             <button className="w-[26px] h-[26px]">
               <img
-                src={showAlbum ? listBtnOn : listBtnOff}
+                src={showList ? listBtnOn : listBtnOff}
                 alt="리스트로 보기"
                 onClick={() => {
                   toggleAlbum(false);
@@ -84,7 +84,7 @@ function HomeCardGrid() {
             </button>
             <button className="w-[26px] h-[26px]">
               <img
-                src={!showAlbum ? albumBtnOn : albumBtnOff}
+                src={!showList ? albumBtnOn : albumBtnOff}
                 alt="앨범으로 보기"
                 onClick={() => {
                   toggleAlbum(true);
@@ -94,7 +94,7 @@ function HomeCardGrid() {
           </div>
         </div>
         <ul
-          className={`${showAlbum ? 'flex flex-col items-center gap-6' : 'grid grid-cols-3 gap-x-[6px] gap-y-[6px] min-h-[144px]'} pt-6  px-4 bg-white`}
+          className={`${showList ? 'flex flex-col items-center gap-5 pt-5' : 'grid grid-cols-3 gap-2 pt-4'} px-4 bg-white`}
         >
           {loading ? (
             <li>로딩 중...</li>
@@ -103,7 +103,7 @@ function HomeCardGrid() {
               return (
                 <Posting
                   key={post.id}
-                  showAlbum={showAlbum}
+                  showList={showList}
                   userProfileImage={post.author.image}
                   userName={post.author.username}
                   userId={post.author.accountname}
