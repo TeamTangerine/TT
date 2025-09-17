@@ -6,7 +6,7 @@ import { Link } from 'react-router-dom';
 function ChatList() {
   return (
     <>
-      <Header />
+      <Header navStyle="top-basic" />
       <ul className="flex flex-col gap-5 pt-6 px-[16px]">
         <li className="flex gap-3 items-end w-full justify-between">
           <Link to="/chat-room">
