@@ -47,6 +47,7 @@ function Posting({
 }: PostingProps) {
   const profileImg = basicProfileImg;
   const postImg = postImgExample;
+  const imgUrl = 'https://dev.wenivops.co.kr/services/mandarin/';
 
   // 이미지 배열 전환 함수
   function makeArray() {
@@ -89,7 +90,7 @@ function Posting({
         // 리스트형 랜더링
         <li className="flex gap-3 max-w-[328px] min-w-[328px]">
           <img
-            src={userProfileImage !== 'Elipse.png' ? userProfileImage : profileImg}
+            src={userProfileImage !== 'Elipse.png' ? imgUrl + userProfileImage : profileImg}
             alt="프로필"
             className="w-[42px] h-[42px]"
           />
@@ -106,7 +107,7 @@ function Posting({
             <p className="break-all whitespace-pre-wrap w-[304px]">{userContent}</p>
             {contentImageArray && contentImageArray.length > 0
               ? contentImageArray.map((image: string, index: number) => (
-                  <img src={image} key={index} alt="게시글이미지" />
+                  <img src={imgUrl + image} key={index} alt="게시글이미지" />
                 ))
               : null}
             {/* <img src={postImg} alt="게시글이미지" /> */}
@@ -134,7 +135,7 @@ function Posting({
           {/* 앨범형 랜더링 */}
           {contentImage && (
             <li className={`relative w-full aspect-square ${contentImage ? '' : 'hidden'}`}>
-              <img src={postImg} alt="게시글 이미지" className="w-full h-full object-cover" />
+              <img src={imgUrl + contentImageArray[0]} alt="게시글 이미지" className="w-full h-full object-cover" />
               {contentImage?.includes(',') && (
                 <img className="absolute top-[6px] right-[6px]" src={iconImgLayers} alt="여러 이미지" />
               )}
