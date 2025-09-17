@@ -250,6 +250,23 @@ export default function LoginSignUpForm({ formName, btnText, isLogin }: LoginSig
   const handleIntro = (e: React.ChangeEvent<HTMLInputElement>) => {
     setIntro(e.target.value);
   };
+
+  // 최종 회원 가입 함수
+  async function handleSignUp(e: React.FormEvent<HTMLFormElement>) {
+    e.preventDefault();
+
+    setLoading(true);
+    try {
+      await userAPI.signUp(userName, email, password, id, intro, userImg);
+      alert('회원 가입 성공!');
+      navigate('/login-with-email');
+    } catch (error: any) {
+      console.error(error.message);
+    } finally {
+      setLoading(false);
+    }
+  }
+
   // isLoginEventHandler: 로그인 패치함수 또는 회원가입 패치함수를 조정하는 함수
   async function isLoginEventHandler(e: React.FormEvent<HTMLFormElement>) {
     // 로그인 유효성 검사 함수
