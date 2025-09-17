@@ -4,14 +4,14 @@ import postAlbumOn from '../assets/icon/icon-post-album-on.png';
 import postListOff from '../assets/icon/icon-post-list-off.png';
 import postListOn from '../assets/icon/icon-post-list-on.png';
 import { useState } from 'react';
-import { userAPI } from '../service/fetch/api';
-import { postAPI } from '../service/fetch/api';
+import { userAPI, postAPI } from '../service/fetch/api';
+import { PostAPI } from '../types/IFetchType';
 
 function HomeCardGrid() {
   const [showAlbum, setShowAlbum] = useState(true);
   const [token, setToken] = useState('');
   const [accountName, setAccountName] = useState('');
-  const [posts, setPosts] = useState<any>([]);
+  const [posts, setPosts] = useState<PostAPI.IPost[]>([]);
   const [loading, setLoading] = useState(false);
 
   const listBtnOn = postListOn;
@@ -38,7 +38,6 @@ function HomeCardGrid() {
       const res = await userAPI.login(email, password);
       const token = res.token;
       const name = res.accountname;
-      console.log(token);
       setToken(token);
       setAccountName(name);
     } catch (e) {
@@ -58,6 +57,7 @@ function HomeCardGrid() {
 
     try {
       const postData = await postAPI.getUserPosts(accountName, token);
+      // posts에 postData.post 데이터 저장
       setPosts(postData.post);
     } catch (error) {
       console.log('포스트 조회 실패:', error);
@@ -99,7 +99,7 @@ function HomeCardGrid() {
           {loading ? (
             <li>로딩 중...</li>
           ) : (
-            posts.map((post: any, index: number) => {
+            posts.map((post) => {
               return (
                 <Posting
                   key={post.id}

@@ -2,12 +2,28 @@ import Product from './Product';
 import { useState } from 'react';
 import { productAPI } from '../../service/fetch/api';
 import { userAPI } from '../../service/fetch/api';
+import Modal from '../modal/Modal';
+import { ProductAPI } from '../../types/IFetchType';
 
-function ProductList() {
+type ProductType = {
+  itemName: string;
+  price: number;
+  link: string;
+  itemImage: string;
+};
+
+type ProductListProps = {
+  onEditProduct?: (product: ProductType) => void;
+  onBuyProduct?: (product: ProductType) => void;
+  isOwner: boolean;
+};
+
+function ProductList({ onEditProduct, onBuyProduct, isOwner }: ProductListProps) {
   const [token, setToken] = useState('');
   const [accountName, setAccountName] = useState('');
-  const [products, setProducts] = useState<any>([]);
+  const [products, setProducts] = useState<ProductAPI.IProduct[]>([]);
   const [loading, setLoading] = useState(false);
+  const [showModal, setShowModal] = useState(false);
 
   // 토큰 발급 함수 -> 추후 useContext로 수정 예정
   async function getTestToken() {
@@ -17,23 +33,20 @@ function ProductList() {
       const res = await userAPI.login(email, password);
       const token = res.token;
       const name = res.accountname;
-      console.log(token);
       setToken(token);
       setAccountName(name);
-
-      // productAPI.createProduct('서귀포 감귤 1KG', 50000, 'www.naver.com', '', token);
     } catch (e) {
       console.error('테스트 토큰 발급 실패:');
       return null;
     }
   }
 
-  // 상품 목록 조회 함수
+  // 상품 목록 조회 함수(getUserProducts API를 통해 상품 목록 조회)
   async function getUserProducts() {
     setLoading(true);
     try {
       const productData = await productAPI.getUserProducts(accountName, token);
-      console.log('상품 데이터 :', productData);
+      // product에 productData.product데이터 저장
       setProducts(productData.product);
     } catch (error) {
       console.log('상품 목록 조회 실패:', error);
@@ -53,19 +66,22 @@ function ProductList() {
             {loading ? (
               <li>로딩 중...</li>
             ) : (
-              products.map((product: any) => (
+              products.map((product) => (
                 <Product
                   key={product.id}
                   itemImage={product.itemImage}
                   itemName={product.itemName}
                   price={product.price}
                   productLink={product.link}
+                  isOwner={isOwner}
+                  setShowModal={setShowModal}
                 />
               ))
             )}
           </ul>
         </div>
       </section>
+      {showModal && <Modal showModal={showModal} closeModal={() => setShowModal(false)} />}
     </>
   );
 }
