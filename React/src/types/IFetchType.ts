@@ -12,8 +12,11 @@ export namespace ImageAPI {
     path: string;
     size: number;
   }
-  export interface IUploadResponse {
+  export interface IUploadMultiResponse {
     info: IUploadFileInfo[];
+  }
+  export interface IUploadSingleResponse {
+    info: IUploadFileInfo;
   }
 
   export interface IUploadErrorResponse {
