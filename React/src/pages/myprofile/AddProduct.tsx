@@ -1,11 +1,11 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Header from '../../components/Header';
 import TextInput from '../../components/TextInput';
 import uploadImg from '../../assets/icon/icon-upload.png';
 import { imageAPI, postAPI, productAPI } from '../../service/fetch/api';
 import { validateProductURL } from '../../Utils/validation';
 import { useNavigate } from 'react-router-dom';
-function AddProduct() {
+function AddProduct(isAddProduct:boolean=false productId: string) {
   // 라우팅
   const navigate = useNavigate();
   //인풋에 담기는 이미지 파일
@@ -90,14 +90,40 @@ function AddProduct() {
         throw new Error('이미지 업로드에 실패하였습니다.');
       }
       const fileUrl = res.info.filename;
-      //다 맞으면 업로드 진행
-      await productAPI.createProduct(itemName, numberPrice, link, fileUrl);
-      alert('상품 게시 성공!');
-      navigate('/my-profile');
+      //상품 추가시
+      if (isAddProduct) {
+        await productAPI.createProduct(itemName, numberPrice, link, fileUrl);
+        alert('상품 게시 성공!');
+        navigate('/my-profile');
+      } else {
+        //상품 수정이라면
+        await productAPI.updateProduct(productId, itemName, numberPrice, link, fileUrl);
+        navigate('/my-profile');
+      }
     } catch (error) {
       console.error('에러 발생', error);
     }
   }
+
+  //====상품 수정====
+
+  const getProduct = async () => {
+    try {
+      if (!isAddProduct) {
+        const res = await productAPI.getProduct('68ca0ebd9000a777b4e33263');
+        setItemName(res.product.itemName);
+        setPreviewUrls([imageAPI.getImage(res.product.itemImage)]);
+        setPrice(res.product.price.toLocaleString());
+        setLink(res.product.link);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  //상품 수정으로 들어왔을때, 기존 상품 렌더링
+  useEffect(() => {
+    getProduct();
+  }, []);
 
   return (
     <>
