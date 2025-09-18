@@ -5,7 +5,7 @@ import Footer from '../../components/footer/Footer';
 function HomePage() {
   return (
     <div>
-      <Header />
+      <Header navStyle="top-main" />
       <div className="mt-[220px] flex flex-col items-center gap-[20px]">
         <img src={Symbol} alt="로고" />
         <p className="text-[#767676]">유저를 검색해 팔로우 해보세요!</p>

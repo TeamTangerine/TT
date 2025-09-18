@@ -3,13 +3,12 @@ import iconSearch from '../assets/icon/icon-search.png';
 import arrowLeft from '../assets/icon/icon-arrow-left.png';
 import more from '../assets/icon/icon-more-vertical.png';
 import Modal from './modal/Modal';
-import Button from './Button/Button';
+import Button from './button/Button';
 import React, { useState } from 'react';
 
 interface IHeaderProps {
   navStyle: 'top-main' | 'top-search' | 'top-basic' | 'top-chat' | 'top-upload' | 'top-save';
   button?: boolean;
-  searchValue?: string;
   searchOnChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
@@ -30,7 +29,7 @@ interface IHeaderProps {
  *   searchOnChange={e => setSearchValue(e.target.value)}
  * />
  */
-function Header({ navStyle, button = false, searchValue, searchOnChange }: IHeaderProps) {
+function Header({ navStyle, button = false, searchOnChange }: IHeaderProps) {
   const [showModal, setShowModal] = useState(false);
   const navigate = useNavigate();
 
@@ -56,7 +55,8 @@ function Header({ navStyle, button = false, searchValue, searchOnChange }: IHead
               type="text"
               name="search"
               id="search"
-              value={searchValue}
+              value="애월읍"
+              readOnly
               onChange={searchOnChange}
               placeholder="계정 검색"
               className="placeholder:text-[#c4c4c4] bg-[#F2F2F2] w-[316px] h-[32px] rounded-[16px] pl-[16px] py-[7px] text-sm"
