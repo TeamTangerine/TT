@@ -1,6 +1,7 @@
 // API 명세서 기반의 명확한 타입
 import { IUserProfileProps } from '../types/IUserProfileProps';
 import defaultImage from '../assets/Ellipse-1.png';
+import { useState } from 'react';
 /**
  *
  * @param image:string 이미지 URL
@@ -9,10 +10,18 @@ import defaultImage from '../assets/Ellipse-1.png';
  * @param actionButton:React.ReactNode 팔로우/언팔로우 버튼 (옵셔널입니다. 버튼컴포넌트를 넣어주세요.)
  * @returns
  */
-function UserProfile({ image, username, accountname, actionButton }: IUserProfileProps) {
+function UserProfile({ image, username, accountname, actionButton, hover }: IUserProfileProps) {
+  '';
+
   return (
-    <article className="flex justify-between">
-      <div className="flex gap-3">
+    <article
+      className={
+        hover
+          ? `flex justify-between hover:px-2 hover:py-2  hover:scale-110 hover:shadow-xl duration-300 transition-all ease-in-out `
+          : `flex justify-between`
+      }
+    >
+      <div className="flex gap-3 ">
         <img src={image || defaultImage} alt={`${username}의 프로필 사진`} className="w-[42px] h-[42px] rounded-full" />
         <div className="flex flex-col gap-[6px]">
           <h2 className="text-sm font-medium">{username}</h2>
