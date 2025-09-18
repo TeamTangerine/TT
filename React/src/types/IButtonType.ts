@@ -80,4 +80,6 @@ export interface IBtnType {
    */
 
   onClick?: () => void;
+  /**form요소를 지정하는 prop */
+  btnForm?: string;
 }
