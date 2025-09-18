@@ -16,6 +16,10 @@ function SearchPage() {
 
   const handleOnChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setInputValue(e.target.value);
+    if (!e.target.value.trim()) {
+      setSearchResults([]); // 입력 지우면 결과 초기화
+      setError('');
+    }
   };
   //디바운스
   const keyword = useDebounce(inputValue, 500);
