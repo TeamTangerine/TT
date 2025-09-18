@@ -31,6 +31,7 @@ export default function Button({
   btnType = 'button',
   btnFlexBasis,
   onClick,
+  btnForm,
 }: IBtnType) {
   return (
     <>
@@ -39,6 +40,7 @@ export default function Button({
         className={`flex justify-center items-center py-[14px] px-[11px] font-medium ${getButtonSize(btnSize)} ${getButtonColor(btnColor)} ${btnFlexBasis}`}
         onClick={onClick}
         disabled={btnColor === 'disable' ? true : false}
+        form={btnForm}
       >
         {btnTextContent}
       </button>
