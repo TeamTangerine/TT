@@ -6,6 +6,8 @@ import { useNavigate } from 'react-router-dom';
 function HomePage() {
   // api로 받아온 게시글 목록
   const [posts, setPosts] = useState<PostAPI.IPost[]>([]);
+  // api로 받아온 현재 로그인한 사용자의 팔로잉 유무
+  const [following, setFollowing] = useState(false);
   const navigate = useNavigate();
 
   // 팔로잉 게시글 목록(피드) 불러오는 api 함수
@@ -15,6 +17,19 @@ function HomePage() {
       setPosts(res.posts);
     } catch (error: any) {
       throw new Error(`팔로잉 게시글 목록 불러오기 실패: ${error.message}`);
+    }
+  }
+
+  // 현재 로그인한 사용자의 팔로잉 정보를 불러오는 api 함수
+  async function getMyFollowing() {
+    try {
+      const res = await userAPI.getMyInfo();
+
+      if (res.user.followingCount > 0) {
+        setFollowing(true);
+      }
+    } catch (error: any) {
+      throw new Error(`팔로잉 수 불러오기 실패: ${error.message}`);
     }
   }
   return (
