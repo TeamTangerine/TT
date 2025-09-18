@@ -12,20 +12,26 @@ type TextInputProps = {
   placeholderText?: string;
   errorMessage?: string;
   inputValue?: string | number;
+
+  inputMaxLength?: number;
+  inputBlur?: () => void;
+
   onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
   showErrorMessage?: boolean;
 };
 
 /**
  *
- * @param {string} inputId - input의 id 속성 값
- * @param {string} labelText - label의 textContent
- * @param {string} inputType - input의 type 속성 값
- * @param {string} placeholderText - input의 placeholder
- * @param {string} errorMessage - input값 예외처리 후 안내 문구
- * @param {string | number} inputValue - input value 속성 값
- * @param {(value: string | number) => void} onChange - 값이 바뀔 때 호출되는 콜백
- * @param {boolean} showErrorMessage - 안내 문구(errorMessage)를 보여줄지 여부
+ * @param inputId - input의 id 속성 값
+ * @param labelText - label의 textContent
+ * @param inputType - input의 type 속성 값
+ * @param placeholderText - input의 placeholder
+ * @param errorMessage - input값 예외처리 후 안내 문구
+ * @param inputValue - input의 value 속성 값
+ * @param inputMaxLength - input의 maxLength 속성 값
+ * @param inputBlur - input의 onBlur 속성 값
+ * @param onChange - 값이 바뀔 때 호출되는 콜백
+ * @param showErrorMessage - 안내 문구(errorMessage)를 보여줄지 여부
  */
 function TextInput({
   inputId,
@@ -34,6 +40,8 @@ function TextInput({
   placeholderText,
   errorMessage,
   inputValue,
+  inputMaxLength,
+  inputBlur = () => {},
   onChange,
   showErrorMessage = false,
 }: TextInputProps) {
@@ -47,6 +55,10 @@ function TextInput({
           id={inputId}
           type={inputType}
           value={inputValue}
+
+          maxLength={inputMaxLength}
+          onBlur={inputBlur}
+
           onChange={onChange}
           placeholder={placeholderText}
           className="border-[#DBDBDB] border-b-[1px] pb-2 focus:outline-none  focus:border-[#F26E22] text-[14px] placeholder-[#DBDBDB]"

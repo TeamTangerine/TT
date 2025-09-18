@@ -16,7 +16,7 @@ function ChatRoom() {
 
   return (
     <div className="h-screen">
-      <Header />
+      <Header navStyle="top-chat" />
       <section className=" flex flex-col gap-[9px] px-4 pb-[81px] h-[calc(100%-48px)] justify-end bg-[#f2f2f2] overflow-y-auto">
         <div className="flex justify-start gap-3">
           <img className="w-[42px] h-[42px] rounded-full" src={profileImg} alt="채팅 상대방 프로필" />

@@ -1,48 +1,135 @@
 import basicProfileImg from '../assets/basic-profile-img.png';
 import iconMoreVertical from '../assets/icon/s-icon-more-vertical.png';
-import postImgExample from '../assets/post-img-example.png';
 import iconHeart from '../assets/icon/icon-heart.png';
 import iconMessage from '../assets/icon/icon-message-circle.svg';
-function Posting() {
+import iconImgLayers from '../assets/icon/iccon-img-layers.png';
+
+// 리스트형 / 앨범형 선택을 위한 props 타입
+/**
+ * @param showList
+ * - 리스트형 랜더링: true
+ * - 앨범형 랜더링: false
+ * @param userProfileImage - 유저의 프로필 이미지
+ * @param userName - 유저의 이름
+ * @param userId - 유저의 아이디
+ * @param userContent - 게시물 내용
+ * @param contentImage - 게시물 이미지
+ * @param heartCount - 하트 개수
+ * @param commentCount - 댓글 개수
+ * @param createdAt - 게시물 작성 일자
+ */
+type PostingProps = {
+  showList?: boolean;
+  userProfileImage: string;
+  userName: string;
+  userId: string;
+  userContent: string;
+  contentImage: string;
+  heartCount: number;
+  commentCount: number;
+  updatedAt: string;
+};
+
+function Posting({
+  showList = true,
+  userProfileImage,
+  userName,
+  userId,
+  userContent,
+  contentImage,
+  heartCount,
+  commentCount,
+  updatedAt,
+}: PostingProps) {
   const profileImg = basicProfileImg;
-  const postImg = postImgExample;
+  // 아마자 랜더링을 위한 기본 url
+  const imgUrl = 'https://dev.wenivops.co.kr/services/mandarin/';
+
+  // 이미지 배열 전환 함수
+  function makeArray() {
+    if (contentImage === undefined) {
+      return;
+    }
+
+    return contentImage.split(',');
+  }
+
+  // 이미지 배열을 변수에 할당
+  const contentImageArray = makeArray();
+
+  // 날짜 형식 변환 함수
+  function formatDate(dateString: string) {
+    return new Date(dateString).toLocaleString('ko-KR', {
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric',
+    });
+  }
+
   return (
-    <li className="flex gap-3 max-w-[328px]">
-      <img src={profileImg} alt="프로필" className="w-[42px] h-[42px]" />
-      <article className="flex flex-col gap-4">
-        <div className="flex justify-between">
-          <div className="flex flex-col gap-[2px]">
-            <h2 className="text-sm">애월읍 위니브 감귤농장</h2>
-            <p className="text-[12px] text-[#767676]">@weniv_Mandarin</p>
-          </div>
-          <button className="mt-1 w-[18px] h-[18px] flex items-center justify-center">
-            <img src={iconMoreVertical} alt="더보기" />
-          </button>
-        </div>
-        <p>
-          웃을 인생을 그러므로 없으면 것은 이상은 것은 우리의 위하여, 뿐이다. 이상의 청춘의 뼈 따뜻한 그들의 그와
-          악동하다. 대고 못할 넣는 풍부하게 뛰는 뛰노는 인생의 힘있다.
-        </p>
-        <img src={postImg} alt="게시글이미지" />
-        <div className="flex gap-4">
-          <div className="flex gap-[6px] items-center">
-            <button className="w-5 h-5">
-              <img src={iconHeart} alt="좋아요" />
-            </button>
-            <span className="text-[12px] text-[#767676]">58</span>
-          </div>
-          <div className="flex gap-[6px] items-center">
-            <button className="w-5 h-5">
-              <img src={iconMessage} alt="댓글" />
-            </button>
-            <span className="text-[12px] text-[#767676]">12</span>
-          </div>
-        </div>
-        <time dateTime="2020-10-21" className="text-[10px] text-[#767676]">
-          2020년 10월 21일
-        </time>
-      </article>
-    </li>
+    <>
+      {showList ? (
+        // 리스트형 랜더링
+        <li className="flex gap-3 max-w-[328px] min-w-[328px]">
+          <img
+            src={userProfileImage !== 'Elipse.png' ? imgUrl + userProfileImage : profileImg}
+            alt="프로필"
+            className="w-[42px] h-[42px]"
+          />
+          <article className="flex flex-col gap-4">
+            <div className="flex justify-between">
+              <div className="flex flex-col gap-[2px]">
+                <h2 className="text-sm">{userName}</h2>
+                <p className="text-[12px] text-[#767676]">{userId}</p>
+              </div>
+              <button className="mt-1 w-[18px] h-[18px] flex items-center justify-center">
+                <img src={iconMoreVertical} alt="더보기" />
+              </button>
+            </div>
+            <p className="break-all whitespace-pre-wrap w-[304px]">{userContent}</p>
+            {contentImageArray && contentImageArray.length > 0
+              ? contentImageArray.map((image: string, index: number) => (
+                  <img src={imgUrl + image} key={index} alt="게시글이미지" />
+                ))
+              : null}
+            {/* <img src={postImg} alt="게시글이미지" /> */}
+            <div className="flex gap-4">
+              <div className="flex gap-[6px] items-center">
+                <button className="w-5 h-5">
+                  <img src={iconHeart} alt="좋아요" />
+                </button>
+                <span className="text-[12px] text-[#767676]">{heartCount}</span>
+              </div>
+              <div className="flex gap-[6px] items-center">
+                <button className="w-5 h-5">
+                  <img src={iconMessage} alt="댓글" />
+                </button>
+                <span className="text-[12px] text-[#767676]">{commentCount}</span>
+              </div>
+            </div>
+            <time dateTime={formatDate(updatedAt)} className="text-[10px] text-[#767676]">
+              {formatDate(updatedAt)}
+            </time>
+          </article>
+        </li>
+      ) : (
+        <>
+          {/* 앨범형 랜더링 */}
+          {contentImage && (
+            <li className={`relative w-full aspect-square ${contentImage ? '' : 'hidden'}`}>
+              <img
+                src={contentImageArray && imgUrl + contentImageArray[0]}
+                alt="게시글 이미지"
+                className="w-full h-full object-cover"
+              />
+              {contentImage?.includes(',') && (
+                <img className="absolute top-[6px] right-[6px]" src={iconImgLayers} alt="여러 이미지" />
+              )}
+            </li>
+          )}
+        </>
+      )}
+    </>
   );
 }
 export default Posting;
