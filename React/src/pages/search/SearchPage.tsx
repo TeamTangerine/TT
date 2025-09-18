@@ -7,12 +7,6 @@ import { userAPI } from '../../service/fetch/api';
 import { UserAPI } from '../../types/IFetchType';
 
 function SearchPage() {
-  //todo keyword (API호출) 서치 기능 구현
-  // 1. 인풋(헤어)에서 값을 가져와서 상태 저장 (디바운싱 고려)
-  // 2. 스타일 수정
-  // 3. 서치 API를 통해 (searchUser) 키워드 값 대입
-  // 4. 결과를 렌더
-
   //input에서 가져온 밸류
   const [inputValue, setInputValue] = useState('');
   //검색 결과
