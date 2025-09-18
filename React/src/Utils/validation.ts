@@ -71,6 +71,7 @@ function validateProductPrice(productPrice: string) {
  *  @returns {boolean}
  */
 function validateProductURL(productURL: string) {
+
   const productPriceRegex = /^(https?|ftp):\/\/(-\.)?([^\s\/?\.#-]+\.?)+(\/[^\s]*)?$/i;
   let isOk = productPriceRegex.test(productURL);
   return isOk;

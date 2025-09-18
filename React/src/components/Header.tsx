@@ -49,7 +49,7 @@ function Header({ navStyle, button = false, searchValue, searchOnChange }: IHead
       case 'top-search': {
         return (
           <>
-            <button onClick={() => navigate(-1)}>
+            <button type="button" onClick={() => navigate(-1)}>
               <img src={arrowLeft} alt="뒤로가기" />
             </button>
             <input
@@ -67,7 +67,7 @@ function Header({ navStyle, button = false, searchValue, searchOnChange }: IHead
       case 'top-basic': {
         return (
           <>
-            <button onClick={() => navigate(-1)}>
+            <button type="button" onClick={() => navigate(-1)}>
               <img src={arrowLeft} alt="뒤로가기" />
             </button>
             <button type="button" onClick={() => setShowModal(true)}>
@@ -81,7 +81,7 @@ function Header({ navStyle, button = false, searchValue, searchOnChange }: IHead
         return (
           <>
             <div className="flex gap-[10px]">
-              <button onClick={() => navigate(-1)}>
+              <button type="button" onClick={() => navigate(-1)}>
                 <img src={arrowLeft} alt="뒤로가기" />
               </button>
               <p className="text-sm font-medium">애월읍 위니브 감귤농장</p>
@@ -95,7 +95,7 @@ function Header({ navStyle, button = false, searchValue, searchOnChange }: IHead
       case 'top-upload': {
         return (
           <>
-            <button onClick={() => navigate(-1)}>
+            <button type="button" onClick={() => navigate(-1)}>
               <img src={arrowLeft} alt="뒤로가기" />
             </button>
             <Button
@@ -110,7 +110,7 @@ function Header({ navStyle, button = false, searchValue, searchOnChange }: IHead
       case 'top-save': {
         return (
           <>
-            <button onClick={() => navigate(-1)}>
+            <button type="button" onClick={() => navigate(-1)}>
               <img src={arrowLeft} alt="뒤로가기" />
             </button>
             <Button
