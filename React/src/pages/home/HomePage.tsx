@@ -4,7 +4,19 @@ import Footer from '../../components/footer/Footer';
 import { useNavigate } from 'react-router-dom';
 
 function HomePage() {
+  // api로 받아온 게시글 목록
+  const [posts, setPosts] = useState<PostAPI.IPost[]>([]);
   const navigate = useNavigate();
+
+  // 팔로잉 게시글 목록(피드) 불러오는 api 함수
+  async function getFollowingsFeed() {
+    try {
+      const res = await postAPI.getFeed();
+      setPosts(res.posts);
+    } catch (error: any) {
+      throw new Error(`팔로잉 게시글 목록 불러오기 실패: ${error.message}`);
+    }
+  }
   return (
     <div>
       <Header navStyle="top-main" />
