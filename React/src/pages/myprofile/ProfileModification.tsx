@@ -95,7 +95,6 @@ function ProfileModification() {
       await userAPI.updateProfile(userName, userAcountName, userIntro, finalImageUrl);
 
       // 성공 후 상태 업데이트
-      setUserImageUrl(finalImageUrl);
       alert('프로필을 성공적으로 수정했습니다!');
       navigate('/my-profile');
     } catch (error) {
