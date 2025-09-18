@@ -1,9 +1,10 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Header from '../../components/Header';
 import Posting from '../../components/Posting';
 import Comment from './components/Comment';
 import profileImg from '../../assets/Ellipse 6.png';
 import { postAPI } from '../../service/fetch/api';
+import { convertTime } from '../../Utils/timecounter';
 
 function Post() {
   //todo
@@ -26,7 +27,7 @@ function Post() {
   // 메세지 입력값 관리
   const [message, setMessage] = useState('');
   // 조회할 게시글의 id저장
-  const [postId, setPostId] = useState('68c67a4721acad806a5c804b');
+  const [postId, setPostId] = useState('68cc15b43575fc0c4573c369');
   // 유저의 프로필 이미지
   const [userProfileImg, setUserProfileImg] = useState('');
   // 유저의 이름
@@ -37,30 +38,55 @@ function Post() {
   const [content, setContent] = useState('');
   // 게시글 이미지
   const [image, setImage] = useState('');
+  // 좋아요
+  const [like, setLike] = useState<number>();
+  // 댓글수
+  const [commnet, setComment] = useState<number>();
+  // 게시일
+  const [createTime, setCreateTime] = useState('');
 
   //포스트 조회(특정 아이디 필요)
 
   async function getUserPost() {
     try {
       const res = await postAPI.getPost(postId);
-      const data = res.post[0];
+      const data = res.post;
       // res값 저장
       setUserProfileImg(data.author.image);
       setAccountname(data.author.accountname);
       setUserName(data.author.username);
       setContent(data.content);
       setImage(data.image);
+      setLike(data.heartCount);
+      setComment(data.commentCount);
+      setCreateTime(data.createdAt);
     } catch (error: any) {
       console.log('에러', error.message);
     }
   }
+  //게시물 업로드 시간 계산
+  const updatedAt = convertTime(createTime);
+
+  useEffect(() => {
+    getUserPost();
+  }, []);
 
   return (
     <>
       <Header navStyle="top-basic" />
+      <button onClick={getUserPost}>업데이트</button>
       <main>
         <span className="flex justify-center py-5">
-          <Posting />
+          <Posting
+            userProfileImage={userProfileImg}
+            userId={accountname}
+            userName={userName}
+            contentImage={image}
+            userContent={content}
+            commentCount={commnet}
+            heartCount={like}
+            updatedAt={updatedAt}
+          />
         </span>
         <ul className="flex flex-col items-center gap-4 pt-5 px-4 border-t border-t-[#DBDBDB]">
           <Comment />
