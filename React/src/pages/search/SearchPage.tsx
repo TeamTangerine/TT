@@ -28,10 +28,14 @@ function SearchPage() {
   async function searchUseData(searchKeyword: string) {
     try {
       const res = await userAPI.searchUser(searchKeyword);
-      setSearchResults(res);
-    } catch (error: any) {
-      console.log(error);
-      error && setError(error.message);
+      // 항상 새 배열로 만들어주기
+      setSearchResults(Array.isArray(res) ? [...res] : []);
+      setError('');
+    } catch (err: any) {
+      console.log(err);
+      // 에러나면 배열 초기화
+      setSearchResults([]);
+      setError(err?.message || '검색 중 오류가 발생했습니다.');
     }
   }
 
@@ -39,8 +43,11 @@ function SearchPage() {
   useEffect(() => {
     if (keyword.trim()) {
       searchUseData(keyword);
+    } else {
+      // 키워드 비면 결과 비우기
+      setSearchResults([]);
     }
-  }, [keyword, error]);
+  }, [keyword]); // error 제거
 
   return (
     <>
@@ -59,7 +66,7 @@ function SearchPage() {
             ))
           ) : inputValue.trim() ? (
             // 검색어는 있지만 결과가 없을 때
-            <p className="text-center text-sm text-gray-500">{error}</p>
+            <p className="text-center text-sm text-gray-500">{error || '검색 결과가 없습니다.'}</p>
           ) : (
             // 초기 상태(검색어 입력 전)
             <p className="text-center text-sm text-gray-400">검색어를 입력해주세요.</p>
