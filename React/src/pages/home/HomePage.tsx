@@ -2,12 +2,19 @@ import Symbol from '../../assets/symbol-logo-gray.png';
 import Header from '../../components/Header';
 import Footer from '../../components/footer/Footer';
 import { useNavigate } from 'react-router-dom';
+import { postAPI, userAPI } from '../../service/fetch/api';
+import { useLayoutEffect, useState } from 'react';
+import Posting from '../../components/Posting';
+import { PostAPI } from '../../types/IFetchType';
 
 function HomePage() {
+  // api 함수 동작중인지 판별
+  const [loading, setLoading] = useState(false);
   // api로 받아온 게시글 목록
   const [posts, setPosts] = useState<PostAPI.IPost[]>([]);
   // api로 받아온 현재 로그인한 사용자의 팔로잉 유무
   const [following, setFollowing] = useState(false);
+  // 라우팅
   const navigate = useNavigate();
 
   // 팔로잉 게시글 목록(피드) 불러오는 api 함수
@@ -32,6 +39,17 @@ function HomePage() {
       throw new Error(`팔로잉 수 불러오기 실패: ${error.message}`);
     }
   }
+
+  // 처음 렌더링 되고 나서 팔로잉 게시글 목록(피드) api 호출
+  // 화면 깜빡임 현상이 심해서 useLayoutEffect 사용
+  useLayoutEffect(() => {
+    setLoading(true);
+
+    // 함수 동시 실행 후 모두 성공 시, 로딩 끝남을 하기 위한 로직
+    Promise.all([getFollowingsFeed(), getMyFollowing()])
+      .catch((error) => console.error(error.message))
+      .finally(() => setLoading(false));
+  }, []);
   return (
     <div>
       <Header navStyle="top-main" />
