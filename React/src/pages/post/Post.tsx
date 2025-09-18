@@ -10,7 +10,7 @@ function Post() {
 
   return (
     <>
-      <Header />
+      <Header navStyle="top-basic" />
       <main>
         <span className="flex justify-center py-5">
           <Posting />
