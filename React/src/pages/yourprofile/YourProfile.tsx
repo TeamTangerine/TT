@@ -7,7 +7,7 @@ import Footer from '../../components/footer/Footer';
 function YourProfile() {
   return (
     <>
-      <Header />
+      <Header navStyle="top-basic" />
       <main className="pb-[60px] flex flex-col gap-[6px] bg-[#f2f2f2]">
         <UserInfo isMyProfile={false} />
         <ProductList isOwner={false} />

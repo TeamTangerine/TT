@@ -3,7 +3,7 @@ import postAlbumOff from '../assets/icon/icon-post-album-off.png';
 import postAlbumOn from '../assets/icon/icon-post-album-on.png';
 import postListOff from '../assets/icon/icon-post-list-off.png';
 import postListOn from '../assets/icon/icon-post-list-on.png';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { userAPI, postAPI } from '../service/fetch/api';
 import { PostAPI } from '../types/IFetchType';
 
@@ -30,33 +30,22 @@ function HomeCardGrid() {
     }
   }
 
-  // 토큰 발급 함수 -> 추후 useContext로 수정 예정
-  async function getTestToken() {
-    const email = 'tt1team@example.com'; // 테스트 계정 이메일
-    const password = 'test1team_'; // 테스트 계정 비밀번호
-    try {
-      const res = await userAPI.login(email, password);
-      const token = res.token;
-      const name = res.accountname;
-      setToken(token);
-      setAccountName(name);
-    } catch (e) {
-      console.error('테스트 토큰 발급 실패:');
-      return null;
-    }
+  // 로그인한 유저 accout를 받는 함수, setAccountName을 통해 상태 설정
+  async function getUserInfo() {
+    const res = await userAPI.getMyInfo();
+    setAccountName(res.user.accountname);
   }
 
   // 게시물 목록을 받아오는 함수
   async function getUserPosts() {
-    if (!accountName || !token) {
-      console.log('토큰이나 계정명이 없습니다.');
-      return;
-    }
-
     setLoading(true);
 
     try {
-      const postData = await postAPI.getUserPosts(accountName, token);
+      const postData = await postAPI.getUserPosts(accountName);
+      console.log(postData);
+      if (!postData) {
+        throw new Error(postData);
+      }
       // posts에 postData.post 데이터 저장
       setPosts(postData.post);
     } catch (error) {
@@ -66,9 +55,12 @@ function HomeCardGrid() {
     }
   }
 
+  useEffect(() => {
+    getUserInfo();
+  }, []);
+
   return (
     <>
-      <button onClick={getTestToken}>get Token</button>
       <button onClick={getUserPosts}>get User Posts</button>
       <section className={`flex flex-col ${posts.length === 0 ? 'hidden' : ''}`}>
         <div className="flex justify-center bg-white border-b border-b-[#DBDBDB]">
