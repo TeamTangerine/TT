@@ -728,7 +728,6 @@ export const productAPI = {
    * @param price - 수정할 가격
    * @param link - 수정할 상품 링크
    * @param itemImage - 수정할 상품 이미지 URL
-   * @param token - 인증 토큰
    * @returns Promise<ProductAPI.IUpdateProductResponse> 수정된 상품 정보
    * @throws {Error} 요청 실패 시 에러
    */
@@ -780,7 +779,6 @@ export const productAPI = {
   /**
    * 특정 상품을 조회합니다.
    * @param productId - 조회할 상품 ID
-   * @param token - 인증 토큰
    * @returns Promise<ProductAPI.IProductDetailResponse> 상품 정보
    * @throws {Error} 요청 실패 시 에러
    */

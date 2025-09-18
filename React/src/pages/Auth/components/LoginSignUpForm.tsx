@@ -1,6 +1,6 @@
 import React from 'react';
 import { useState } from 'react';
-import Button from '../../../components/Button/Button';
+import Button from '../../../components/button/Button';
 import TextInput from '../../../components/TextInput';
 import postLogin from '../../../service/user/postLogin';
 import { userAPI } from '../../../service/fetch/api';

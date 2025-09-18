@@ -6,7 +6,6 @@ import HomePage from './pages/home/HomePage';
 import Login from './pages/Auth/Login';
 import LoginWithEmail from './pages/Auth/LoginWithEmail';
 import JoinMembership from './pages/Auth/JoinMembership';
-import MembershipProfile from './pages/Auth/MembershipProfile';
 import SearchPage from './pages/search/SearchPage';
 import YourProfile from './pages/yourprofile/YourProfile';
 import MyProfile from './pages/myprofile/MyProfile';
@@ -26,7 +25,6 @@ function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/login-with-email" element={<LoginWithEmail />} />
         <Route path="/join-membership" element={<JoinMembership />} />
-        <Route path="/membership-profile" element={<MembershipProfile />} />
         <Route path="/search-page" element={<SearchPage />} />
         <Route path="/your-profile" element={<YourProfile />} />
         <Route path="/my-profile" element={<MyProfile />} />
