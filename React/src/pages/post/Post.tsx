@@ -3,6 +3,7 @@ import Header from '../../components/Header';
 import Posting from '../../components/Posting';
 import Comment from './components/Comment';
 import profileImg from '../../assets/Ellipse 6.png';
+import { postAPI } from '../../service/fetch/api';
 
 function Post() {
   //todo
@@ -12,9 +13,47 @@ function Post() {
   //4. 댓글 작성하면 게시에 버튼 색 바뀜
   //5. 댓글 목록 렌더링
   //6. 더보기 누르면 토스트로 신고하기 // 자기 댓글이면 삭제하기
+  //7. id: string;
+  // content: string;
+  // image: string;
+  // createdAt: string;
+  // updatedAt: string;
+  // hearted: boolean;
+  // heartCount: number;
+  // commentCount: number;
+  // author: IAuthor;
 
   // 메세지 입력값 관리
   const [message, setMessage] = useState('');
+  // 조회할 게시글의 id저장
+  const [postId, setPostId] = useState('68c67a4721acad806a5c804b');
+  // 유저의 프로필 이미지
+  const [userProfileImg, setUserProfileImg] = useState('');
+  // 유저의 이름
+  const [userName, setUserName] = useState('');
+  // 유저의 어카운트네임
+  const [accountname, setAccountname] = useState('');
+  // 게시글 컨텐트
+  const [content, setContent] = useState('');
+  // 게시글 이미지
+  const [image, setImage] = useState('');
+
+  //포스트 조회(특정 아이디 필요)
+
+  async function getUserPost() {
+    try {
+      const res = await postAPI.getPost(postId);
+      const data = res.post[0];
+      // res값 저장
+      setUserProfileImg(data.author.image);
+      setAccountname(data.author.accountname);
+      setUserName(data.author.username);
+      setContent(data.content);
+      setImage(data.image);
+    } catch (error: any) {
+      console.log('에러', error.message);
+    }
+  }
 
   return (
     <>
