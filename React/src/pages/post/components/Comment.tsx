@@ -3,7 +3,7 @@ import MoreBtn from '../../../assets/icon/s-icon-more-vertical.png';
 
 function Comment() {
   return (
-    <li className="flex gap-3 items-start w-full justify-between ">
+    <li className="flex gap-3 items-start w-full justify-between max-w-[390px]">
       <img className="w-9 h-9 rounded-full" src={profileImg} alt="댓글 작성자 프로필 이미지" />
       <div className="flex flex-col justify-between flex-1 gap-[16px]">
         <div className="flex justify-between pt-[5px]">
