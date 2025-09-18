@@ -21,7 +21,7 @@ type UserInfoProps = {
 function UserInfo({ isMyProfile }: UserInfoProps) {
   const navigate = useNavigate();
   const [buttonColor, setButtonColor] = useState<ButtonColorType>('normal');
-  const [isFollow, setIsFollow] = useState<string>('팔로우');
+  const [isFollow, setIsFollow] = useState('팔로우');
   const [accountName, setAccountName] = useState('');
   const [profileData, setProfileData] = useState<UserAPI.IUserProfile>({} as UserAPI.IUserProfile);
   const [loading, setLoading] = useState(false);
@@ -54,6 +54,7 @@ function UserInfo({ isMyProfile }: UserInfoProps) {
       const res = await profileAPI.getProfile(accountName);
       setProfileData(res.profile);
     } catch (error) {
+      console.log(error);
     } finally {
       setLoading(false);
     }

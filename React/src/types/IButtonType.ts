@@ -4,7 +4,7 @@ export type ButtonColorType = 'normal' | 'disable' | 'active';
 export type ButtonKindType = 'submit' | 'button';
 
 /**
- * @param  btnTextContent - 버튼에 들어갈 내용을 기입하세요.
+ * @param btnTextContent - 버튼에 들어갈 내용을 기입하세요.
  * @param btnSize - 버튼의 사이즈를 결정
  * - large
  * - medium
@@ -17,7 +17,7 @@ export type ButtonKindType = 'submit' | 'button';
  * @param btnType - 버튼의 타입 지정
  * - submit
  * - button
- * @parambtnFlexBasis - 버튼의 크기 세부 설정
+ * @param btnFlexBasis - 버튼의 크기 세부 설정
  * - "basis-['원하는 길이'px]" 형식으로 원하는 길이를 넣어주세요.
  * @param onClick: 버튼 클릭시 사용할 콜백함수
  */

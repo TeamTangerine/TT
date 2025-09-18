@@ -39,10 +39,8 @@ function HomeCardGrid() {
   // 게시물 목록을 받아오는 함수
   async function getUserPosts() {
     setLoading(true);
-
     try {
       const postData = await postAPI.getUserPosts(accountName);
-      console.log(postData);
       if (!postData) {
         throw new Error(postData);
       }
