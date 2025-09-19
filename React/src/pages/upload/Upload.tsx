@@ -110,15 +110,16 @@ function Upload() {
 
   return (
     <>
+      {/* 헤더*/}
+      <Header navStyle="top-upload" button={content ? true : false} formTarget="upload" />
       <form
         onSubmit={(e) => {
           e.preventDefault();
           handleUpload();
         }}
         className="flex flex-col items-center"
+        id="upload"
       >
-        {/* 헤더*/}
-        <Header navStyle="top-upload" button={content ? true : false} />
         {/* 메인 */}
         <main className="pt-5 px-4 pb-4 max-w-[390px] box-border">
           <div className="flex justify-start h-[80vh] gap-[13px] w-full">
