@@ -17,7 +17,7 @@ function getButtonSize(size: ButtonSizeType) {
 const BUTTON_COLORS = {
   normal: 'bg-[#F26E22] text-white active:bg-[#D4541A]',
   disable: 'bg-[#FFC7A7] text-white',
-  active: 'bg-[#DBDBDB] text-[#767676] active:bg-[#BFBFBF]',
+  active: 'bg-[#FFFFFF] text-[#767676] border-[1px] border-[#DBDBDB] active:bg-[#BFBFBF]',
 } as const;
 
 function getButtonColor(color: ButtonColorType) {
@@ -31,7 +31,9 @@ export default function Button({
   btnType = 'button',
   btnFlexBasis,
   onClick,
+
   btnForm,
+
 }: IBtnType) {
   return (
     <>
@@ -39,8 +41,10 @@ export default function Button({
         type={btnType}
         className={`flex justify-center items-center py-[14px] px-[11px] font-medium ${getButtonSize(btnSize)} ${getButtonColor(btnColor)} ${btnFlexBasis}`}
         onClick={onClick}
+
         disabled={btnColor === 'disable' ? true : false}
         form={btnForm}
+
       >
         {btnTextContent}
       </button>
