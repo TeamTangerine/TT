@@ -9,7 +9,6 @@ import { PostAPI } from '../types/IFetchType';
 
 function HomeCardGrid() {
   const [showList, setShowList] = useState(true);
-  const [token, setToken] = useState('');
   const [accountName, setAccountName] = useState('');
   const [posts, setPosts] = useState<PostAPI.IPost[]>([]);
   const [loading, setLoading] = useState(false);

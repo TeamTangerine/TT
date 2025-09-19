@@ -43,7 +43,7 @@ function Posting({
   updatedAt,
 }: PostingProps) {
   const profileImg = basicProfileImg;
-  // 아마자 랜더링을 위한 기본 url
+  // 이미지 랜더링을 위한 기본 url
   const imgUrl = 'https://dev.wenivops.co.kr/services/mandarin/';
 
   // 이미지 배열 전환 함수
