@@ -10,7 +10,9 @@ interface IHeaderProps {
   navStyle: 'top-main' | 'top-search' | 'top-basic' | 'top-chat' | 'top-upload' | 'top-save';
   button?: boolean;
   searchOnChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
+
   inputValue?: string;
+
 }
 
 /**
@@ -30,7 +32,9 @@ interface IHeaderProps {
  *   searchOnChange={e => setSearchValue(e.target.value)}
  * />
  */
+
 function Header({ navStyle, button = false, searchOnChange, inputValue }: IHeaderProps) {
+
   const [showModal, setShowModal] = useState(false);
   const navigate = useNavigate();
 
@@ -103,6 +107,7 @@ function Header({ navStyle, button = false, searchOnChange, inputValue }: IHeade
               btnColor={button ? 'normal' : 'disable'}
               btnSize="mediumSmall"
               btnType="submit"
+              btnForm={formTarget}
             />
           </>
         );
@@ -118,6 +123,7 @@ function Header({ navStyle, button = false, searchOnChange, inputValue }: IHeade
               btnColor={button ? 'normal' : 'disable'}
               btnSize="mediumSmall"
               btnType="submit"
+              btnForm={formTarget}
             />
           </>
         );
@@ -129,14 +135,14 @@ function Header({ navStyle, button = false, searchOnChange, inputValue }: IHeade
   };
 
   return (
-    <>
+    <header>
       <nav className="flex justify-center w-full h-[48px] border-b border-b-[#DBDBDB] px-[16px]">
         <div className="flex justify-between items-center w-full max-w-[390px]">{navContent()}</div>
       </nav>
       {(navStyle === 'top-basic' || navStyle === 'top-chat') && showModal && (
         <Modal closeModal={() => setShowModal(false)} />
       )}
-    </>
+    </header>
   );
 }
 
