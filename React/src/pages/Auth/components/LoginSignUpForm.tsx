@@ -2,11 +2,9 @@ import React from 'react';
 import { useState } from 'react';
 import Button from '../../../components/button/Button';
 import TextInput from '../../../components/TextInput';
-import postLogin from '../../../service/user/postLogin';
 import { userAPI } from '../../../service/fetch/api';
 import { validateEmail, validateId, validatePassword, validateUserName } from '../../../Utils/validation';
 import { useNavigate } from 'react-router-dom';
-import basicProfileImg from '../../../assets/basic-profile-img.png';
 import ImgBtn from '../../../assets/upload-file.png';
 
 /**
@@ -47,7 +45,7 @@ export default function LoginSignUpForm({ formName, btnText, isLogin }: LoginSig
   // input값 관리
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [userImg, setUserImg] = useState(basicProfileImg);
+  const [userImg, setUserImg] = useState('');
   const [userName, setUserName] = useState('');
   const [id, setId] = useState('');
   const [intro, setIntro] = useState('');
@@ -72,45 +70,37 @@ export default function LoginSignUpForm({ formName, btnText, isLogin }: LoginSig
   const navigate = useNavigate();
 
   // 로그인 유효성 패치 함수
-  // async function loginValidation(e: React.FormEvent<HTMLFormElement>) {
-  //   e.preventDefault();
+  async function loginValidation(e: React.FormEvent<HTMLFormElement>) {
+    e.preventDefault();
 
-  //   setLoading(true);
-  //   setErrorMessage('');
-  //   setError(false);
+    setLoading(true);
+    setPwErrorMessage('');
+    setPwError(false);
 
-  //   try {
-  //     const result = await postLogin({
-  //       userEmail: email,
-  //       userPassword: password,
-  //     });
+    try {
+      const res = await userAPI.login(email, password);
 
-  //     console.log('로그인 성공', result);
+      // 성공처리
+      if (res.accountname && res.token) {
+        localStorage.setItem('TOKEN_KEY', res.token);
 
-  //     // 성공처리
-  //     if (result.user && result.user.token) {
-  //       localStorage.setItem('token', result.user.token);
-  //       localStorage.setItem('user', JSON.stringify(result.user));
-  //       alert(`${result.user.username}님, 환영합니다!`);
+        // 로그인 성공시 감귤피드로 이동
+        navigate('/');
+      }
+    } catch (error: any) {
+      console.error('로그인 실패:', error);
+      setPwError(true);
 
-  //       setEmail('');
-  //       setPassword('');
-  //     }
-  //   } catch (error: any) {
-  //     console.error('로그인 실패:', error);
-  //     setError(true);
-
-  //     if (error.status === 422) {
-  //       setErrorMessage(error.message || '이메일 또는 비밀번호가 일치하지 않습니다.');
-  //     } else if (error.message) {
-  //       setErrorMessage(error.message);
-  //     } else {
-  //       setErrorMessage('로그인 중 오류가 발생했습니다. 다시 시도해주세요.');
-  //     }
-  //   } finally {
-  //     setLoading(false);
-  //   }
-  // }
+      // 실패 처리
+      if (error.status === 422) {
+        setPwErrorMessage(error.message);
+        return;
+      }
+    } finally {
+      setLoading(false);
+      setPassword('');
+    }
+  }
 
   // 회원가입 유효성 패치 함수
   async function signupValidation(e: React.FormEvent<HTMLFormElement>) {
@@ -173,6 +163,9 @@ export default function LoginSignUpForm({ formName, btnText, isLogin }: LoginSig
 
   // 비밀번호 입력창 포커스 잃었을 때 비밀번호 유효성 검사
   const handlePwBlur = () => {
+    if (isLogin) {
+      return;
+    }
     if (!validatePassword(password)) {
       setPwError(true);
       setPwErrorMessage('비밀번호는 6자 이상이어야 합니다.');
@@ -272,7 +265,7 @@ export default function LoginSignUpForm({ formName, btnText, isLogin }: LoginSig
     // 로그인 유효성 검사 함수
     // isLogin && 로그인 패치함수(loginValidation)
     if (isLogin) {
-      // loginValidation(e);
+      loginValidation(e);
     }
 
     // 회원가입 패치함수 적용하는 부분
@@ -308,6 +301,7 @@ export default function LoginSignUpForm({ formName, btnText, isLogin }: LoginSig
                   showErrorMessage={pwError}
                   inputBlur={handlePwBlur}
                   onChange={handlePw}
+                  inputValue={password}
                 />
               </div>
 
