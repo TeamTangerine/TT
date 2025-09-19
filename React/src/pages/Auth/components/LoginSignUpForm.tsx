@@ -98,9 +98,6 @@ export default function LoginSignUpForm({ formName, btnText, isLogin }: LoginSig
       if (error.status === 422) {
         setPwErrorMessage(error.message);
         return;
-      } else {
-        setPwErrorMessage('로그인 중 오류가 발생했습니다. 다시 시도해주세요.');
-        return;
       }
     } finally {
       setLoading(false);
