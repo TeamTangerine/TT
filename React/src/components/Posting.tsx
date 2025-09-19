@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Modal from './modal/Modal';
 import basicProfileImg from '../assets/basic-profile-img.png';
 import iconMoreVertical from '../assets/icon/s-icon-more-vertical.png';
@@ -75,11 +75,35 @@ function Posting({
     });
   }
 
-  function seeMoreButton() {
+  // 더보기 적용을 위한 함수들
+  // \n 개수를 세는 함수
+  const checkLineBreaks = (text: string) => {
+    const lineBreakCount = (text.match(/\n/g) || []).length;
+
+    // 줄바꿈 3번 = 4줄이 됨
+    return lineBreakCount >= 3;
+  };
+
+  // 게시물이 세줄 이상인 경우 더보기 버튼 보여주고, 게시물이 세줄 미만인 경우 숨김.
+  // 게시물(userContent)의 길이가 87자 이상인 경우 또는 \n가 3개 이상인 경우를 이 함수를 통해 판별
+  function needLineClamp() {
+    if (userContent.length > 87 || checkLineBreaks(userContent)) {
+      setSeeMore('');
+    } else {
+      setSeeMore('hidden');
+    }
+  }
+
+  // 더보기 버튼을 눌렀을 경우, line-clamp를 css상태를 지움.
+  function seeMoreContent() {
     setSeeMore('hidden');
     setSeeContent('');
     console.log(imageAPI.getImage(userProfileImage));
   }
+
+  useEffect(() => {
+    needLineClamp();
+  }, []);
 
   return (
     <>
@@ -102,7 +126,7 @@ function Posting({
               </button>
             </div>
             <p className={`break-all whitespace-pre-wrap w-[304px] ${seeContent}`}>{userContent}</p>
-            <span className={`${seeMore}`} onClick={seeMoreButton}>
+            <span className={`${seeMore}`} onClick={seeMoreContent}>
               더보기
             </span>
             {contentImageArray && contentImageArray.length > 0
