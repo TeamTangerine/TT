@@ -5,7 +5,6 @@ import TextInput from '../../../components/TextInput';
 import { userAPI } from '../../../service/fetch/api';
 import { validateEmail, validateId, validatePassword, validateUserName } from '../../../Utils/validation';
 import { useNavigate } from 'react-router-dom';
-import basicProfileImg from '../../../assets/basic-profile-img.png';
 import ImgBtn from '../../../assets/upload-file.png';
 
 /**
@@ -46,7 +45,7 @@ export default function LoginSignUpForm({ formName, btnText, isLogin }: LoginSig
   // input값 관리
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [userImg, setUserImg] = useState(basicProfileImg);
+  const [userImg, setUserImg] = useState('');
   const [userName, setUserName] = useState('');
   const [id, setId] = useState('');
   const [intro, setIntro] = useState('');
