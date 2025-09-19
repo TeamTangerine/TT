@@ -44,26 +44,28 @@ function ProductList({ isOwner }: ProductListProps) {
   return (
     <>
       <section
-        className={`flex flex-col gap-4 justify-center w-full h-[208px] pl-4 py-5 bg-white ${products.length === 0 ? 'hidden' : ''}`}
+        className={`flex gap-4 justify-center w-full h-[208px] pl-4 py-5 bg-white ${products.length === 0 ? 'hidden' : ''}`}
       >
-        <h2 className="font-bold h-[20px]">판매 중인 상품</h2>
-        <ul className="flex gap-[10px] overflow-hidden overflow-x-auto">
-          {loading ? (
-            <li>로딩 중...</li>
-          ) : (
-            products.map((product) => (
-              <Product
-                key={product.id}
-                itemImage={product.itemImage}
-                itemName={product.itemName}
-                price={product.price}
-                productLink={product.link}
-                isOwner={isOwner}
-                setShowModal={setShowModal}
-              />
-            ))
-          )}
-        </ul>
+        <div className="flex flex-col w-[390px] md:w-[700px] lg:w-full">
+          <h2 className="font-bold h-[20px]">판매 중인 상품</h2>
+          <ul className="flex gap-[10px] overflow-hidden overflow-x-auto [&::-webkit-scrollbar]:w-0 [&::-webkit-scrollbar]:h-0">
+            {loading ? (
+              <li>로딩 중...</li>
+            ) : (
+              products.map((product) => (
+                <Product
+                  key={product.id}
+                  itemImage={product.itemImage}
+                  itemName={product.itemName}
+                  price={product.price}
+                  productLink={product.link}
+                  isOwner={isOwner}
+                  setShowModal={setShowModal}
+                />
+              ))
+            )}
+          </ul>
+        </div>
       </section>
       {showModal && <Modal showModal={showModal} closeModal={() => setShowModal(false)} />}
     </>
