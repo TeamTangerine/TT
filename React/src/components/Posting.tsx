@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import Modal from './modal/Modal';
 import basicProfileImg from '../assets/basic-profile-img.png';
 import iconMoreVertical from '../assets/icon/s-icon-more-vertical.png';
 import iconHeart from '../assets/icon/icon-heart.png';
@@ -46,6 +47,7 @@ function Posting({
   // 더보기 버튼 상태관리
   const [seeMore, setSeeMore] = useState('');
   const [seeContent, setSeeContent] = useState('line-clamp-3');
+  const [showModal, setShowModal] = useState(false);
 
   // 기본 프로필 이미지
   const profileImg = basicProfileImg;
@@ -96,7 +98,7 @@ function Posting({
                 <p className="text-[12px] text-[#767676]">{userId}</p>
               </div>
               <button className="mt-1 w-[18px] h-[18px] flex items-center justify-center">
-                <img src={iconMoreVertical} alt="더보기" />
+                <img src={iconMoreVertical} onClick={() => setShowModal(true)} alt="더보기" />
               </button>
             </div>
             <p className={`break-all whitespace-pre-wrap w-[304px] ${seeContent}`}>{userContent}</p>
@@ -149,6 +151,7 @@ function Posting({
           )}
         </>
       )}
+      {showModal && <Modal showModal={showModal} closeModal={() => setShowModal(false)} />}
     </>
   );
 }
