@@ -10,7 +10,9 @@ interface IHeaderProps {
   navStyle: 'top-main' | 'top-search' | 'top-basic' | 'top-chat' | 'top-upload' | 'top-save';
   button?: boolean;
   searchOnChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
-  formTarget?: string;
+
+  inputValue?: string;
+
 }
 
 /**
@@ -30,7 +32,9 @@ interface IHeaderProps {
  *   searchOnChange={e => setSearchValue(e.target.value)}
  * />
  */
-function Header({ navStyle, button = false, searchOnChange, formTarget }: IHeaderProps) {
+
+function Header({ navStyle, button = false, searchOnChange, inputValue }: IHeaderProps) {
+
   const [showModal, setShowModal] = useState(false);
   const navigate = useNavigate();
 
@@ -56,8 +60,7 @@ function Header({ navStyle, button = false, searchOnChange, formTarget }: IHeade
               type="text"
               name="search"
               id="search"
-              value="애월읍"
-              readOnly
+              value={inputValue}
               onChange={searchOnChange}
               placeholder="계정 검색"
               className="placeholder:text-[#c4c4c4] bg-[#F2F2F2] w-[316px] h-[32px] rounded-[16px] pl-[16px] py-[7px] text-sm"

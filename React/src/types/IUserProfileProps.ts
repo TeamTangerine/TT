@@ -14,4 +14,7 @@ export interface IUserProfileProps {
 
   //팔로우 버튼을 위한 속성
   actionButton?: React.ReactNode;
+
+  //마우스 호버를 위한 속성
+  hover: true;
 }

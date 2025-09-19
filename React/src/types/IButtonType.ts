@@ -81,6 +81,10 @@ export interface IBtnType {
 
   onClick?: () => void;
 
+  /**form요소를 지정하는 prop */
+  btnForm?: string;
+
+
   /**
    * @param activeDisable = 버튼의 disabled 기능 활성화 여부를 true 와 false 결접합니다.
    *
@@ -90,4 +94,5 @@ export interface IBtnType {
    * - false => disabled 비활성화
    */
   activeDisable?: boolean;
+
 }
