@@ -86,30 +86,32 @@ function HomeCardGrid() {
             </button>
           </div>
         </div>
-        <ul
-          className={`${showList ? 'flex flex-col items-center gap-5 pt-5' : 'grid grid-cols-3 gap-2 pt-4'} px-4 bg-white`}
-        >
-          {loading ? (
-            <li>로딩 중...</li>
-          ) : (
-            posts.map((post) => {
-              return (
-                <Posting
-                  key={post.id}
-                  showList={showList}
-                  userProfileImage={post.author.image}
-                  userName={post.author.username}
-                  userId={post.author.accountname}
-                  userContent={post.content}
-                  contentImage={post.image}
-                  heartCount={post.heartCount}
-                  commentCount={post.commentCount}
-                  updatedAt={post.updatedAt}
-                />
-              );
-            })
-          )}
-        </ul>
+        <div className=" bg-white">
+          <ul
+            className={`${showList ? 'flex flex-col items-center gap-5 pt-5' : 'grid grid-cols-3 justify-items-center mx-auto max-w-fit gap-2 pt-4'} px-4`}
+          >
+            {loading ? (
+              <li>로딩 중...</li>
+            ) : (
+              posts.map((post) => {
+                return (
+                  <Posting
+                    key={post.id}
+                    showList={showList}
+                    userProfileImage={post.author.image}
+                    userName={post.author.username}
+                    userId={post.author.accountname}
+                    userContent={post.content}
+                    contentImage={post.image}
+                    heartCount={post.heartCount}
+                    commentCount={post.commentCount}
+                    updatedAt={post.updatedAt}
+                  />
+                );
+              })
+            )}
+          </ul>
+        </div>
       </section>
     </>
   );

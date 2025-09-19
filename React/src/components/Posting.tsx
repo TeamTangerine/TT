@@ -85,7 +85,7 @@ function Posting({
         // 리스트형 랜더링
         <li className="flex gap-3 justify-center w-[358px]">
           <img
-            src={userProfileImage === '/Elipse.png' ? profileImg : imageAPI.getImage(userProfileImage)}
+            src={userProfileImage === '/Elipse.png' ? profileImg : userProfileImage}
             alt="프로필"
             className="w-[42px] h-[42px] rounded-full"
           />
@@ -136,7 +136,7 @@ function Posting({
         <>
           {/* 앨범형 랜더링 */}
           {contentImage && (
-            <li className={`relative w-full aspect-square ${contentImage ? '' : 'hidden'}`}>
+            <li className={`relative w-full max-w-[200px] aspect-square ${contentImage ? '' : 'hidden'}`}>
               <img
                 src={contentImageArray && imgUrl + contentImageArray[0]}
                 alt="게시글 이미지"
