@@ -100,12 +100,9 @@ function UserInfo({ isMyProfile }: UserInfoProps) {
       </div>
       <p className="text-[#767676]">{profileData.intro}</p>
       <div className="mt-1 flex gap-[10px]">
-        <button className="flex items-center justify-center w-[34px] h-[34px] rounded-full border-[1px] border-[#DBDBDB]">
-          <img src={iconMessageCircle} alt="채팅하기" className="w-5 h-5" />
-        </button>
-
         {isMyProfile ? (
           // MyProfile인 경우
+
           <div className="flex flex-row gap-3">
             <Button
               btnTextContent="프로필 수정"
@@ -128,21 +125,26 @@ function UserInfo({ isMyProfile }: UserInfoProps) {
           </div>
         ) : (
           // MyProfile이 아닌 경우(YourProfile)
-          <Button
-            btnTextContent={isFollow}
-            btnSize="medium"
-            btnColor={buttonColor}
-            btnType="button"
-            onClick={toggleFollow}
-            activeDisable={false}
-          />
-        )}
-        <button
-          className="flex items-center justify-center w-[34px] h-[34px] rounded-full border-[1px] border-[#DBDBDB]
+          <>
+            <button className="flex items-center justify-center w-[34px] h-[34px] rounded-full border-[1px] border-[#DBDBDB]">
+              <img src={iconMessageCircle} alt="채팅하기" className="w-5 h-5" />
+            </button>
+            <Button
+              btnTextContent={isFollow}
+              btnSize="medium"
+              btnColor={buttonColor}
+              btnType="button"
+              onClick={toggleFollow}
+              activeDisable={false}
+            />
+            <button
+              className="flex items-center justify-center w-[34px] h-[34px] rounded-full border-[1px] border-[#DBDBDB]
         "
-        >
-          <img src={iconShare} alt="공유하기" className="w-5 h-5" />
-        </button>
+            >
+              <img src={iconShare} alt="공유하기" className="w-5 h-5" />
+            </button>
+          </>
+        )}
       </div>
     </section>
   );
