@@ -2,7 +2,7 @@ import Symbol from '../../assets/symbol-logo-gray.png';
 import Header from '../../components/Header';
 import Footer from '../../components/footer/Footer';
 import { useNavigate } from 'react-router-dom';
-import { postAPI, userAPI } from '../../service/fetch/api';
+import { postAPI } from '../../service/fetch/api';
 import { useLayoutEffect, useState } from 'react';
 import Posting from '../../components/Posting';
 import { PostAPI } from '../../types/IFetchType';
@@ -12,8 +12,6 @@ function HomePage() {
   const [loading, setLoading] = useState(false);
   // api로 받아온 게시글 목록
   const [posts, setPosts] = useState<PostAPI.IPost[]>([]);
-  // api로 받아온 현재 로그인한 사용자의 팔로잉 유무
-  const [following, setFollowing] = useState(false);
   // 라우팅
   const navigate = useNavigate();
 
@@ -23,20 +21,10 @@ function HomePage() {
       const res = await postAPI.getFeed();
       setPosts(res.posts);
     } catch (error: any) {
-      throw new Error(`팔로잉 게시글 목록 불러오기 실패: ${error.message}`);
-    }
-  }
-
-  // 현재 로그인한 사용자의 팔로잉 정보를 불러오는 api 함수
-  async function getMyFollowing() {
-    try {
-      const res = await userAPI.getMyInfo();
-
-      if (res.user.followingCount > 0) {
-        setFollowing(true);
-      }
-    } catch (error: any) {
-      throw new Error(`팔로잉 수 불러오기 실패: ${error.message}`);
+      setPosts([]);
+      console.error(`팔로잉 게시글 목록 불러오기 실패: ${error.message}`);
+    } finally {
+      setLoading(false);
     }
   }
 
@@ -44,11 +32,7 @@ function HomePage() {
   // 화면 깜빡임 현상이 심해서 useLayoutEffect 사용
   useLayoutEffect(() => {
     setLoading(true);
-
-    // 함수 동시 실행 후 모두 성공 시, 로딩 끝남을 하기 위한 로직
-    Promise.all([getFollowingsFeed(), getMyFollowing()])
-      .catch((error) => console.error(error.message))
-      .finally(() => setLoading(false));
+    getFollowingsFeed();
   }, []);
 
   return (
@@ -59,7 +43,7 @@ function HomePage() {
         <div>
           <Header navStyle="top-main" />
 
-          {following && posts.length > 0 && (
+          {posts.length > 0 && (
             <div>
               <ul className="flex flex-col items-center gap-5 pt-5 px-4 ">
                 {posts.map((post) => (
@@ -78,7 +62,7 @@ function HomePage() {
               </ul>
             </div>
           )}
-          {(!following || posts.length === 0) && (
+          {posts.length === 0 && (
             <div className="mt-[220px] flex flex-col items-center gap-[20px]">
               <img src={Symbol} alt="로고" />
               <p className="text-[#767676]">유저를 검색해 팔로우 해보세요!</p>
