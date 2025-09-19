@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import basicProfileImg from '../assets/basic-profile-img.png';
 import iconMoreVertical from '../assets/icon/s-icon-more-vertical.png';
 import iconHeart from '../assets/icon/icon-heart.png';
@@ -17,7 +18,7 @@ import { imageAPI } from '../service/fetch/api';
  * @param contentImage - 게시물 이미지
  * @param heartCount - 하트 개수
  * @param commentCount - 댓글 개수
- * @param createdAt - 게시물 작성 일자
+ * @param updatedAt - 게시물 작성 일자
  */
 type PostingProps = {
   showList?: boolean;
@@ -42,7 +43,13 @@ function Posting({
   commentCount,
   updatedAt,
 }: PostingProps) {
+  // 더보기 버튼 상태관리
+  const [seeMore, setSeeMore] = useState('');
+  const [seeContent, setSeeContent] = useState('line-clamp-3');
+
+  // 기본 프로필 이미지
   const profileImg = basicProfileImg;
+
   // 이미지 랜더링을 위한 기본 url
   const imgUrl = 'https://dev.wenivops.co.kr/services/mandarin/';
 
@@ -51,7 +58,6 @@ function Posting({
     if (contentImage === undefined) {
       return;
     }
-
     return contentImage.split(',');
   }
 
@@ -67,6 +73,12 @@ function Posting({
     });
   }
 
+  function seeMoreButton() {
+    setSeeMore('hidden');
+    setSeeContent('');
+    console.log(imageAPI.getImage(userProfileImage));
+  }
+
   return (
     <>
       {showList ? (
@@ -75,7 +87,7 @@ function Posting({
           <img
             src={userProfileImage === '/Elipse.png' ? profileImg : imageAPI.getImage(userProfileImage)}
             alt="프로필"
-            className="w-[42px] h-[42px]"
+            className="w-[42px] h-[42px] rounded-full"
           />
           <article className="flex flex-col gap-4">
             <div className="flex justify-between">
@@ -87,7 +99,10 @@ function Posting({
                 <img src={iconMoreVertical} alt="더보기" />
               </button>
             </div>
-            <p className="break-all whitespace-pre-wrap w-[304px]">{userContent}</p>
+            <p className={`break-all whitespace-pre-wrap w-[304px] ${seeContent}`}>{userContent}</p>
+            <span className={`${seeMore}`} onClick={seeMoreButton}>
+              더보기
+            </span>
             {contentImageArray && contentImageArray.length > 0
               ? contentImageArray.map((image: string, index: number) => (
                   <img
