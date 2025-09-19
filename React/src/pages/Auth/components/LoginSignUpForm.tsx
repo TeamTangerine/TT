@@ -85,8 +85,6 @@ export default function LoginSignUpForm({ formName, btnText, isLogin }: LoginSig
       if (res.accountname && res.token) {
         localStorage.setItem('TOKEN_KEY', res.token);
 
-        alert(`${res.username}님, 환영합니다.`);
-
         // 로그인 성공시 감귤피드로 이동
         navigate('/');
       }
