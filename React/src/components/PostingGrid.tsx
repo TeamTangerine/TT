@@ -62,9 +62,9 @@ function HomeCardGrid() {
   }, [accountName]);
 
   return (
-    <>
+    <div className="h-full bg-white">
       <section className={`flex flex-col ${posts.length === 0 ? 'hidden' : ''}`}>
-        <div className="flex justify-center bg-white border-b border-b-[#DBDBDB]">
+        <div className="flex justify-center border-b border-b-[#DBDBDB]">
           <div className="min-w-[390px] flex justify-end gap-4 px-4 py-[9px]">
             <button className="w-[26px] h-[26px]">
               <img
@@ -113,7 +113,7 @@ function HomeCardGrid() {
           </ul>
         </div>
       </section>
-    </>
+    </div>
   );
 }
 export default HomeCardGrid;
