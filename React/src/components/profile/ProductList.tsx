@@ -1,5 +1,5 @@
 import Product from './Product';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { productAPI } from '../../service/fetch/api';
 import { userAPI } from '../../service/fetch/api';
 import Modal from '../modal/Modal';
@@ -17,27 +17,17 @@ function ProductList({ isOwner }: ProductListProps) {
   const [loading, setLoading] = useState(false);
   const [showModal, setShowModal] = useState(false);
 
-  // 토큰 발급 함수 -> 추후 useContext로 수정 예정
-  async function getTestToken() {
-    const email = 'tt1team@example.com'; // 테스트 계정 이메일
-    const password = 'test1team_'; // 테스트 계정 비밀번호
-    try {
-      const res = await userAPI.login(email, password);
-      const token = res.token;
-      const name = res.accountname;
-      setToken(token);
-      setAccountName(name);
-    } catch (e) {
-      console.error('테스트 토큰 발급 실패:');
-      return null;
-    }
+  // 로그인한 유저 accout를 받는 함수, setAccountName을 통해 상태 설정
+  async function getUserInfo() {
+    const res = await userAPI.getMyInfo();
+    setAccountName(res.user.accountname);
   }
 
   // 상품 목록 조회 함수(getUserProducts API를 통해 상품 목록 조회)
   async function getUserProducts() {
     setLoading(true);
     try {
-      const productData = await productAPI.getUserProducts(accountName, token);
+      const productData = await productAPI.getUserProducts(accountName);
       // product에 productData.product데이터 저장
       setProducts(productData.product);
     } catch (error) {
@@ -47,9 +37,12 @@ function ProductList({ isOwner }: ProductListProps) {
     }
   }
 
+  useEffect(() => {
+    getUserInfo();
+  }, []);
+
   return (
     <>
-      <button onClick={getTestToken}>토큰 받기</button>
       <button onClick={getUserProducts}>get User Products</button>
       <section className={`w-full flex justify-center pl-4 py-5  bg-white ${products.length === 0 ? 'hidden' : ''}`}>
         <div className="flex flex-col gap-4">
