@@ -44,8 +44,8 @@ function HomePage() {
           <Header navStyle="top-main" />
 
           {posts.length > 0 && (
-            <div>
-              <ul className="flex flex-col items-center gap-5 pt-5 px-4 ">
+            <div className="pb-[60px]">
+              <ul className="flex flex-col items-center gap-5 pt-5 px-4">
                 {posts.map((post) => (
                   <Posting
                     key={post.id}
@@ -63,7 +63,7 @@ function HomePage() {
             </div>
           )}
           {posts.length === 0 && (
-            <div className="mt-[220px] flex flex-col items-center gap-[20px]">
+            <div className="mt-[220px] flex flex-col items-center gap-[20px] pb-[60px]">
               <img src={Symbol} alt="로고" />
               <p className="text-[#767676]">유저를 검색해 팔로우 해보세요!</p>
               <button
