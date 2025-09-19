@@ -78,7 +78,7 @@ function UserInfo({ isMyProfile }: UserInfoProps) {
           <span className="text-[10px] text-[#767676]">followers</span>
         </div>
         <img
-          src={!!profileData.image ? profileData.image : profileImg}
+          src={!!profileData.image.length ? profileData.image : profileImg}
           alt="유저 이미지"
           className="w-[110px] h-[110px] border-[#dbdbdb] border-[1px] rounded-full object-cover"
         />
