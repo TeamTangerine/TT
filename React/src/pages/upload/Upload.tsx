@@ -21,10 +21,16 @@ function Upload() {
   const [token, setToken] = useState('');
 
   async function getUserInfo() {
-    const res = await userAPI.getMyInfo();
-    const image = res.user.image;
-    setUserImg(image);
-    console.log(userImg);
+    try {
+      const res = await userAPI.getMyInfo();
+      const image = res.user.image;
+      setUserImg(image);
+      console.log(userImg);
+    } catch (error) {
+      console.error('Failed to fetch user info:', error);
+      // Optionally, set a fallback image or notify the user
+      // setUserImg(profileImg); // Uncomment if you want to use a default image
+    }
   }
 
   useEffect(() => {
