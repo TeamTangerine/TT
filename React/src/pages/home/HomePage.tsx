@@ -64,7 +64,7 @@ function HomePage() {
               <ul className="flex flex-col items-center gap-5 pt-5 px-4 ">
                 {posts.map((post) => (
                   <Posting
-                    listKey={post.id}
+                    key={post.id}
                     userProfileImage={post.author.image}
                     userName={post.author.username}
                     userId={post.author.accountname}

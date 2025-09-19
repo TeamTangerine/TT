@@ -19,7 +19,6 @@ import iconImgLayers from '../assets/icon/iccon-img-layers.png';
  * @param createdAt - 게시물 작성 일자
  */
 type PostingProps = {
-  listKey?: string;
   showList?: boolean;
   userProfileImage: string;
   userName: string;
@@ -32,7 +31,6 @@ type PostingProps = {
 };
 
 function Posting({
-  listKey,
   showList = true,
   userProfileImage,
   userName,
@@ -72,7 +70,7 @@ function Posting({
     <>
       {showList ? (
         // 리스트형 랜더링
-        <li className="flex gap-3 justify-center max-w-[328px] min-w-[328px]" key={listKey}>
+        <li className="flex gap-3 justify-center max-w-[328px] min-w-[328px]">
           <img
             src={userProfileImage !== 'Elipse.png' ? imgUrl + userProfileImage : profileImg}
             alt="프로필"
@@ -122,7 +120,7 @@ function Posting({
         <>
           {/* 앨범형 랜더링 */}
           {contentImage && (
-            <li className={`relative w-full aspect-square ${contentImage ? '' : 'hidden'}`} key={listKey}>
+            <li className={`relative w-full aspect-square ${contentImage ? '' : 'hidden'}`}>
               <img
                 src={contentImageArray && imgUrl + contentImageArray[0]}
                 alt="게시글 이미지"
