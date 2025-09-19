@@ -3,6 +3,7 @@ import iconMoreVertical from '../assets/icon/s-icon-more-vertical.png';
 import iconHeart from '../assets/icon/icon-heart.png';
 import iconMessage from '../assets/icon/icon-message-circle.svg';
 import iconImgLayers from '../assets/icon/iccon-img-layers.png';
+import { imageAPI } from '../service/fetch/api';
 
 // 리스트형 / 앨범형 선택을 위한 props 타입
 /**
@@ -70,9 +71,9 @@ function Posting({
     <>
       {showList ? (
         // 리스트형 랜더링
-        <li className="flex gap-3 justify-center max-w-[328px] min-w-[328px]">
+        <li className="flex gap-3 justify-center w-[358px]">
           <img
-            src={userProfileImage !== 'Elipse.png' ? imgUrl + userProfileImage : profileImg}
+            src={userProfileImage === '/Elipse.png' ? profileImg : imageAPI.getImage(userProfileImage)}
             alt="프로필"
             className="w-[42px] h-[42px]"
           />
