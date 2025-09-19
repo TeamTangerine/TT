@@ -33,6 +33,7 @@ function HomeCardGrid() {
   async function getUserInfo() {
     const res = await userAPI.getMyInfo();
     setAccountName(res.user.accountname);
+    console.log(res);
   }
 
   // 게시물 목록을 받아오는 함수
@@ -56,9 +57,12 @@ function HomeCardGrid() {
     getUserInfo();
   }, []);
 
+  useEffect(() => {
+    getUserPosts();
+  }, [accountName]);
+
   return (
     <>
-      <button onClick={getUserPosts}>get User Posts</button>
       <section className={`flex flex-col ${posts.length === 0 ? 'hidden' : ''}`}>
         <div className="flex justify-center bg-white border-b border-b-[#DBDBDB]">
           <div className="min-w-[390px] flex justify-end gap-4 px-4 py-[9px]">
