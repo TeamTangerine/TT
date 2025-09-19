@@ -46,7 +46,7 @@ function ProductList({ isOwner }: ProductListProps) {
       <section
         className={`flex gap-4 justify-center w-full h-[208px] pl-4 py-5 bg-white ${products.length === 0 ? 'hidden' : ''}`}
       >
-        <div className="flex flex-col w-[390px] md:w-[700px] lg:w-full">
+        <div className="flex flex-col w-[390px] md:w-[648px]">
           <h2 className="font-bold h-[20px]">판매 중인 상품</h2>
           <ul className="flex gap-[10px] overflow-hidden overflow-x-auto [&::-webkit-scrollbar]:w-0 [&::-webkit-scrollbar]:h-0">
             {loading ? (
