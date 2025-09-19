@@ -132,6 +132,8 @@ export namespace UserAPI {
       follower: string[];
       followerCount: number;
       followingCount: number;
+      image: string;
+      intro: string;
     }> {}
 
   // 토큰 검증
