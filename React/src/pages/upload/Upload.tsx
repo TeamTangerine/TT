@@ -2,7 +2,7 @@ import Header from '../../components/Header';
 import profileImg from '../../assets/Ellipse 6.png';
 import uploadFileImg from '../../assets/upload-file.png';
 import ImagePreview from './component/ImagePreview';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { postAPI, userAPI, imageAPI } from '../../service/fetch/api';
 import { useNavigate } from 'react-router-dom';
 
@@ -20,29 +20,16 @@ function Upload() {
   // 토큰 저장
   const [token, setToken] = useState('');
 
-  /**
-   * 토큰을 받아오기 위해 작성된 임시 함수입니다.
-   * 토큰 발급 임시 버튼이 있습니다.
-   * @returns token
-   */
-  async function getTestToken() {
-    const email = 'tt1team@example.com'; // 테스트 계정 이메일
-    const password = 'test1team_'; // 테스트 계정 비밀번호
-    try {
-      const res = await userAPI.login(email, password);
-      const token = res.token;
-      const img = res.image;
-      console.log(token);
-      const TOKEN_KEY = 'TOKEN_KEY';
-      localStorage.setItem(TOKEN_KEY, token);
-
-      setToken(token);
-      setUserImg(img);
-    } catch (e) {
-      console.error('테스트 토큰 발급 실패:');
-      return null;
-    }
+  async function getUserInfo() {
+    const res = await userAPI.getMyInfo();
+    const image = res.user.image;
+    setUserImg(image);
+    console.log(userImg);
   }
+
+  useEffect(() => {
+    getUserInfo();
+  }, []);
 
   //이미지 파일 관리 함수(인풋)
   // 파일 리더라는 자바스크립트 인터페이스를 사용(이미지를 로컬에서 보여주기 위해 사용)
@@ -126,7 +113,7 @@ function Upload() {
             {/* 프로필 이미지 */}
             <img
               className="w-[42px] h-[42px] rounded-full"
-              src={!userImg || userImg === '/Ellipse.png' ? profileImg : userImg}
+              src={userImg && userImg === '/Ellipse.png' ? profileImg : userImg}
               alt="프로필"
             />
             {/* 게시글 */}
@@ -161,7 +148,6 @@ function Upload() {
           <input type="file" id="upload-img" multiple accept="image/*" onChange={handleFileChange} className="hidden" />
         </main>
       </form>
-      <button onClick={getTestToken}>토큰메이커</button>
     </>
   );
 }
