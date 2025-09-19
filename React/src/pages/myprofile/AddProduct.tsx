@@ -147,23 +147,28 @@ function AddProduct() {
 
   return (
     <>
+      <Header
+        navStyle="top-save"
+        button={image.length === 1 && itemName && price && link ? true : false}
+        formTarget="upload"
+      />
       <form
-        className="flex flex-col items-center gap-[30px]"
+        className="flex flex-col items-center gap-[30px] pt-[30px]"
         onSubmit={(e) => {
           e.preventDefault();
           postProduct();
         }}
+        id="upload"
       >
-        <Header navStyle="top-save" button={image.length === 1 && itemName && price && link ? true : false} />
         <div className="flex flex-col gap-[18px]">
-          <label htmlFor="img" className="cursor-pointer relative">
+          <label htmlFor="img" className="cursor-pointer relative text-[12px] text-[#767676] flex flex-col gap-[18px]">
             이미지 등록
             <img
               src={previewUrls[0]}
               alt=""
               className="w-[322px] h-[204px] rounded-[10px] bg-[#DBDBDB] object-cover "
             />
-            <div className="absolute bottom-3 right-3 right-3 w-9 h-9 rounded-2xl flex items-center justify-center bg-[#C4C4C4]">
+            <div className="absolute bottom-3 right-3 w-9 h-9 rounded-2xl flex items-center justify-center bg-[#C4C4C4]">
               <img src={uploadImg} alt="" />
             </div>
             <input onChange={handleFileChange} type="file" id="img" name="img" accept="image/*" className="hidden" />

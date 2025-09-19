@@ -10,9 +10,8 @@ interface IHeaderProps {
   navStyle: 'top-main' | 'top-search' | 'top-basic' | 'top-chat' | 'top-upload' | 'top-save';
   button?: boolean;
   searchOnChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
-
+  formTarget?: string;
   inputValue?: string;
-
 }
 
 /**
@@ -33,8 +32,7 @@ interface IHeaderProps {
  * />
  */
 
-function Header({ navStyle, button = false, searchOnChange, inputValue }: IHeaderProps) {
-
+function Header({ navStyle, button = false, searchOnChange, inputValue, formTarget }: IHeaderProps) {
   const [showModal, setShowModal] = useState(false);
   const navigate = useNavigate();
 
