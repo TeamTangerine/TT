@@ -7,7 +7,7 @@ import Button from './button/Button';
 import React, { useState } from 'react';
 
 interface IHeaderProps {
-  navStyle: 'top-main' | 'top-search' | 'top-basic' | 'top-chat' | 'top-upload' | 'top-save';
+  navStyle: 'top-main' | 'top-search' | 'top-basic' | 'top-chat' | 'top-upload' | 'top-save' | 'top-follow';
   button?: boolean;
   searchOnChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
   formTarget?: string;
@@ -124,6 +124,17 @@ function Header({ navStyle, button = false, searchOnChange, inputValue, formTarg
               btnForm={formTarget}
             />
           </>
+        );
+      }
+      case 'top-follow': {
+        return (
+          <div className="flex gap-2">
+            <button type="button" onClick={() => navigate(-1)}>
+              <img src={arrowLeft} alt="뒤로가기" />
+            </button>
+            {/* Followers or Followings */}
+            <p className="text-[14px] h-[18px]">Followers</p>
+          </div>
         );
       }
       default: {
