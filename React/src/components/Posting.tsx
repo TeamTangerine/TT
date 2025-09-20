@@ -4,6 +4,7 @@ import iconHeart from '../assets/icon/icon-heart.png';
 import iconMessage from '../assets/icon/icon-message-circle.svg';
 import iconImgLayers from '../assets/icon/iccon-img-layers.png';
 import { imageAPI } from '../service/fetch/api';
+import { useNavigate } from 'react-router-dom';
 
 // 리스트형 / 앨범형 선택을 위한 props 타입
 /**
@@ -45,6 +46,9 @@ function Posting({
   const profileImg = basicProfileImg;
   // 아마자 랜더링을 위한 기본 url
   const imgUrl = 'https://dev.wenivops.co.kr/services/mandarin/';
+
+  // 라우팅
+  const navigate = useNavigate();
 
   // 이미지 배열 전환 함수
   function makeArray() {
@@ -105,7 +109,7 @@ function Posting({
                 </button>
                 <span className="text-[12px] text-[#767676]">{heartCount}</span>
               </div>
-              <div className="flex gap-[6px] items-center">
+              <div className="flex gap-[6px] items-center" onClick={() => navigate('/post')}>
                 <button className="w-5 h-5">
                   <img src={iconMessage} alt="댓글" />
                 </button>
