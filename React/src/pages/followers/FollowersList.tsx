@@ -19,7 +19,16 @@ function FollowersList() {
 
   async function getFollowList() {
     // 타입이 following인 경우 팔로잉 목록을, 타입이 follower인 경우 팔로워 목록을 불러옴
+
+    // 타입체크하는 곳, accountName과 type의 타입을 체크
+    if (!accountName || !type) {
+      setError('계정명 또는 타입이 없습니다.');
+      setLoading(false);
+      return;
+    }
+
     setLoading(false);
+    setError('');
     try {
       const data =
         type === 'following'
@@ -28,6 +37,7 @@ function FollowersList() {
       setFollowList(data);
     } catch (error) {
       console.log('팔로우 리스트를 불러오는데 실패했습니다.', error);
+      setError('목록을 불러오는데 실패했습니다.');
     } finally {
       setLoading(true);
     }
@@ -45,7 +55,11 @@ function FollowersList() {
           followList.map((user) => (
             <li className="flex justify-between items-center">
               <div className="flex gap-3 items-center">
-                <img className="w-[50px] h-[50px] rounded-full" src={user.image} alt="프로필 이미지" />
+                <img
+                  className="w-[50px] h-[50px] rounded-full"
+                  src={user.image === '/Ellipse-1.png' ? profileImg : user.image}
+                  alt="프로필 이미지"
+                />
                 <div className="flex flex-col gap-[6px]">
                   <h3 className="text-[14px] font-medium h-[18px]">{user.username}</h3>
                   <p className="text-[12px] text-[#767676] h-[15px]">{user.intro}</p>
