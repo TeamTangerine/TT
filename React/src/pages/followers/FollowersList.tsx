@@ -9,7 +9,7 @@ function FollowersList() {
   return (
     <>
       <Header navStyle="top-follow" />
-      <ul className="flex flex-col mx-4 mt-6">
+      <ul className="flex flex-col gap-4 mx-4 mt-6">
         <li className="flex justify-between items-center">
           <div className="flex gap-3 items-center">
             <img className="w-[50px] h-[50px] rounded-full" src={profileImg} alt="프로필 이미지" />
