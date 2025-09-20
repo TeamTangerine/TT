@@ -5,6 +5,7 @@ import iconMessage from '../assets/icon/icon-message-circle.svg';
 import iconImgLayers from '../assets/icon/iccon-img-layers.png';
 import { imageAPI } from '../service/fetch/api';
 import { useNavigate } from 'react-router-dom';
+import { PostAPI } from '../types/IFetchType';
 
 // 리스트형 / 앨범형 선택을 위한 props 타입
 /**
@@ -22,6 +23,8 @@ import { useNavigate } from 'react-router-dom';
  */
 type PostingProps = {
   showList?: boolean;
+  id?: string;
+  post?: PostAPI.IPost;
   userProfileImage: string;
   userName: string;
   userId: string;
@@ -34,6 +37,8 @@ type PostingProps = {
 
 function Posting({
   showList = true,
+  id,
+  post,
   userProfileImage,
   userName,
   userId,
