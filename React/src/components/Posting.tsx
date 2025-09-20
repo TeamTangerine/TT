@@ -55,6 +55,9 @@ function Posting({
   // 라우팅
   const navigate = useNavigate();
 
+  // 상세 게시글(post)페이지인 url 정규 표현식
+  const urlRegex = /^.+\/post\/:.+$/;
+
   // 이미지 배열 전환 함수
   function makeArray() {
     if (contentImage === undefined) {
@@ -62,6 +65,14 @@ function Posting({
     }
 
     return contentImage.split(',');
+  }
+
+  function commentNavigate() {
+    // 현재 페이지가 상세 게시글(post)페이지일 경우 링크 이동x
+    if (urlRegex.test(window.location.href)) {
+      return;
+    }
+    navigate(`/post/:${id}`, { state: { post } });
   }
 
   // 이미지 배열을 변수에 할당
