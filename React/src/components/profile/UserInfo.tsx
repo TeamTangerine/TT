@@ -80,7 +80,6 @@ function UserInfo({ isMyProfile }: UserInfoProps) {
 
   return (
     <section className="flex flex-col items-center gap-4 pt-[30px] pb-6 bg-white">
-      <button onClick={handleFollowingClick}>버튼</button>
       <div className=" flex items-center gap-[45px]">
         <div className="flex flex-col gap-[6px] items-center">
           <span className="text-lg font-bold" onClick={handleFollowerClick}>
