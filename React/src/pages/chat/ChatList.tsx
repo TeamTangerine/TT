@@ -35,6 +35,7 @@ function ChatList() {
             </div>
             <time className="text-[10px] text-[#DBDBDB] ml-[1px]">2020.10.25</time>
           </Link>
+      <ul className="flex flex-col  w-[390px] mx-auto gap-5 pt-6 px-[16px]">
         </li>
         <li className="flex gap-3 items-end w-full justify-between">
           <Link to="/chat-room">
