@@ -80,8 +80,8 @@ function Posting({
   const checkLineBreaks = (text: string) => {
     const lineBreakCount = (text.match(/\n/g) || []).length;
 
-    // 줄바꿈 3번 = 4줄이 됨
-    return lineBreakCount >= 3;
+    // 줄바꿈 4번 이상
+    return lineBreakCount > 3;
   };
 
   // 게시물이 세줄 이상인 경우 더보기 버튼 보여주고, 게시물이 세줄 미만인 경우 숨김.
@@ -126,7 +126,7 @@ function Posting({
               </button>
             </div>
             <p className={`break-all whitespace-pre-wrap w-[304px] ${seeContent}`}>{userContent}</p>
-            <span className={`${seeMore}`} onClick={seeMoreContent}>
+            <span className={`${seeMore} text-[12px] cursor-pointer`} onClick={seeMoreContent}>
               더보기
             </span>
             {contentImageArray && contentImageArray.length > 0
