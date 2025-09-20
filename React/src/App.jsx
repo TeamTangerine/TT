@@ -28,7 +28,7 @@ function App() {
         <Route path="/search-page" element={<SearchPage />} />
         <Route path="/your-profile" element={<YourProfile />} />
         <Route path="/my-profile" element={<MyProfile />} />
-        <Route path="/followers-list" element={<FollowersList />} />
+        <Route path="/followers-list/:accountName" element={<FollowersList />} />
         <Route path="/profile-modification" element={<ProfileModification />} />
         <Route path="/add-product" element={<AddProduct />} />
         <Route path="/post" element={<Post />} />
