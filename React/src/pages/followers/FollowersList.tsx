@@ -5,6 +5,7 @@ import { ProfileAPI } from '../../types/IFetchType';
 import Header from '../../components/Header';
 import Button from '../../components/button/Button';
 import basicProfileImage from '../../assets/basic-profile-img.png';
+import { ButtonColorType } from '../../types/IButtonType';
 
 function FollowersList() {
   const profileImg = basicProfileImage;
@@ -52,22 +53,24 @@ function FollowersList() {
       <Header navStyle="top-follow" />
       <ul className="flex flex-col gap-4 mx-4 mt-6">
         {loading ? (
-          followList.map((user) => (
-            <li className="flex justify-between items-center">
-              <div className="flex gap-3 items-center">
-                <img
-                  className="w-[50px] h-[50px] rounded-full"
-                  src={user.image === '/Ellipse-1.png' ? profileImg : user.image}
-                  alt="프로필 이미지"
-                />
-                <div className="flex flex-col gap-[6px]">
-                  <h3 className="text-[14px] font-medium h-[18px]">{user.username}</h3>
-                  <p className="text-[12px] text-[#767676] h-[15px]">{user.intro}</p>
+          followList.map((user) => {
+            return (
+              <li key={user._id} className="flex justify-between items-center">
+                <div className="flex gap-3 items-center">
+                  <img
+                    className="w-[50px] h-[50px] rounded-full"
+                    src={user.image === '/Ellipse-1.png' ? profileImg : user.image}
+                    alt="프로필 이미지"
+                  />
+                  <div className="flex flex-col gap-[6px]">
+                    <h3 className="text-[14px] font-medium h-[18px]">{user.username}</h3>
+                    <p className="text-[12px] text-[#767676] h-[15px]">{user.intro}</p>
+                  </div>
                 </div>
-              </div>
-              <Button btnTextContent="팔로우" btnSize="small" btnColor="normal"></Button>
-            </li>
-          ))
+                <Button btnTextContent="팔로우" btnSize="small" btnColor="normal" onClick={() => {}}></Button>
+              </li>
+            );
+          })
         ) : (
           <p>로딩중 입니다.</p>
         )}
