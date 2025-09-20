@@ -126,8 +126,14 @@ function Posting({
                 <span className="text-[12px] text-[#767676]">{heartCount}</span>
               </div>
               {/* 댓글 버튼이나 댓글수 눌렀을 때 상세 페이지로 이동 */}
-              <div className="flex gap-[6px] items-center" onClick={() => navigate(`/post/${id}`, { state: { post } })}>
-                <button className="w-5 h-5">
+              <div
+                className={`flex gap-[6px] items-center ${!urlRegex.test(window.location.href) && 'cursor-pointer'} `}
+                onClick={commentNavigate}
+              >
+                <button
+                  className={`w-5 h-5 ${urlRegex.test(window.location.href) ? 'cursor-default' : 'cursor-pointer'}`}
+                  type="button"
+                >
                   <img src={iconMessage} alt="댓글" />
                 </button>
                 <span className="text-[12px] text-[#767676]">{commentCount}</span>
