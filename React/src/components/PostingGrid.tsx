@@ -105,6 +105,7 @@ function HomeCardGrid() {
                     contentImage={post.image}
                     postId={post.id}
                     heartCount={post.heartCount}
+                    hearted={post.hearted}
                     commentCount={post.commentCount}
                     updatedAt={post.updatedAt}
                   />

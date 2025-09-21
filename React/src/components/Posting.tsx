@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import Modal from './modal/Modal';
+import Heart from './profile/Heart';
 import basicProfileImg from '../assets/basic-profile-img.png';
 import iconMoreVertical from '../assets/icon/s-icon-more-vertical.png';
 import iconHeart from '../assets/icon/icon-heart.png';
@@ -30,6 +31,7 @@ type PostingProps = {
   contentImage: string;
   postId: string;
   heartCount: number;
+  hearted: boolean;
   commentCount: number;
   updatedAt: string;
 };
@@ -43,6 +45,7 @@ function Posting({
   contentImage,
   postId,
   heartCount,
+  hearted,
   commentCount,
   updatedAt,
 }: PostingProps) {
@@ -73,7 +76,7 @@ function Posting({
   // 좋아요
   function likeOrUnlike() {
     try {
-      const response = postAPI.likePost(postId);
+      postAPI.likePost(postId);
     } catch (error) {
       console.log(error);
     }
@@ -158,10 +161,7 @@ function Posting({
             </div>
             <div className="flex gap-4">
               <div className="flex gap-[6px] items-center">
-                <button className="w-5 h-5">
-                  <img src={iconHeart} alt="좋아요" onClick={likeOrUnlike} />
-                </button>
-                <span className="text-[12px] text-[#767676]">{heartCount}</span>
+                <Heart postId={postId} heartCount={heartCount} hearted={hearted} />
               </div>
               <div className="flex gap-[6px] items-center">
                 <button className="w-5 h-5">
