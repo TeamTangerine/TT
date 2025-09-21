@@ -5,7 +5,7 @@ import iconMoreVertical from '../assets/icon/s-icon-more-vertical.png';
 import iconHeart from '../assets/icon/icon-heart.png';
 import iconMessage from '../assets/icon/icon-message-circle.svg';
 import iconImgLayers from '../assets/icon/iccon-img-layers.png';
-import { imageAPI } from '../service/fetch/api';
+import { imageAPI, postAPI } from '../service/fetch/api';
 
 // 리스트형 / 앨범형 선택을 위한 props 타입
 /**
@@ -28,6 +28,7 @@ type PostingProps = {
   userId: string;
   userContent: string;
   contentImage: string;
+  postId: string;
   heartCount: number;
   commentCount: number;
   updatedAt: string;
@@ -40,6 +41,7 @@ function Posting({
   userId,
   userContent,
   contentImage,
+  postId,
   heartCount,
   commentCount,
   updatedAt,
@@ -55,6 +57,7 @@ function Posting({
   // 이미지 랜더링을 위한 기본 url
   const imgUrl = 'https://dev.wenivops.co.kr/services/mandarin/';
 
+  // 이미지 랜더링
   // 이미지 배열 전환 함수
   function makeArray() {
     if (contentImage === undefined) {
@@ -66,16 +69,18 @@ function Posting({
   // 이미지 배열을 변수에 할당
   const contentImageArray = makeArray();
 
-  // 날짜 형식 변환 함수
-  function formatDate(dateString: string) {
-    return new Date(dateString).toLocaleString('ko-KR', {
-      year: 'numeric',
-      month: 'long',
-      day: 'numeric',
-    });
+  // 좋아요 버튼 기능
+  // 좋아요
+  function likeOrUnlike() {
+    try {
+      const response = postAPI.likePost(postId);
+      console.log(response);
+    } catch (error) {
+      console.log(error);
+    }
   }
 
-  // 더보기 적용을 위한 함수들
+  // '더보기' 적용을 위한 함수들
   // \n 개수를 세는 함수
   const checkLineBreaks = (text: string) => {
     const lineBreakCount = (text.match(/\n/g) || []).length;
@@ -96,9 +101,17 @@ function Posting({
 
   // 더보기 버튼을 눌렀을 경우, line-clamp를 css상태를 지움.
   function seeMoreContent() {
-    setSeeMore('hidden');
-    setSeeContent('');
-    console.log(imageAPI.getImage(userProfileImage));
+    seeContent === '' ? setSeeContent('line-clamp-3') : setSeeContent('');
+  }
+
+  // 포맷함수
+  // 날짜 형식 변환 함수
+  function formatDate(dateString: string) {
+    return new Date(dateString).toLocaleString('ko-KR', {
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric',
+    });
   }
 
   useEffect(() => {
@@ -127,22 +140,24 @@ function Posting({
             </div>
             <p className={`break-all whitespace-pre-wrap w-[304px] ${seeContent}`}>{userContent}</p>
             <span className={`${seeMore} text-[12px] cursor-pointer`} onClick={seeMoreContent}>
-              더보기
+              {seeContent === 'line-clamp-3' ? '더보기' : '숨기기'}
             </span>
-            {contentImageArray && contentImageArray.length > 0
-              ? contentImageArray.map((image: string, index: number) => (
-                  <img
-                    className="w-[304px] h-[228px] rounded-[10px] border-[0.5px] border-[#DBDBDB] object-cover bg-[#C4C4C4] ]"
-                    src={imgUrl + image}
-                    key={index}
-                    alt="게시글이미지"
-                  />
-                ))
-              : null}
+            <div className="flex flex-col gap-1">
+              {contentImageArray && contentImageArray.length > 0
+                ? contentImageArray.map((image: string, index: number) => (
+                    <img
+                      className="w-[304px] h-[228px] rounded-[10px] border-[0.5px] border-[#DBDBDB] object-cover bg-[#C4C4C4] ]"
+                      src={imgUrl + image}
+                      key={index}
+                      alt="게시글이미지"
+                    />
+                  ))
+                : null}
+            </div>
             <div className="flex gap-4">
               <div className="flex gap-[6px] items-center">
                 <button className="w-5 h-5">
-                  <img src={iconHeart} alt="좋아요" />
+                  <img src={iconHeart} alt="좋아요" onClick={likeOrUnlike} />
                 </button>
                 <span className="text-[12px] text-[#767676]">{heartCount}</span>
               </div>
