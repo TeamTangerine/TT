@@ -3,12 +3,24 @@ import Header from '../../components/Header';
 import Posting from '../../components/Posting';
 import Comment from './components/Comment';
 import profileImg from '../../assets/Ellipse 6.png';
+import { useParams, useLocation } from 'react-router-dom';
 
 function Post() {
   // 유저 프로필 이미지 상태 관리
   const [userImg, setUserImg] = useState('');
   // 메세지 입력값 관리
   const [message, setMessage] = useState('');
+  // URL에서 파라미터 값 가져오기
+  const { id } = useParams<string>();
+  // navigate에서 온 state 데이터 받기
+  const location = useLocation();
+  const statePost = location.state?.post as PostAPI.IPost | null;
+  // 게시글 데이터
+  const [post, setPost] = useState<PostAPI.IPost | null>(statePost || null);
+  //navigate에서 state값을 받아왔을 때 or 게시글이 수정되었을 때 or URL에서 id를 가져왔을 때 => 게시글 불러오는 api가 담긴 함수 실행
+  useEffect(() => {
+    getDetailArticle();
+  }, [statePost, post?.updatedAt, id]);
   useEffect(() => {
     getUserInfo();
   }, []);
@@ -24,6 +36,23 @@ function Post() {
       console.error('현재 로그인 중인 유저의 프로필 이미지 불러오기 실패', error);
     }
   }
+
+  // 게시글 불러오는 api 함수
+  async function getDetailArticle() {
+    // state값이 없을 경우 api 작동
+    if (!statePost && id) {
+      setLoading(true);
+      try {
+        const res = await postAPI.getPost(id);
+        setPost(res.post);
+      } catch (error: any) {
+        console.error(`상세 게시글 불러오기 실패: ${error.message}`);
+      } finally {
+        setLoading(false);
+      }
+    }
+  }
+
   return (
     <>
       <Header navStyle="top-basic" />
@@ -50,7 +79,43 @@ function Post() {
           </button>
         </form>
       </div>
+        <>
+          <Header navStyle="top-basic" />
+          <main>
+            <span className="flex justify-center py-5">
+              <Posting
+                // 포스팅 컴포넌트에 대한 key
+                key={post.id}
+                userProfileImage={post.author.image}
+                userName={post.author.username}
+                userId={post.author.accountname}
+                userContent={post.content}
+                contentImage={post.image}
+                heartCount={post.heartCount}
+                commentCount={post.commentCount}
+                updatedAt={post.updatedAt}
+              />
+            </span>
+            <ul className="flex flex-col gap-4 pt-5 px-4 border-t border-t-[#DBDBDB]">
+              <Comment />
+              <Comment />
+            </ul>
+          </main>
+          <div className="fixed bottom-0 flex items-center justify-center w-full h-[60px] border-t border-t-[#DBDBDB] bg-white">
             <img className="w-9 h-9 rounded-full" src={userImg ? userImg : profileImg} alt="내 프로필 이미지" />
+              <input
+                className="w-[278px] ml-[18px] text-[14px] focus:outline-none  placeholder-[#C4C4C4]"
+                type="text"
+                placeholder="댓글 입력하기..."
+                onChange={(e) => setMessage(e.target.value)}
+              />
+              <button className={`text-[14px] ${message ? 'text-[#F26E22]' : 'text-[#C4C4C4] font-medium'}`}>
+                게시
+              </button>
+            </form>
+          </div>
+        </>
+      )}
     </>
   );
 }
