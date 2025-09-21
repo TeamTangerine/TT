@@ -3,6 +3,7 @@ import Modal from './modal/Modal';
 import Heart from './profile/Heart';
 import basicProfileImg from '../assets/basic-profile-img.png';
 import iconMoreVertical from '../assets/icon/s-icon-more-vertical.png';
+import iconMessageActive from '../assets/icon/icon-message-circle-fill.png';
 import iconMessage from '../assets/icon/icon-message-circle.svg';
 import iconImgLayers from '../assets/icon/iccon-img-layers.png';
 import { imageAPI, postAPI } from '../service/fetch/api';
@@ -154,7 +155,7 @@ function Posting({
               </div>
               <div className="flex gap-[6px] items-center">
                 <button className="w-5 h-5">
-                  <img src={iconMessage} alt="댓글" />
+                  <img src={!!commentCount ? iconMessageActive : iconMessage} alt="댓글" />
                 </button>
                 <span className="text-[12px] text-[#767676]">{commentCount}</span>
               </div>
