@@ -79,6 +79,8 @@ function Post() {
           </button>
         </form>
       </div>
+      {loading && <p>로딩중...</p>}
+      {!loading && post && (
         <>
           <Header navStyle="top-basic" />
           <main>
