@@ -48,9 +48,8 @@ function Posting({
   commentCount,
   updatedAt,
 }: PostingProps) {
+  // 기본 프로필 유저 이미지
   const profileImg = basicProfileImg;
-  // 이미지 랜더링을 위한 기본 url
-  const imgUrl = 'https://dev.wenivops.co.kr/services/mandarin/';
 
   // 라우팅
   const navigate = useNavigate();
@@ -77,6 +76,7 @@ function Posting({
 
   // 이미지 배열을 변수에 할당
   const contentImageArray = makeArray();
+  console.log(contentImageArray);
 
   // 날짜 형식 변환 함수
   function formatDate(dateString: string) {
@@ -112,7 +112,7 @@ function Posting({
               ? contentImageArray.map((image: string, index: number) => (
                   <img
                     className="w-[304px] h-[228px] rounded-[10px] border-[0.5px] border-[#DBDBDB] object-cover bg-[#C4C4C4] ]"
-                    src={imgUrl + image}
+                    src={imageAPI.getImage(image)}
                     key={index}
                     alt="게시글이미지"
                   />
@@ -150,7 +150,7 @@ function Posting({
           {contentImage && (
             <li className={`relative w-full aspect-square ${contentImage ? '' : 'hidden'}`}>
               <img
-                src={contentImageArray && imgUrl + contentImageArray[0]}
+                src={contentImageArray && imageAPI.getImage(contentImageArray[0])}
                 alt="게시글 이미지"
                 className="w-full h-full object-cover"
               />
