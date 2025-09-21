@@ -2,6 +2,8 @@ import { useEffect, useRef, useState } from 'react';
 import modalBarImg from '../../assets/modal-bar.png';
 import { createPortal } from 'react-dom';
 import ToastChildren from './components/ToastChildren';
+import { useNavigate } from 'react-router-dom';
+import Modal from './components/Modal';
 interface IModalProps {
   showModal: boolean;
   closeModal: () => void;
@@ -23,7 +25,10 @@ interface IModalProps {
  * @param closeModal - setShowModal(false)를 콜백으로 받음
  * @returns
  */
-function Modal({ showModal, closeModal, toastStyle }: IModalProps) {
+function Toast({ showModal, closeModal, toastStyle }: IModalProps) {
+  //네비게이트
+  const navigate = useNavigate();
+
   const dialogRef = useRef(null);
 
   //모달 열렸는지 상태
@@ -38,6 +43,7 @@ function Modal({ showModal, closeModal, toastStyle }: IModalProps) {
   //버튼 온클릭 이벤트 핸들러  setOpen(false)로 애니메이션(밑에 duration-300)이 지나고 닫히도록 딜레이함.
   const handleClose = () => {
     setIsOpen(false);
+    setOpenModal(false);
     setTimeout(() => {
       closeModal();
     }, 300);
@@ -62,22 +68,37 @@ function Modal({ showModal, closeModal, toastStyle }: IModalProps) {
 
   // 케이스 5 채팅방 헤더일때
   // - 채팅방 나가기
+  const [openModal, setOpenModal] = useState(false);
 
   const ToastContent = () => {
     switch (toastStyle) {
       case 'header': {
+        const logout = () => {
+          setOpenModal(true);
+        };
+        const setting = () => {
+          alert('해당 기능은 개발 중입니다. 조금만 기다려 주세요 😊');
+        };
         return (
           <>
-            <ToastChildren content="설정 및 개인정보" />
-            <ToastChildren content="로그아웃" />
+            <ToastChildren content="설정 및 개인정보" click={setting} />
+            <ToastChildren content="로그아웃" click={logout} />
+            <Modal isOpen={openModal} isClose={() => setOpenModal(false)} />
           </>
         );
       }
       case 'myProfile-post': {
+        const deleteMyPost = () => {
+          setOpenModal(true);
+        };
+        const editMyPost = () => {
+          navigate('/upload');
+        };
         return (
           <>
-            <ToastChildren content="삭제" />;
-            <ToastChildren content="수정" />;
+            <ToastChildren content="삭제" click={deleteMyPost} />;
+            <ToastChildren content="수정" click={editMyPost} />;
+            <Modal isOpen={openModal} isClose={() => setOpenModal(false)} />
           </>
         );
       }
@@ -129,4 +150,4 @@ function Modal({ showModal, closeModal, toastStyle }: IModalProps) {
   );
 }
 
-export default Modal;
+export default Toast;
