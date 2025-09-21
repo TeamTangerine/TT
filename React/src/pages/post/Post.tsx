@@ -111,10 +111,11 @@ function Post() {
                 updatedAt={post.updatedAt}
               />
             </span>
-            <ul className="flex flex-col gap-4 pt-5 px-4 border-t border-t-[#DBDBDB]">
-              <Comment />
-              <Comment />
-            </ul>
+            {comments.length > 0 && (
+              <ul className="flex flex-col gap-4 pt-5 px-4 border-t border-t-[#DBDBDB]">
+                <Comment />
+              </ul>
+            )}
           </main>
           <div className="fixed bottom-0 flex items-center justify-center w-full h-[60px] border-t border-t-[#DBDBDB] bg-white">
             <img className="w-9 h-9 rounded-full" src={userImg ? userImg : profileImg} alt="내 프로필 이미지" />
