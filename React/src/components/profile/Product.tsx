@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import productImgSample from '../../assets/product-img-example.png';
-import Modal from '../modal/Modal';
+import Modal from '../modal/Toast';
 
 /**
  * @param itemImgae - 상품 이미지

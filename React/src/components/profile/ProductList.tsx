@@ -2,7 +2,7 @@ import Product from './Product';
 import { useState, useEffect } from 'react';
 import { productAPI } from '../../service/fetch/api';
 import { userAPI } from '../../service/fetch/api';
-import Modal from '../modal/Modal';
+import Modal from '../modal/Toast';
 import { ProductAPI } from '../../types/IFetchType';
 
 // onEditProduct
