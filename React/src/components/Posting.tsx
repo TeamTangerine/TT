@@ -6,6 +6,7 @@ import iconImgLayers from '../assets/icon/iccon-img-layers.png';
 import { imageAPI } from '../service/fetch/api';
 import { useNavigate } from 'react-router-dom';
 import { PostAPI } from '../types/IFetchType';
+import { validateUrl } from '../Utils/validation';
 
 // 리스트형 / 앨범형 선택을 위한 props 타입
 /**
@@ -54,9 +55,6 @@ function Posting({
   // 라우팅
   const navigate = useNavigate();
 
-  // 상세 게시글(post)페이지인 url 정규 표현식
-  const urlRegex = /^.+\/post\/:.+$/;
-
   // 이미지 배열 전환 함수
   function makeArray() {
     if (contentImage === undefined) {
@@ -68,7 +66,7 @@ function Posting({
 
   function commentNavigate() {
     // 현재 페이지가 상세 게시글(post)페이지일 경우 링크 이동x
-    if (urlRegex.test(window.location.href)) {
+    if (validateUrl(window.location.href)) {
       return;
     }
     navigate(`/post/:${id}`, { state: { post } });
@@ -127,11 +125,11 @@ function Posting({
               </div>
               {/* 댓글 버튼이나 댓글수 눌렀을 때 상세 페이지로 이동 */}
               <div
-                className={`flex gap-[6px] items-center ${!urlRegex.test(window.location.href) && 'cursor-pointer'} `}
+                className={`flex gap-[6px] items-center ${!validateUrl(window.location.href) && 'cursor-pointer'} `}
                 onClick={commentNavigate}
               >
                 <button
-                  className={`w-5 h-5 ${urlRegex.test(window.location.href) ? 'cursor-default' : 'cursor-pointer'}`}
+                  className={`w-5 h-5 ${validateUrl(window.location.href) ? 'cursor-default' : 'cursor-pointer'}`}
                   type="button"
                 >
                   <img src={iconMessage} alt="댓글" />
