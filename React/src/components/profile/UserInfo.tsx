@@ -41,6 +41,16 @@ function UserInfo({ isMyProfile }: UserInfoProps) {
     }
   }
 
+  // 현재 url을 복사하는 함수
+  async function copyCurrentUrl() {
+    try {
+      await navigator.clipboard.writeText(window.location.href);
+      alert('URL이 복사되었습니다!');
+    } catch (error) {
+      console.error('복사 실패:', error);
+    }
+  }
+
   // 로그인한 유저의 accountname을 가져오는 함수
   async function getUserInfo() {
     const res = await userAPI.getMyInfo();
@@ -140,6 +150,7 @@ function UserInfo({ isMyProfile }: UserInfoProps) {
             <button
               className="flex items-center justify-center w-[34px] h-[34px] rounded-full border-[1px] border-[#DBDBDB]
         "
+              onClick={copyCurrentUrl}
             >
               <img src={iconShare} alt="공유하기" className="w-5 h-5" />
             </button>
