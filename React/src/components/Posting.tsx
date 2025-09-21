@@ -74,7 +74,6 @@ function Posting({
   function likeOrUnlike() {
     try {
       const response = postAPI.likePost(postId);
-      console.log(response);
     } catch (error) {
       console.log(error);
     }
@@ -139,7 +138,10 @@ function Posting({
               </button>
             </div>
             <p className={`break-all whitespace-pre-wrap w-[304px] ${seeContent}`}>{userContent}</p>
-            <span className={`${seeMore} text-[12px] cursor-pointer`} onClick={seeMoreContent}>
+            <span
+              className={`${seeMore} hover:text-[#ff6b35] text-[12px] font-medium cursor-pointer`}
+              onClick={seeMoreContent}
+            >
               {seeContent === 'line-clamp-3' ? '더보기' : '숨기기'}
             </span>
             <div className="flex flex-col gap-1">
