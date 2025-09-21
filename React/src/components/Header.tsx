@@ -12,7 +12,7 @@ interface IHeaderProps {
   searchOnChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
   formTarget?: string;
   inputValue?: string;
-  isfollowing?: boolean;
+  isFollowing?: boolean;
 }
 
 /**
@@ -34,9 +34,8 @@ interface IHeaderProps {
  * />
  */
 
-function Header({ navStyle, button = false, searchOnChange, inputValue, formTarget, isfollowing }: IHeaderProps) {
+function Header({ navStyle, button = false, searchOnChange, inputValue, formTarget, isFollowing }: IHeaderProps) {
   const [showModal, setShowModal] = useState(false);
-  const [following, setFollowing] = useState(isfollowing);
   const navigate = useNavigate();
 
   const navContent = () => {
@@ -136,7 +135,7 @@ function Header({ navStyle, button = false, searchOnChange, inputValue, formTarg
               <img src={arrowLeft} alt="뒤로가기" />
             </button>
             {/* Followers or Followings */}
-            <p className="text-[14px] h-[18px]">{following ? 'Followings' : 'Followers'}</p>
+            <p className="text-[14px] h-[18px]">{isFollowing ? 'Followings' : 'Followers'}</p>
           </div>
         );
       }

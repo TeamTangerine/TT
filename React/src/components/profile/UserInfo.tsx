@@ -51,8 +51,8 @@ function UserInfo({ isMyProfile }: UserInfoProps) {
   async function getUserProfile() {
     setLoading(true);
     try {
-      const profileData = await profileAPI.getProfile(accountName);
-      setProfileData(profileData.profile);
+      const res = await profileAPI.getProfile(accountName);
+      setProfileData(res.profile);
     } catch (error) {
       console.log(error);
     } finally {

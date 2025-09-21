@@ -14,11 +14,14 @@ function FollowersList() {
   const type = searchParams.get('type');
 
   const [followList, setFollowList] = useState<ProfileAPI.IFollowingListResponse>([]);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
 
   async function getFollowList() {
     // 타입이 following인 경우 팔로잉 목록을, 타입이 follower인 경우 팔로워 목록을 불러옴
+
+    setLoading(true);
+    setError('');
 
     // 타입체크하는 곳, accountName과 type의 타입을 체크
     if (!accountName || !type) {
@@ -27,8 +30,6 @@ function FollowersList() {
       return;
     }
 
-    setLoading(false);
-    setError('');
     try {
       const data =
         type === 'following'
@@ -39,7 +40,7 @@ function FollowersList() {
       console.log('팔로우 리스트를 불러오는데 실패했습니다.', error);
       setError('목록을 불러오는데 실패했습니다.');
     } finally {
-      setLoading(true);
+      setLoading(false);
     }
   }
 
@@ -76,8 +77,8 @@ function FollowersList() {
 
   return (
     <>
-      <Header navStyle="top-follow" isfollowing={type === 'following' ? true : false} />
-      <ul className="flex flex-col gap-4 mx-4 mt-6">{loading ? showFollowerList() : <p>로딩중 입니다.</p>}</ul>
+      <Header navStyle="top-follow" isFollowing={type === 'following' ? true : false} />
+      <ul className="flex flex-col gap-4 mx-4 mt-6">{loading ? <p>로딩중 입니다.</p> : showFollowerList()}</ul>
     </>
   );
 }
