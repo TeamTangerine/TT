@@ -6,6 +6,7 @@ import Header from '../../components/Header';
 import Button from '../../components/button/Button';
 import basicProfileImage from '../../assets/basic-profile-img.png';
 import { ButtonColorType } from '../../types/IButtonType';
+import FollowToggleButton from '../../components/Button/FollowToggleButton';
 
 function FollowersList() {
   const profileImg = basicProfileImage;
@@ -36,32 +37,11 @@ function FollowersList() {
           ? await profileAPI.getFollowingList(accountName)
           : await profileAPI.getFollowerList(accountName);
       setFollowList(data);
-      console.log(data.length);
     } catch (error) {
       console.log('팔로우 리스트를 불러오는데 실패했습니다.', error);
       setError('목록을 불러오는데 실패했습니다.');
     } finally {
       setLoading(true);
-    }
-  }
-
-  // 팔로우 함수
-  async function follow(userAccount: string) {
-    try {
-      const res = await profileAPI.follow(userAccount);
-      getFollowList();
-    } catch (error) {
-      console.log(error);
-    }
-  }
-
-  // 언팔로우 함수
-  async function unfollow(userAccount: string) {
-    try {
-      const res = await profileAPI.unfollow(userAccount);
-      getFollowList();
-    } catch (error) {
-      console.log(error);
     }
   }
 
@@ -80,20 +60,13 @@ function FollowersList() {
               <p className="text-[12px] text-[#767676] h-[15px]">{user.intro}</p>
             </div>
           </div>
-          <Button
-            btnTextContent={user.isfollow ? '취소' : '팔로우'}
+          <FollowToggleButton
+            followText="팔로우"
+            unfollowText="취소"
             btnSize="small"
-            btnColor={user.isfollow ? 'active' : 'normal'}
-            onClick={
-              user.isfollow
-                ? () => {
-                    unfollow(user.accountname);
-                  }
-                : () => {
-                    follow(user.accountname);
-                  }
-            }
-          ></Button>
+            userAccount={user.accountname}
+            isFollow={user.isfollow}
+          />
         </li>
       );
     });
@@ -102,10 +75,6 @@ function FollowersList() {
   useEffect(() => {
     getFollowList();
   }, []);
-
-  useEffect(() => {
-    showFollowerList();
-  }, [followList]);
 
   return (
     <>
