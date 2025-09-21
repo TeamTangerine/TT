@@ -181,7 +181,7 @@ function Posting({
           {contentImage && (
             <li className={`relative w-full max-w-[200px] aspect-square ${contentImage ? '' : 'hidden'}`}>
               <img
-                src={contentImageArray && imgUrl + imageAPI.getImage(contentImageArray[0])}
+                src={contentImageArray && imageAPI.getImage(contentImageArray[0])}
                 alt="게시글 이미지"
                 className="w-full h-full object-cover"
               />
