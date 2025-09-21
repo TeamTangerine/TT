@@ -13,7 +13,7 @@ function Heart({ postId, heartCount, hearted }: HeartProps) {
   const [like, setLike] = useState(hearted);
   const [count, setCount] = useState(heartCount);
 
-  async function likeOrUnlike() {
+  async function handleLike() {
     try {
       const response = await postAPI.likePost(postId);
       setLike(response.post.hearted);
@@ -28,7 +28,7 @@ function Heart({ postId, heartCount, hearted }: HeartProps) {
   return (
     <>
       <button className="w-5 h-5">
-        <img src={like ? iconHeartActive : iconHeart} alt="좋아요" onClick={likeOrUnlike} />
+        <img src={like ? iconHeartActive : iconHeart} alt="좋아요" onClick={handleLike} />
       </button>
       <span className="text-[12px] text-[#767676]">{count}</span>
     </>

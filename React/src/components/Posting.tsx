@@ -6,7 +6,7 @@ import iconMoreVertical from '../assets/icon/s-icon-more-vertical.png';
 import iconMessageActive from '../assets/icon/icon-message-circle-fill.png';
 import iconMessage from '../assets/icon/icon-message-circle.svg';
 import iconImgLayers from '../assets/icon/iccon-img-layers.png';
-import { imageAPI, postAPI } from '../service/fetch/api';
+import { imageAPI } from '../service/fetch/api';
 
 // 리스트형 / 앨범형 선택을 위한 props 타입
 /**
@@ -57,9 +57,6 @@ function Posting({
   // 기본 프로필 이미지
   const profileImg = basicProfileImg;
 
-  // 이미지 랜더링을 위한 기본 url
-  const imgUrl = 'https://dev.wenivops.co.kr/services/mandarin/';
-
   // 이미지 랜더링
   // 이미지 배열 전환 함수
   function makeArray() {
@@ -91,7 +88,7 @@ function Posting({
     }
   }
 
-  // 더보기 버튼을 눌렀을 경우, line-clamp를 css상태를 지움.
+  // 더보기 버튼을 눌렀을 경우, line-clamp 클래스 명을 제거하고 추가해주는 함수.
   function seeMoreContent() {
     seeContent === '' ? setSeeContent('line-clamp-3') : setSeeContent('');
   }
@@ -142,7 +139,7 @@ function Posting({
                 ? contentImageArray.map((image: string, index: number) => (
                     <img
                       className="w-[304px] h-[228px] rounded-[10px] border-[0.5px] border-[#DBDBDB] object-cover bg-[#C4C4C4] ]"
-                      src={imgUrl + image}
+                      src={imageAPI.getImage(image)}
                       key={index}
                       alt="게시글이미지"
                     />

@@ -33,7 +33,6 @@ function HomeCardGrid() {
   async function getUserInfo() {
     const res = await userAPI.getMyInfo();
     setAccountName(res.user.accountname);
-    console.log(res);
   }
 
   // 게시물 목록을 받아오는 함수
