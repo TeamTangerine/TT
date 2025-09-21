@@ -18,6 +18,7 @@ function Post() {
   // 게시글 데이터
   const [post, setPost] = useState<PostAPI.IPost | null>(statePost || null);
   //navigate에서 state값을 받아왔을 때 or 게시글이 수정되었을 때 or URL에서 id를 가져왔을 때 => 게시글 불러오는 api가 담긴 함수 실행
+  const [loading, setLoading] = useState(!statePost); // state가 있으면 false, 없으면 true
   useEffect(() => {
     getDetailArticle();
   }, [statePost, post?.updatedAt, id]);
@@ -53,6 +54,19 @@ function Post() {
     }
   }
 
+
+  // 해당 게시글에 대한 댓글 작성하는 api 함수
+  async function postComment() {
+    if (post?.id) {
+      try {
+        await commentAPI.createComment(post.id, message);
+        alert('댓글 작성 완료!');
+        setMessage('');
+      } catch (error: any) {
+        console.error(`댓글 작성 실패: ${error.message}`);
+      }
+    }
+  }
   return (
     <>
       <Header navStyle="top-basic" />
@@ -105,10 +119,17 @@ function Post() {
           </main>
           <div className="fixed bottom-0 flex items-center justify-center w-full h-[60px] border-t border-t-[#DBDBDB] bg-white">
             <img className="w-9 h-9 rounded-full" src={userImg ? userImg : profileImg} alt="내 프로필 이미지" />
+            <form
+              onSubmit={(e) => {
+                e.preventDefault();
+                postComment();
+              }}
+            >
               <input
                 className="w-[278px] ml-[18px] text-[14px] focus:outline-none  placeholder-[#C4C4C4]"
                 type="text"
                 placeholder="댓글 입력하기..."
+                value={message}
                 onChange={(e) => setMessage(e.target.value)}
               />
               <button className={`text-[14px] ${message ? 'text-[#F26E22]' : 'text-[#C4C4C4] font-medium'}`}>
