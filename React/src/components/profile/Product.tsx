@@ -43,7 +43,7 @@ function Product({ itemImage, itemName, price, productLink, isOwner, setShowModa
 
   return (
     <>
-      <li className="w-[140px] h-[132px] flex flex-col flex-shrink-0" onClick={() => handleLink()}>
+      <li className="w-[140px] h-[132px] flex flex-col flex-shrink-0 cursor-pointer" onClick={() => handleLink()}>
         <img
           src={itemImage ? imgUrl + itemImage : productSample}
           alt="샘플이미지"
