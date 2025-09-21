@@ -29,7 +29,6 @@ function ProductList({ isOwner }: ProductListProps) {
       const productData = await productAPI.getUserProducts(accountName);
       // product에 productData.product데이터 저장
       setProducts(productData.product);
-      console.log(productData.product);
     } catch (error) {
       console.log('상품 목록 조회 실패:', error);
     } finally {
