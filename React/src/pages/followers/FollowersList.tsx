@@ -3,9 +3,7 @@ import { useParams, useSearchParams } from 'react-router-dom';
 import { profileAPI } from '../../service/fetch/api';
 import { ProfileAPI } from '../../types/IFetchType';
 import Header from '../../components/Header';
-import Button from '../../components/button/Button';
 import basicProfileImage from '../../assets/basic-profile-img.png';
-import { ButtonColorType } from '../../types/IButtonType';
 import FollowToggleButton from '../../components/Button/FollowToggleButton';
 
 function FollowersList() {
