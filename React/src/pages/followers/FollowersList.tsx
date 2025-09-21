@@ -109,7 +109,7 @@ function FollowersList() {
 
   return (
     <>
-      <Header navStyle="top-follow" />
+      <Header navStyle="top-follow" isfollowing={type === 'following' ? true : false} />
       <ul className="flex flex-col gap-4 mx-4 mt-6">{loading ? showFollowerList() : <p>로딩중 입니다.</p>}</ul>
     </>
   );

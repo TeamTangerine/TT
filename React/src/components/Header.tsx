@@ -12,6 +12,7 @@ interface IHeaderProps {
   searchOnChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
   formTarget?: string;
   inputValue?: string;
+  isfollowing?: boolean;
 }
 
 /**
@@ -20,6 +21,7 @@ interface IHeaderProps {
  * @param button -bloolean (옵셔널) top-upload 스타일 사용시 '저장'버튼의 disabled를 컨트롤 하는 prop입니다.
  * @param searchValue - (옵셔널) top-search 스타일 사용시 input의 value로 사용되는 문자열
  * @param searchOnChange - (옵셔널) top-search 스타일 사용시 input의 onChange 핸들러
+ * @param isfollowing = (옵셔널) top-follow 사용시 following 목록인지 follower목록인지 구별하는데 사용
  * @returns
 // top-upload 스타일 사용 예시
  * <Header navStyle="top-upload" button={true} />
@@ -32,8 +34,9 @@ interface IHeaderProps {
  * />
  */
 
-function Header({ navStyle, button = false, searchOnChange, inputValue, formTarget }: IHeaderProps) {
+function Header({ navStyle, button = false, searchOnChange, inputValue, formTarget, isfollowing }: IHeaderProps) {
   const [showModal, setShowModal] = useState(false);
+  const [following, setFollowing] = useState(isfollowing);
   const navigate = useNavigate();
 
   const navContent = () => {
@@ -133,7 +136,7 @@ function Header({ navStyle, button = false, searchOnChange, inputValue, formTarg
               <img src={arrowLeft} alt="뒤로가기" />
             </button>
             {/* Followers or Followings */}
-            <p className="text-[14px] h-[18px]">Followers</p>
+            <p className="text-[14px] h-[18px]">{following ? 'Followings' : 'Followers'}</p>
           </div>
         );
       }
