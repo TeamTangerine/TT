@@ -262,7 +262,7 @@ export namespace CommentAPI {
 
   // 댓글 목록
   export interface ICommentListResponse {
-    comment: IComment[];
+    comments: IComment[];
   }
 
   // 댓글 신고
