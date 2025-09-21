@@ -5,9 +5,25 @@ import Comment from './components/Comment';
 import profileImg from '../../assets/Ellipse 6.png';
 
 function Post() {
+  // 유저 프로필 이미지 상태 관리
+  const [userImg, setUserImg] = useState('');
   // 메세지 입력값 관리
   const [message, setMessage] = useState('');
+  useEffect(() => {
+    getUserInfo();
+  }, []);
 
+  // 현재 로그인 중인 유저의 프로필 이미지 가져오는 api
+  async function getUserInfo() {
+    try {
+      const res = await userAPI.getMyInfo();
+      const image = res.user.image;
+      setUserImg(image);
+      console.log(userImg);
+    } catch (error) {
+      console.error('현재 로그인 중인 유저의 프로필 이미지 불러오기 실패', error);
+    }
+  }
   return (
     <>
       <Header navStyle="top-basic" />
@@ -34,6 +50,7 @@ function Post() {
           </button>
         </form>
       </div>
+            <img className="w-9 h-9 rounded-full" src={userImg ? userImg : profileImg} alt="내 프로필 이미지" />
     </>
   );
 }
