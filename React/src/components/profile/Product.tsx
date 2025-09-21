@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import productImgSample from '../../assets/product-img-example.png';
 import Modal from '../modal/Modal';
+import { imageAPI } from '../../service/fetch/api';
 
 /**
  * @param itemImgae - 상품 이미지
@@ -22,9 +23,6 @@ type ProductProps = {
 };
 
 function Product({ itemImage, itemName, price, productLink, isOwner, setShowModal }: ProductProps) {
-  // 이미지 랜더링을 위한 기본 url
-  const imgUrl = 'https://dev.wenivops.co.kr/services/mandarin/';
-
   const productSample = productImgSample;
 
   // 가격을 원화 포맷에 맞혀 사용
@@ -45,7 +43,7 @@ function Product({ itemImage, itemName, price, productLink, isOwner, setShowModa
     <>
       <li className="w-[140px] h-[132px] flex flex-col flex-shrink-0 cursor-pointer" onClick={() => handleLink()}>
         <img
-          src={itemImage ? imgUrl + itemImage : productSample}
+          src={itemImage ? imageAPI.getImage(itemImage) : productSample}
           alt="샘플이미지"
           className="w-[140px] h-[90px] rounded-[8px] object-cover"
         />
