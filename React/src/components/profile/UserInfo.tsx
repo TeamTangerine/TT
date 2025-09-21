@@ -78,7 +78,7 @@ function UserInfo({ isMyProfile }: UserInfoProps) {
           <span className="text-[10px] text-[#767676]">followers</span>
         </div>
         <img
-          src={!!profileData.image.length ? profileData.image : profileImg}
+          src={!!profileData.image ? profileData.image : profileImg}
           alt="유저 이미지"
           className="w-[110px] h-[110px] border-[#dbdbdb] border-[1px] rounded-full object-cover"
         />
@@ -127,7 +127,7 @@ function UserInfo({ isMyProfile }: UserInfoProps) {
           // MyProfile이 아닌 경우(YourProfile)
           <>
             <button className="flex items-center justify-center w-[34px] h-[34px] rounded-full border-[1px] border-[#DBDBDB]">
-              <img src={iconMessageCircle} alt="채팅하기" className="w-5 h-5" />
+              <img src={iconMessageCircle} alt="채팅하기" className="w-5 h-5" onClick={() => navigate('/chat-list')} />
             </button>
             <Button
               btnTextContent={isFollow}
