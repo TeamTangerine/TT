@@ -3,7 +3,6 @@ import Modal from './modal/Modal';
 import Heart from './profile/Heart';
 import basicProfileImg from '../assets/basic-profile-img.png';
 import iconMoreVertical from '../assets/icon/s-icon-more-vertical.png';
-import iconHeart from '../assets/icon/icon-heart.png';
 import iconMessage from '../assets/icon/icon-message-circle.svg';
 import iconImgLayers from '../assets/icon/iccon-img-layers.png';
 import { imageAPI, postAPI } from '../service/fetch/api';
@@ -71,16 +70,6 @@ function Posting({
 
   // 이미지 배열을 변수에 할당
   const contentImageArray = makeArray();
-
-  // 좋아요 버튼 기능
-  // 좋아요
-  function likeOrUnlike() {
-    try {
-      postAPI.likePost(postId);
-    } catch (error) {
-      console.log(error);
-    }
-  }
 
   // '더보기' 적용을 위한 함수들
   // \n 개수를 세는 함수
