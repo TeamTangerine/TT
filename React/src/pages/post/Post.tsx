@@ -113,7 +113,15 @@ function Post() {
             </span>
             {comments.length > 0 && (
               <ul className="flex flex-col gap-4 pt-5 px-4 border-t border-t-[#DBDBDB]">
-                <Comment />
+                {comments.map((comment) => (
+                  <Comment
+                    key={comment.id}
+                    userProfileImage={comment.author.image}
+                    userName={comment.author.username}
+                    content={comment.content}
+                    createdAt={comment.createdAt}
+                  />
+                ))}
               </ul>
             )}
           </main>
