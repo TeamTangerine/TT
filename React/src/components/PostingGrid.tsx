@@ -9,7 +9,6 @@ import { PostAPI } from '../types/IFetchType';
 
 function HomeCardGrid() {
   const [showList, setShowList] = useState(true);
-  const [accountName, setAccountName] = useState('');
   const [posts, setPosts] = useState<PostAPI.IPost[]>([]);
   const [loading, setLoading] = useState(false);
 
@@ -30,15 +29,13 @@ function HomeCardGrid() {
   }
 
   // 로그인한 유저 accout를 받는 함수, setAccountName을 통해 상태 설정
-  async function getUserInfo() {
-    const res = await userAPI.getMyInfo();
-    setAccountName(res.user.accountname);
-  }
 
   // 게시물 목록을 받아오는 함수
   async function getUserPosts() {
     setLoading(true);
     try {
+      const accountData = await userAPI.getMyInfo();
+      const accountName = await accountData.user.accountname;
       const postData = await postAPI.getUserPosts(accountName);
       if (!postData) {
         throw new Error(postData);
@@ -53,12 +50,8 @@ function HomeCardGrid() {
   }
 
   useEffect(() => {
-    getUserInfo();
-  }, []);
-
-  useEffect(() => {
     getUserPosts();
-  }, [accountName]);
+  }, []);
 
   return (
     <div className="h-full bg-white">
