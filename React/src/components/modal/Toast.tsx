@@ -4,10 +4,16 @@ import { createPortal } from 'react-dom';
 import ToastChildren from './components/ToastChildren';
 import { useNavigate } from 'react-router-dom';
 import Modal from './components/Modal';
+import { createModalConfigs } from './components/ModalConfigs';
+import { commentAPI, postAPI } from '../../service/fetch/api';
+
 interface IModalProps {
   showModal: boolean;
   closeModal: () => void;
   toastStyle: 'header' | 'myProfile-post' | 'myProfile-product' | 'my-comment' | 'user-comment' | 'chat';
+  postId?: string;
+  productId?: string;
+  commentId?: string;
 }
 
 // 리팩토링 todo
@@ -17,6 +23,12 @@ interface IModalProps {
  * 3. 내 게시글 수정인지 남의 게시글인지 구분하는 로직 필요
  * 4. 재사용성 고려(같은 기능 묶기)
  * 5. 모달 함수들 래핑
+ * === 계획 초기화
+ * 1. 모달 코딩 패턴 계획
+ * 2. configuration Object Pattern
+ * 3. 기능별 분류
+ * 3-1. 콘텐츠 렌더링 (버튼)(madalStyle)
+ * 3-2. 모달 설정 : 콘텐츠, 액션 함수 정의
  */
 
 /**
@@ -25,21 +37,27 @@ interface IModalProps {
  * @param closeModal - setShowModal(false)를 콜백으로 받음
  * @returns
  */
-function Toast({ showModal, closeModal, toastStyle }: IModalProps) {
+function Toast({ showModal, closeModal, toastStyle, postId, productId, commentId }: IModalProps) {
   //네비게이트
   const navigate = useNavigate();
 
   const dialogRef = useRef(null);
 
-  //모달 열렸는지 상태
+  //토스트 열렸는지 상태
   const [isOpen, setIsOpen] = useState(false);
+
+  //모달이 열렸는지 상태
+  const [openModal, setOpenModal] = useState(false);
+  //모달 타입 저장용
+  const [modalType, setModalType] = useState('');
 
   //settimeout을 안하면 바로 올라와서 지연시킴. 렌더링시 Open=true
   useEffect(() => {
     setTimeout(() => {
       setIsOpen(showModal);
     }, 10);
-  }, []);
+  }, [showModal]);
+
   //버튼 온클릭 이벤트 핸들러  setOpen(false)로 애니메이션(밑에 duration-300)이 지나고 닫히도록 딜레이함.
   const handleClose = () => {
     setIsOpen(false);
@@ -49,46 +67,31 @@ function Toast({ showModal, closeModal, toastStyle }: IModalProps) {
     }, 300);
   };
 
-  // 케이스 1 헤더에서 더보기
-  //  - 설정 및 개인정보
-  //  - 로그아웃 => 로그인페이지로 이동
+  //모달 설정을 위한 configs
+  const modalConfigs = createModalConfigs(navigate, handleClose, postId, productId);
 
-  // 케이스 2 내 프로필에서 포트스 더보기
-  //  - 삭제
-  //  - 수정
-
-  // 케이스 3 내 프로필에서 상품 누르기
-  // - 삭제
-  // - 수정
-  // - 웹사이트에서 상품 보기
-
-  // 케이스 4 포스트 상세 보기 (댓글)
-  // - 내 댓글이면 삭제
-  // - 남의 댓글이면 신고
-
-  // 케이스 5 채팅방 헤더일때
-  // - 채팅방 나가기
-  const [openModal, setOpenModal] = useState(false);
-
+  //토스트 메뉴 종류별로 정리
   const ToastContent = () => {
     switch (toastStyle) {
       case 'header': {
-        const logout = () => {
-          setOpenModal(true);
-        };
         const setting = () => {
           alert('해당 기능은 개발 중입니다. 조금만 기다려 주세요 😊');
         };
+        const logoutModal = () => {
+          setModalType('logout');
+          setOpenModal(true);
+        };
+
         return (
           <>
             <ToastChildren content="설정 및 개인정보" click={setting} />
-            <ToastChildren content="로그아웃" click={logout} />
-            <Modal isOpen={openModal} isClose={() => setOpenModal(false)} />
+            <ToastChildren content="로그아웃" click={logoutModal} />
           </>
         );
       }
       case 'myProfile-post': {
         const deleteMyPost = () => {
+          setModalType('deleteMyPost');
           setOpenModal(true);
         };
         const editMyPost = () => {
@@ -96,32 +99,70 @@ function Toast({ showModal, closeModal, toastStyle }: IModalProps) {
         };
         return (
           <>
-            <ToastChildren content="삭제" click={deleteMyPost} />;
-            <ToastChildren content="수정" click={editMyPost} />;
-            <Modal isOpen={openModal} isClose={() => setOpenModal(false)} />
+            <ToastChildren content="삭제" click={deleteMyPost} />
+            <ToastChildren content="수정" click={editMyPost} />
           </>
         );
       }
       case 'myProfile-product': {
+        const deleteMyProduct = () => {
+          setModalType('deleteMyProduct');
+          setOpenModal(true);
+        };
+        const editMyProduct = () => {
+          navigate('/add-product');
+        };
         return (
           <>
-            <ToastChildren content="삭제" />
-            <ToastChildren content="수정" />
+            <ToastChildren content="삭제" click={deleteMyProduct} />
+            <ToastChildren content="수정" click={editMyProduct} />
             <ToastChildren content="웹사이트에서 상품 보기" />
           </>
         );
       }
       case 'my-comment': {
-        return <ToastChildren content="삭제" />;
+        const deleteMyComment = async () => {
+          if (confirm('정말로 삭제하시겠습니까?')) {
+            if (!postId) {
+              alert('게시글 정보를 불러오지 못했습니다.');
+              return;
+            }
+            if (!commentId) {
+              alert('댓글 정보를 불러오지 못했습니다.');
+              return;
+            }
+
+            await commentAPI.deleteComment(postId, commentId);
+          }
+        };
+        return <ToastChildren content="삭제" click={deleteMyComment} />;
       }
       case 'user-comment': {
-        return <ToastChildren content="신고" />;
+        const reportComment = async () => {
+          if (confirm('정말로 신고하시겠습니까?')) {
+            if (!postId) {
+              alert('게시글 정보를 불러오지 못했습니다.');
+              return;
+            }
+            if (!commentId) {
+              alert('댓글 정보를 불러오지 못했습니다.');
+              return;
+            }
+            await commentAPI.reportComment(postId, commentId);
+          }
+        };
+        return <ToastChildren content="신고" click={reportComment} />;
       }
       case 'chat': {
-        return <ToastChildren content="채팅방 나가기" />;
+        const leaveChat = () => {
+          if (confirm('채팅방을 떠나시겠습니까?')) {
+            navigate(-1);
+          }
+        };
+        return <ToastChildren content="채팅방 나가기" click={leaveChat} />;
       }
       default: {
-        return <ToastChildren content="로그아웃" />;
+        return;
       }
     }
   };
@@ -145,6 +186,17 @@ function Toast({ showModal, closeModal, toastStyle }: IModalProps) {
         <ul className="flex flex-col w-[100%] ">{ToastContent()}</ul>
         <div className="h-9" />
       </dialog>
+      {/* 모달타입, 설정 안에 모달타입이 유효한지 */}
+      {modalType && modalType in modalConfigs && (
+        <Modal
+          isOpen={openModal}
+          isClose={() => setOpenModal(false)}
+          // 이유는 모르겠지만 이렇게 설정해야 타입오류가 안남..
+          message={modalConfigs[modalType as keyof typeof modalConfigs].message}
+          rightLabel={modalConfigs[modalType as keyof typeof modalConfigs].rightLabel}
+          action={modalConfigs[modalType as keyof typeof modalConfigs].action}
+        />
+      )}
     </>,
     document.body
   );
