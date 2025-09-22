@@ -96,7 +96,7 @@ function Post() {
       {!loading && post && (
         <>
           <Header navStyle="top-basic" />
-          <main>
+          <main className="overflow-y-auto pb-[80px]">
             <span className="flex justify-center py-5">
               <Posting
                 // 포스팅 컴포넌트에 대한 key
@@ -128,9 +128,10 @@ function Post() {
           <div className="fixed bottom-0 flex items-center justify-center w-full h-[60px] border-t border-t-[#DBDBDB] bg-white">
             <img className="w-9 h-9 rounded-full" src={userImg ? userImg : profileImg} alt="내 프로필 이미지" />
             <form
-              onSubmit={(e) => {
+              onSubmit={async (e) => {
                 e.preventDefault();
-                postComment();
+                await postComment();
+                getCommentList();
               }}
             >
               <input
