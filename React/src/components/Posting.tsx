@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef, useLayoutEffect } from 'react';
 import Modal from './modal/Modal';
 import Heart from './profile/Heart';
 import basicProfileImg from '../assets/basic-profile-img.png';
@@ -21,7 +21,7 @@ import { validateUrl } from '../Utils/validation';
  * @param userId - 유저의 아이디
  * @param userContent - 게시물 내용
  * @param contentImage - 게시물 이미지
- * @param postId- accountname을 받는 
+ * @param postId- accountname을 받는
  * @param heartCount - 하트 개수
  * @param commentCount - 댓글 개수
  * @param updatedAt - 게시물 작성 일자
@@ -55,17 +55,35 @@ function Posting({
   commentCount,
   updatedAt,
 }: PostingProps) {
-
+  const navigate = useNavigate();
   // 더보기 버튼 상태관리
-  const [seeMore, setSeeMore] = useState('');
-  const [seeContent, setSeeContent] = useState('line-clamp-3');
+  const commentRef = useRef<HTMLParagraphElement>(null);
+  const originalCommentRef = useRef<HTMLParagraphElement>(null);
+  const [isEllipsed, setIsEllipsed] = useState(true);
+  const [shouldShowToggle, setShouldShowToggle] = useState(false);
+
+  // 모달 상태관리
   const [showModal, setShowModal] = useState(false);
 
   // 기본 프로필 이미지
   const profileImg = basicProfileImg;
 
-  // 라우팅
-  const navigate = useNavigate();
+  // 원래 콘텐츠의 길이와 line-clamp를 적용한 콘텐츠의 길이를 비교후, shouldShowToggle 의 상태를 변경.
+  // shouldShowToggle이 true면 '더보기'를 보여주고, false일 땐 숨김.
+  function checkTextOverFlow() {
+    if (!originalCommentRef.current || !commentRef.current) return;
+    const clampedHeight = commentRef.current.clientHeight;
+    const fullHeight = originalCommentRef.current.scrollHeight;
+
+    setTimeout(() => {
+      setShouldShowToggle(fullHeight > clampedHeight);
+    }, 0);
+  }
+
+  // checkTextOverFlow 함수 랜더링시 실행
+  useEffect(() => {
+    checkTextOverFlow();
+  }, []);
 
   // 이미지 랜더링
   // 이미지 배열 전환 함수
@@ -86,31 +104,6 @@ function Posting({
 
   // 이미지 배열을 변수에 할당
   const contentImageArray = makeArray();
-  console.log(contentImageArray);
-
-  // '더보기' 적용을 위한 함수들
-  // \n 개수를 세는 함수
-  const checkLineBreaks = (text: string) => {
-    const lineBreakCount = (text.match(/\n/g) || []).length;
-
-    // 줄바꿈 4번 이상
-    return lineBreakCount > 3;
-  };
-
-  // 게시물이 세줄 이상인 경우 더보기 버튼 보여주고, 게시물이 세줄 미만인 경우 숨김.
-  // 게시물(userContent)의 길이가 87자 이상인 경우 또는 \n가 3개 이상인 경우를 이 함수를 통해 판별
-  function needLineClamp() {
-    if (userContent.length > 87 || checkLineBreaks(userContent)) {
-      setSeeMore('');
-    } else {
-      setSeeMore('hidden');
-    }
-  }
-
-  // 더보기 버튼을 눌렀을 경우, line-clamp 클래스 명을 제거하고 추가해주는 함수.
-  function seeMoreContent() {
-    seeContent === '' ? setSeeContent('line-clamp-3') : setSeeContent('');
-  }
 
   // 포맷함수
   // 날짜 형식 변환 함수
@@ -121,10 +114,6 @@ function Posting({
       day: 'numeric',
     });
   }
-
-  useEffect(() => {
-    needLineClamp();
-  }, []);
 
   return (
     <>
@@ -146,12 +135,25 @@ function Posting({
                 <img src={iconMoreVertical} onClick={() => setShowModal(true)} alt="더보기" />
               </button>
             </div>
-            <p className={`break-all whitespace-pre-wrap w-[304px] ${seeContent}`}>{userContent}</p>
-            <span
-              className={`${seeMore} hover:text-[#ff6b35] w-fit text-[12px] font-medium cursor-pointer`}
-              onClick={seeMoreContent}
+            <p
+              className={`break-all whitespace-pre-wrap w-[304px] ${isEllipsed ? 'line-clamp-3' : 'hidden'}`}
+              ref={commentRef}
             >
-              {seeContent === 'line-clamp-3' ? '더보기' : '숨기기'}
+              {userContent}
+            </p>
+            <p
+              className={`break-all whitespace-pre-wrap w-[304px] ${isEllipsed ? 'absolute invisible' : ''}`}
+              ref={originalCommentRef}
+            >
+              {userContent}
+            </p>
+            <span
+              className={`hover:text-[#ff6b35] w-fit text-[12px] font-medium cursor-pointer ${shouldShowToggle ? '' : 'hidden'}`}
+              onClick={() => {
+                setIsEllipsed(!isEllipsed);
+              }}
+            >
+              {isEllipsed ? '더보기' : '숨기기'}
             </span>
             <div className="flex flex-col gap-1">
               {contentImageArray && contentImageArray.length > 0
@@ -179,7 +181,6 @@ function Posting({
                   type="button"
                 >
                   <img src={!!commentCount ? iconMessageActive : iconMessage} alt="댓글" />
-
                 </button>
                 <span className="text-[12px] text-[#767676]">{commentCount}</span>
               </div>
