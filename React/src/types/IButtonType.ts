@@ -19,7 +19,8 @@ export type ButtonKindType = 'submit' | 'button';
  * - button
  * @param btnFlexBasis - 버튼의 크기 세부 설정
  * - "basis-['원하는 길이'px]" 형식으로 원하는 길이를 넣어주세요.
- * @param onClick: 버튼 클릭시 사용할 콜백함수
+ * @param onClick - 버튼 클릭시 사용할 콜백함수
+ * @param btnForm - form요소를 지정하는 prop
  */
 export interface IBtnType {
   /**
@@ -84,7 +85,6 @@ export interface IBtnType {
   /**form요소를 지정하는 prop */
   btnForm?: string;
 
-
   /**
    * @param activeDisable = 버튼의 disabled 기능 활성화 여부를 true 와 false 결접합니다.
    *
@@ -94,5 +94,4 @@ export interface IBtnType {
    * - false => disabled 비활성화
    */
   activeDisable?: boolean;
-
 }

@@ -9,8 +9,6 @@ import { PostAPI } from '../types/IFetchType';
 
 function HomeCardGrid() {
   const [showList, setShowList] = useState(true);
-  const [token, setToken] = useState('');
-  const [accountName, setAccountName] = useState('');
   const [posts, setPosts] = useState<PostAPI.IPost[]>([]);
   const [loading, setLoading] = useState(false);
 
@@ -31,15 +29,13 @@ function HomeCardGrid() {
   }
 
   // 로그인한 유저 accout를 받는 함수, setAccountName을 통해 상태 설정
-  async function getUserInfo() {
-    const res = await userAPI.getMyInfo();
-    setAccountName(res.user.accountname);
-  }
 
   // 게시물 목록을 받아오는 함수
   async function getUserPosts() {
     setLoading(true);
     try {
+      const accountData = await userAPI.getMyInfo();
+      const accountName = await accountData.user.accountname;
       const postData = await postAPI.getUserPosts(accountName);
       if (!postData) {
         throw new Error(postData);
@@ -54,14 +50,13 @@ function HomeCardGrid() {
   }
 
   useEffect(() => {
-    getUserInfo();
+    getUserPosts();
   }, []);
 
   return (
-    <>
-      <button onClick={getUserPosts}>get User Posts</button>
+    <div className="h-full bg-white">
       <section className={`flex flex-col ${posts.length === 0 ? 'hidden' : ''}`}>
-        <div className="flex justify-center bg-white border-b border-b-[#DBDBDB]">
+        <div className="flex justify-center border-b border-b-[#DBDBDB]">
           <div className="min-w-[390px] flex justify-end gap-4 px-4 py-[9px]">
             <button className="w-[26px] h-[26px]">
               <img
@@ -83,32 +78,36 @@ function HomeCardGrid() {
             </button>
           </div>
         </div>
-        <ul
-          className={`${showList ? 'flex flex-col items-center gap-5 pt-5' : 'grid grid-cols-3 gap-2 pt-4'} px-4 bg-white`}
-        >
-          {loading ? (
-            <li>로딩 중...</li>
-          ) : (
-            posts.map((post) => {
-              return (
-                <Posting
-                  key={post.id}
-                  showList={showList}
-                  userProfileImage={post.author.image}
-                  userName={post.author.username}
-                  userId={post.author.accountname}
-                  userContent={post.content}
-                  contentImage={post.image}
-                  heartCount={post.heartCount}
-                  commentCount={post.commentCount}
-                  updatedAt={post.updatedAt}
-                />
-              );
-            })
-          )}
-        </ul>
+        <div className=" bg-white">
+          <ul
+            className={`${showList ? 'flex flex-col items-center gap-5 pt-5' : 'grid grid-cols-3 justify-items-center mx-auto max-w-fit gap-2 pt-4'} px-4`}
+          >
+            {loading ? (
+              <li>로딩 중...</li>
+            ) : (
+              posts.map((post) => {
+                return (
+                  <Posting
+                    key={post.id}
+                    showList={showList}
+                    userProfileImage={post.author.image}
+                    userName={post.author.username}
+                    userId={post.author.accountname}
+                    userContent={post.content}
+                    contentImage={post.image}
+                    postId={post.id}
+                    heartCount={post.heartCount}
+                    hearted={post.hearted}
+                    commentCount={post.commentCount}
+                    updatedAt={post.updatedAt}
+                  />
+                );
+              })
+            )}
+          </ul>
+        </div>
       </section>
-    </>
+    </div>
   );
 }
 export default HomeCardGrid;
