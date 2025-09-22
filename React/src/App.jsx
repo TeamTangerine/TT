@@ -9,7 +9,7 @@ import JoinMembership from './pages/Auth/JoinMembership';
 import SearchPage from './pages/search/SearchPage';
 import YourProfile from './pages/yourprofile/YourProfile';
 import MyProfile from './pages/myprofile/MyProfile';
-import FollowersList from './pages/followers/FollowersList';
+import FollowList from './pages/followers/FollowList';
 import ProfileModification from './pages/myprofile/ProfileModification';
 import AddProduct from './pages/myprofile/AddProduct';
 import Post from './pages/post/Post';
@@ -28,7 +28,7 @@ function App() {
         <Route path="/search-page" element={<SearchPage />} />
         <Route path="/your-profile" element={<YourProfile />} />
         <Route path="/my-profile" element={<MyProfile />} />
-        <Route path="/followers-list/:accountName" element={<FollowersList />} />
+        <Route path="/follow-list/:accountName" element={<FollowList />} />
         <Route path="/profile-modification" element={<ProfileModification />} />
         <Route path="/add-product" element={<AddProduct />} />
         <Route path="/post/:id" element={<Post />} />
