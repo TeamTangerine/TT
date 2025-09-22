@@ -210,7 +210,7 @@ export namespace PostAPI {
 
   // 게시글 상세 조회
   export interface IPostDetailResponse {
-    post: IPost[];
+    post: IPost;
   }
 
   // 게시글 수정

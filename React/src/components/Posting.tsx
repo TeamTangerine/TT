@@ -4,6 +4,9 @@ import iconHeart from '../assets/icon/icon-heart.png';
 import iconMessage from '../assets/icon/icon-message-circle.svg';
 import iconImgLayers from '../assets/icon/iccon-img-layers.png';
 import { imageAPI } from '../service/fetch/api';
+import { useNavigate } from 'react-router-dom';
+import { PostAPI } from '../types/IFetchType';
+import { validateUrl } from '../Utils/validation';
 
 // 리스트형 / 앨범형 선택을 위한 props 타입
 /**
@@ -21,6 +24,8 @@ import { imageAPI } from '../service/fetch/api';
  */
 type PostingProps = {
   showList?: boolean;
+  id?: string;
+  post?: PostAPI.IPost;
   userProfileImage: string;
   userName: string;
   userId: string;
@@ -33,6 +38,8 @@ type PostingProps = {
 
 function Posting({
   showList = true,
+  id,
+  post,
   userProfileImage,
   userName,
   userId,
@@ -42,9 +49,11 @@ function Posting({
   commentCount,
   updatedAt,
 }: PostingProps) {
+  // 기본 프로필 유저 이미지
   const profileImg = basicProfileImg;
-  // 아마자 랜더링을 위한 기본 url
-  const imgUrl = 'https://dev.wenivops.co.kr/services/mandarin/';
+
+  // 라우팅
+  const navigate = useNavigate();
 
   // 이미지 배열 전환 함수
   function makeArray() {
@@ -55,8 +64,17 @@ function Posting({
     return contentImage.split(',');
   }
 
+  function commentNavigate() {
+    // 현재 페이지가 상세 게시글(post)페이지일 경우 링크 이동x
+    if (validateUrl(window.location.href)) {
+      return;
+    }
+    navigate(`/post/:${id}`, { state: { post } });
+  }
+
   // 이미지 배열을 변수에 할당
   const contentImageArray = makeArray();
+  console.log(contentImageArray);
 
   // 날짜 형식 변환 함수
   function formatDate(dateString: string) {
@@ -92,7 +110,7 @@ function Posting({
               ? contentImageArray.map((image: string, index: number) => (
                   <img
                     className="w-[304px] h-[228px] rounded-[10px] border-[0.5px] border-[#DBDBDB] object-cover bg-[#C4C4C4] ]"
-                    src={imgUrl + image}
+                    src={imageAPI.getImage(image)}
                     key={index}
                     alt="게시글이미지"
                   />
@@ -105,8 +123,15 @@ function Posting({
                 </button>
                 <span className="text-[12px] text-[#767676]">{heartCount}</span>
               </div>
-              <div className="flex gap-[6px] items-center">
-                <button className="w-5 h-5">
+              {/* 댓글 버튼이나 댓글수 눌렀을 때 상세 페이지로 이동 */}
+              <div
+                className={`flex gap-[6px] items-center ${!validateUrl(window.location.href) && 'cursor-pointer'} `}
+                onClick={commentNavigate}
+              >
+                <button
+                  className={`w-5 h-5 ${validateUrl(window.location.href) ? 'cursor-default' : 'cursor-pointer'}`}
+                  type="button"
+                >
                   <img src={iconMessage} alt="댓글" />
                 </button>
                 <span className="text-[12px] text-[#767676]">{commentCount}</span>
@@ -123,7 +148,7 @@ function Posting({
           {contentImage && (
             <li className={`relative w-full aspect-square ${contentImage ? '' : 'hidden'}`}>
               <img
-                src={contentImageArray && imgUrl + contentImageArray[0]}
+                src={contentImageArray && imageAPI.getImage(contentImageArray[0])}
                 alt="게시글 이미지"
                 className="w-full h-full object-cover"
               />
