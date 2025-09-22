@@ -56,17 +56,18 @@ function Posting({
   updatedAt,
 }: PostingProps) {
   const navigate = useNavigate();
-  // 더보기 버튼 상태관리
-  const commentRef = useRef<HTMLParagraphElement>(null);
-  const originalCommentRef = useRef<HTMLParagraphElement>(null);
-  const [isEllipsed, setIsEllipsed] = useState(true);
-  const [shouldShowToggle, setShouldShowToggle] = useState(false);
 
   // 모달 상태관리
   const [showModal, setShowModal] = useState(false);
 
   // 기본 프로필 이미지
   const profileImg = basicProfileImg;
+
+  // 더보기 버튼 상태관리
+  const commentRef = useRef<HTMLParagraphElement>(null);
+  const originalCommentRef = useRef<HTMLParagraphElement>(null);
+  const [isEllipsed, setIsEllipsed] = useState(true);
+  const [shouldShowToggle, setShouldShowToggle] = useState(false);
 
   // 원래 콘텐츠의 길이와 line-clamp를 적용한 콘텐츠의 길이를 비교후, shouldShowToggle 의 상태를 변경.
   // shouldShowToggle이 true면 '더보기'를 보여주고, false일 땐 숨김.
