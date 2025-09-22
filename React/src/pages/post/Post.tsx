@@ -13,7 +13,7 @@ function Post() {
   // 메세지 입력값 관리
   const [message, setMessage] = useState('');
   // URL에서 파라미터 값 가져오기
-  const { id } = useParams<string>();
+  const { postIdParams } = useParams<string>();
   // navigate에서 온 state 데이터 받기
   const location = useLocation();
   const statePost = location.state?.post as PostAPI.IPost | null;
@@ -26,7 +26,7 @@ function Post() {
   // navigate에서 state값을 받아왔을 때 or 게시글이 수정되었을 때 or URL에서 id를 가져왔을 때 => 게시글 불러오는 api가 담긴 함수 실행
   useEffect(() => {
     getDetailArticle();
-  }, [statePost, post?.updatedAt, id]);
+  }, [statePost, post?.updatedAt, postIdParams]);
 
   // 유저 프로필 이미지와 댓글 목록 렌더링
   useEffect(() => {
@@ -48,11 +48,11 @@ function Post() {
   // 게시글 불러오는 api 함수
   async function getDetailArticle() {
     // state값이 없을 경우 api 작동
-    if (!statePost && id) {
+    if (!statePost && postIdParams) {
       setLoading(true);
       try {
-        const res = await postAPI.getPost(id);
-        setPost(res.post);
+        const res = await postAPI.getPost(postIdParams);
+        await setPost(res.post);
         getCommentList();
       } catch (error: any) {
         console.error(`상세 게시글 불러오기 실패: ${error.message}`);
