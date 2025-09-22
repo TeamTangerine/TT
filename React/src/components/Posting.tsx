@@ -111,7 +111,7 @@ function Posting({
     <>
       {showList ? (
         // 리스트형 랜더링
-        <li className="flex gap-3 justify-center w-[358px]">
+        <li className="flex gap-3 justify-center">
           <img
             src={userProfileImage === '/Elipse.png' ? profileImg : userProfileImage}
             alt="프로필"
@@ -129,7 +129,7 @@ function Posting({
             </div>
             <p className={`break-all whitespace-pre-wrap w-[304px] ${seeContent}`}>{userContent}</p>
             <span
-              className={`${seeMore} hover:text-[#ff6b35] text-[12px] font-medium cursor-pointer`}
+              className={`${seeMore} hover:text-[#ff6b35] w-fit text-[12px] font-medium cursor-pointer`}
               onClick={seeMoreContent}
             >
               {seeContent === 'line-clamp-3' ? '더보기' : '숨기기'}
