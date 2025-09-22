@@ -22,17 +22,34 @@ function Post() {
   // 댓글 목록 데이터
   const [comments, setComments] = useState<CommentAPI.IComment[]>([]);
   const [loading, setLoading] = useState(!statePost); // state가 있으면 false, 없으면 true
+  const [commentLoading, setCommentLoading] = useState(false);
 
-  // navigate에서 state값을 받아왔을 때 or 게시글이 수정되었을 때 or URL에서 id를 가져왔을 때 => 게시글 불러오는 api가 담긴 함수 실행
+  // navigate에서 state값을 받아왔을 때 or URL에서 id를 가져왔을 때 => 게시글 불러오는 api가 담긴 함수 실행
   useEffect(() => {
     getDetailArticle();
-  }, [statePost, post?.updatedAt, postIdParams]);
+  }, [statePost, postIdParams]);
 
-  // 유저 프로필 이미지와 댓글 목록 렌더링
+  // 유저 프로필 이미지 렌더링
   useEffect(() => {
     getUserInfo();
-    getCommentList();
   }, []);
+
+  // 댓글 목록 렌더링
+  useEffect(() => {
+    getCommentList();
+  }, [post?.id]);
+
+  // 유저가 클릭한 게시글을 어떻게 알 것인가..? url, state💛
+  // 정보 불러와서 posting 컴포넌트로 넘겨주기🧡
+  // 현재 로그인 중인 유저의 프로필 이미지 적용하기🧡
+  // 게시글 상세 정보 불러오기🧡
+  // 댓글 작성 commentAPI.createComment 사용하기💜
+  // 댓글 목록 리스트 commentAPI.getComments 가져오기🤎
+  // 댓글 컴포넌트에 props 넘겨주기🤎
+  // 댓글 컴포넌트 props 받아와서 적용하기💙
+  // 스크롤 가능하게 변경, 댓글 입력 시 재렌더링😍
+  // 더보기 모달 창 뜨게하기😋
+  // 댓글 날짜 현재시간에서 댓글 등록된 시간 차로 변경하기
 
   // 현재 로그인 중인 유저의 프로필 이미지 가져오는 api
   async function getUserInfo() {
@@ -52,7 +69,10 @@ function Post() {
       setLoading(true);
       try {
         const res = await postAPI.getPost(postIdParams);
-        await setPost(res.post);
+        // post가 빈값이거나 넘겨받은 게시물 데이터와 현재(로컬) 게시물 데이터의 수정 시각이 다르면 서버에서 최신 데이터를 부름
+        if (!post || res.post.updatedAt !== post.updatedAt) {
+          await setPost(res.post);
+        }
         getCommentList();
       } catch (error: any) {
         console.error(`상세 게시글 불러오기 실패: ${error.message}`);
@@ -66,9 +86,11 @@ function Post() {
   async function postComment() {
     if (post?.id) {
       try {
-        await commentAPI.createComment(post.id, message);
+        const res = await commentAPI.createComment(post.id, message);
         alert('댓글 작성 완료!');
+        setComments((prev) => [...prev, res.comment]);
         setMessage('');
+        getCommentList();
       } catch (error: any) {
         console.error(`댓글 작성 실패: ${error.message}`);
       }
@@ -78,14 +100,14 @@ function Post() {
   // 해당 게시글의 댓글 목록을 불러오는 api 함수
   async function getCommentList() {
     if (post?.id) {
-      setLoading(true);
+      setCommentLoading(true);
       try {
         const res = await commentAPI.getComments(post.id);
         setComments(res.comments);
       } catch (error: any) {
         console.error(`댓글 목록 불러오기 실패: ${error.message}`);
       } finally {
-        setLoading(false);
+        setCommentLoading(false);
       }
     }
   }
@@ -111,7 +133,8 @@ function Post() {
                 updatedAt={post.updatedAt}
               />
             </span>
-            {comments.length > 0 && (
+            {commentLoading && <p>댓글 로딩중</p>}
+            {!commentLoading && comments.length > 0 && (
               <ul className="flex flex-col gap-4 pt-5 px-4 border-t border-t-[#DBDBDB]">
                 {comments.map((comment) => (
                   <Comment
@@ -128,10 +151,9 @@ function Post() {
           <div className="fixed bottom-0 flex items-center justify-center w-full h-[60px] border-t border-t-[#DBDBDB] bg-white">
             <img className="w-9 h-9 rounded-full" src={userImg ? userImg : profileImg} alt="내 프로필 이미지" />
             <form
-              onSubmit={async (e) => {
+              onSubmit={(e) => {
                 e.preventDefault();
-                await postComment();
-                getCommentList();
+                postComment();
               }}
             >
               <input
