@@ -7,6 +7,9 @@ import iconMessageActive from '../assets/icon/icon-message-circle-fill.png';
 import iconMessage from '../assets/icon/icon-message-circle.svg';
 import iconImgLayers from '../assets/icon/iccon-img-layers.png';
 import { imageAPI } from '../service/fetch/api';
+import { useNavigate } from 'react-router-dom';
+import { PostAPI } from '../types/IFetchType';
+import { validateUrl } from '../Utils/validation';
 
 // 리스트형 / 앨범형 선택을 위한 props 타입
 /**
@@ -18,12 +21,14 @@ import { imageAPI } from '../service/fetch/api';
  * @param userId - 유저의 아이디
  * @param userContent - 게시물 내용
  * @param contentImage - 게시물 이미지
+ * @param postId- accountname을 받는 
  * @param heartCount - 하트 개수
  * @param commentCount - 댓글 개수
  * @param updatedAt - 게시물 작성 일자
  */
 type PostingProps = {
   showList?: boolean;
+  post?: PostAPI.IPost;
   userProfileImage: string;
   userName: string;
   userId: string;
@@ -38,6 +43,7 @@ type PostingProps = {
 
 function Posting({
   showList = true,
+  post,
   userProfileImage,
   userName,
   userId,
@@ -49,6 +55,7 @@ function Posting({
   commentCount,
   updatedAt,
 }: PostingProps) {
+
   // 더보기 버튼 상태관리
   const [seeMore, setSeeMore] = useState('');
   const [seeContent, setSeeContent] = useState('line-clamp-3');
@@ -56,6 +63,9 @@ function Posting({
 
   // 기본 프로필 이미지
   const profileImg = basicProfileImg;
+
+  // 라우팅
+  const navigate = useNavigate();
 
   // 이미지 랜더링
   // 이미지 배열 전환 함수
@@ -66,8 +76,17 @@ function Posting({
     return contentImage.split(',');
   }
 
+  function commentNavigate() {
+    // 현재 페이지가 상세 게시글(post)페이지일 경우 링크 이동x
+    if (validateUrl(window.location.href)) {
+      return;
+    }
+    navigate(`/post/:${postId}`, { state: { post } });
+  }
+
   // 이미지 배열을 변수에 할당
   const contentImageArray = makeArray();
+  console.log(contentImageArray);
 
   // '더보기' 적용을 위한 함수들
   // \n 개수를 세는 함수
@@ -111,7 +130,7 @@ function Posting({
     <>
       {showList ? (
         // 리스트형 랜더링
-        <li className="flex gap-3 justify-center">
+        <li className="flex gap-3 justify-center w-[358px]">
           <img
             src={userProfileImage === '/Elipse.png' ? profileImg : userProfileImage}
             alt="프로필"
@@ -150,9 +169,17 @@ function Posting({
               <div className="flex gap-[6px] items-center">
                 <Heart postId={postId} heartCount={heartCount} hearted={hearted} />
               </div>
-              <div className="flex gap-[6px] items-center">
-                <button className="w-5 h-5">
+              {/* 댓글 버튼이나 댓글수 눌렀을 때 상세 페이지로 이동 */}
+              <div
+                className={`flex gap-[6px] items-center ${!validateUrl(window.location.href) && 'cursor-pointer'} `}
+                onClick={commentNavigate}
+              >
+                <button
+                  className={`w-5 h-5 ${validateUrl(window.location.href) ? 'cursor-default' : 'cursor-pointer'}`}
+                  type="button"
+                >
                   <img src={!!commentCount ? iconMessageActive : iconMessage} alt="댓글" />
+
                 </button>
                 <span className="text-[12px] text-[#767676]">{commentCount}</span>
               </div>

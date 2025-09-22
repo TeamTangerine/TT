@@ -3,7 +3,7 @@ import { useState } from 'react';
 import Button from '../../../components/button/Button';
 import TextInput from '../../../components/TextInput';
 import { userAPI } from '../../../service/fetch/api';
-import { validateEmail, validateId, validatePassword, validateUserName } from '../../../Utils/validation';
+import { validateEmail, validateId, validatePassword } from '../../../Utils/validation';
 import { useNavigate } from 'react-router-dom';
 import ImgBtn from '../../../assets/upload-file.png';
 

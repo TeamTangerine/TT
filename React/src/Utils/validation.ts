@@ -44,6 +44,20 @@ function validatePassword(password: string) {
   return isOk;
 }
 
+//=============상세 게시글 url용 validate 함수 ==============
+
+/**
+ * 상세 게시글(post)페이지 url 함수
+ * @param url - 현재 페이지 url 작성 (window.location.href)
+ * @returns {boolean}
+ **/
+
+function validateUrl(url: string) {
+  const urlRegex = /^.+\/post\/:.+$/;
+  let isOk = urlRegex.test(url);
+  return isOk;
+}
+
 //=============상품 등록용 validate 함수 ==============
 /**
  * 상품명 검증 함수
@@ -71,7 +85,6 @@ function validateProductPrice(productPrice: string) {
  *  @returns {boolean}
  */
 function validateProductURL(productURL: string) {
-
   const productPriceRegex = /^(https?|ftp):\/\/(-\.)?([^\s\/?\.#-]+\.?)+(\/[^\s]*)?$/i;
   let isOk = productPriceRegex.test(productURL);
   return isOk;
@@ -81,6 +94,7 @@ export {
   validateEmail,
   validateUserName,
   validatePassword,
+  validateUrl,
   validateId,
   validateProductName,
   validateProductPrice,

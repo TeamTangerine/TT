@@ -11,13 +11,12 @@ type ProductListProps = {
 };
 
 function ProductList({ isOwner }: ProductListProps) {
-  const [token, setToken] = useState('');
   const [accountName, setAccountName] = useState('');
   const [products, setProducts] = useState<ProductAPI.IProduct[]>([]);
   const [loading, setLoading] = useState(false);
   const [showModal, setShowModal] = useState(false);
 
-  // 로그인한 유저 accout를 받는 함수, setAccountName을 통해 상태 설정
+  // 로그인한 유저 accout를 받는 함수
   async function getUserInfo() {
     const res = await userAPI.getMyInfo();
     setAccountName(res.user.accountname);
@@ -41,13 +40,18 @@ function ProductList({ isOwner }: ProductListProps) {
     getUserInfo();
   }, []);
 
+  useEffect(() => {
+    getUserProducts();
+  }, [accountName]);
+
   return (
     <>
-      <button onClick={getUserProducts}>get User Products</button>
-      <section className={`w-full flex justify-center pl-4 py-5  bg-white ${products.length === 0 ? 'hidden' : ''}`}>
-        <div className="flex flex-col gap-4">
-          <h2 className="font-bold">판매 중인 상품</h2>
-          <ul className="flex gap-[10px] w-[390px] overflow-hidden overflow-x-auto">
+      <section
+        className={`flex gap-4 justify-center w-full h-[208px] pl-4 py-5 bg-white ${products.length === 0 ? 'hidden' : ''}`}
+      >
+        <div className="flex flex-col w-[390px] md:w-[648px] gap-4">
+          <h2 className="font-bold h-[20px]">판매 중인 상품</h2>
+          <ul className="flex gap-[10px] overflow-hidden overflow-x-auto scrollbar-width: none">
             {loading ? (
               <li>로딩 중...</li>
             ) : (
