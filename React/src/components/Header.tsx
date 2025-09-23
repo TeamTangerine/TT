@@ -2,7 +2,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import iconSearch from '../assets/icon/icon-search.png';
 import arrowLeft from '../assets/icon/icon-arrow-left.png';
 import more from '../assets/icon/icon-more-vertical.png';
-import Modal from './modal/Toast';
+import Toast from './modal/Toast';
 import Button from './button/Button';
 import React, { useState } from 'react';
 
@@ -134,11 +134,11 @@ function Header({ navStyle, button = false, searchOnChange, inputValue, formTarg
 
   return (
     <header>
-      <nav className="flex justify-center w-full h-[48px] border-b border-b-[#DBDBDB] px-[16px]">
-        <div className="flex justify-between items-center w-full max-w-[390px]">{navContent()}</div>
+      <nav className="flex justify-center w-full h-[48px] border-b border-b-[#DBDBDB] ">
+        <div className="flex justify-between items-center w-full pl-4 pr-3 max-w-[390px]">{navContent()}</div>
       </nav>
       {(navStyle === 'top-basic' || navStyle === 'top-chat') && showModal && (
-        <Modal toastStyle="header" closeModal={() => setShowModal(false)} showModal={showModal} />
+        <Toast toastStyle="header" closeModal={() => setShowModal(false)} showModal={showModal} />
       )}
     </header>
   );
