@@ -72,7 +72,6 @@ function Post() {
       try {
         const res = await commentAPI.createComment(post.id, message);
         alert('댓글 작성 완료!');
-        setComments((prev) => [...prev, res.comment]);
         setMessage('');
         getCommentList();
       } catch (error: any) {
