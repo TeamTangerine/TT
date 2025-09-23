@@ -21,7 +21,7 @@ import { validateUrl } from '../Utils/validation';
  * @param userId - 유저의 아이디
  * @param userContent - 게시물 내용
  * @param contentImage - 게시물 이미지
- * @param postId- accountname을 받는 
+ * @param postId- accountname을 받는 프롭
  * @param heartCount - 하트 개수
  * @param commentCount - 댓글 개수
  * @param updatedAt - 게시물 작성 일자
@@ -55,7 +55,6 @@ function Posting({
   commentCount,
   updatedAt,
 }: PostingProps) {
-
   // 더보기 버튼 상태관리
   const [seeMore, setSeeMore] = useState('');
   const [seeContent, setSeeContent] = useState('line-clamp-3');
@@ -86,7 +85,6 @@ function Posting({
 
   // 이미지 배열을 변수에 할당
   const contentImageArray = makeArray();
-  console.log(contentImageArray);
 
   // '더보기' 적용을 위한 함수들
   // \n 개수를 세는 함수
@@ -179,7 +177,6 @@ function Posting({
                   type="button"
                 >
                   <img src={!!commentCount ? iconMessageActive : iconMessage} alt="댓글" />
-
                 </button>
                 <span className="text-[12px] text-[#767676]">{commentCount}</span>
               </div>
