@@ -17,8 +17,6 @@ function Upload() {
   const [images, setImages] = useState<File[]>([]);
   // 이미지 URL 저장(이미지 미리보기용)
   const [previewUrls, setPreviewUrls] = useState<string[]>([]);
-  // 토큰 저장
-  const [token, setToken] = useState('');
 
   async function getUserInfo() {
     try {
@@ -27,9 +25,7 @@ function Upload() {
       setUserImg(image);
       console.log(userImg);
     } catch (error) {
-      console.error('Failed to fetch user info:', error);
-      // Optionally, set a fallback image or notify the user
-      // setUserImg(profileImg); // Uncomment if you want to use a default image
+      console.error(error);
     }
   }
 
@@ -119,7 +115,7 @@ function Upload() {
             {/* 프로필 이미지 */}
             <img
               className="w-[42px] h-[42px] rounded-full"
-              src={userImg && userImg === '/Ellipse.png' ? profileImg : userImg}
+              src={!userImg || userImg === '/Ellipse.png' ? profileImg : userImg}
               alt="프로필"
             />
             {/* 게시글 */}
