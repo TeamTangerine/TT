@@ -27,7 +27,6 @@ function ProductList({ isMyProfile }: ProductListProps) {
   async function getUserInfo() {
     const res = await userAPI.getMyInfo();
     setAccountName(res.user.accountname);
-    console.log(accountName);
   }
 
   // 상품 목록 조회 함수(getUserProducts API를 통해 상품 목록 조회)

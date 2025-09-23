@@ -8,11 +8,11 @@ import postAlbumOn from '../assets/icon/icon-post-album-on.png';
 import postListOff from '../assets/icon/icon-post-list-off.png';
 import postListOn from '../assets/icon/icon-post-list-on.png';
 
-type HomeCardGridprops = {
+type HomeCardGridProps = {
   isMyProfile: boolean;
 };
 
-function HomeCardGrid({ isMyProfile }: HomeCardGridprops) {
+function HomeCardGrid({ isMyProfile }: HomeCardGridProps) {
   const { postId } = useParams<{ postId: string }>();
   const [accountName, setAccountName] = useState('');
   const [posts, setPosts] = useState<PostAPI.IPost[]>([]);
