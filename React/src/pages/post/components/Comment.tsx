@@ -15,7 +15,7 @@ function Comment({ userProfileImage, userName, content, createdAt }: CommentProp
 
   return (
     <>
-      <li className="flex gap-3 items-start w-full justify-between ">
+      <li className="flex gap-3 items-start w-[390px] justify-between ">
         <img
           className="w-9 h-9 rounded-full"
           src={userProfileImage === '/Elipse.png' ? profileImg : userProfileImage}
