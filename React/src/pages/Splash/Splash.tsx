@@ -8,6 +8,8 @@ import logoText from '../../assets/logo-text.png';
 function Splash() {
   const navigate = useNavigate();
 
+  // Login 되지 않은 상태의 경우 - <Login /> 으로 이동
+  // Login 된 상태의 경우 - <Home /> 으로 이동
   useEffect(() => {
     const token = localStorage.getItem('TOKEN_KEY');
 
@@ -23,9 +25,6 @@ function Splash() {
       clearTimeout(timer);
     };
   }, []);
-
-  // Login 되지 않은 상태의 경우 - <Login /> 으로 이동
-  // Login 된 상태의 경우 - <Home /> 으로 이동
 
   return (
     <div>
