@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
+import FollowToggleButton from '../Button/FollowToggleButton';
 import Button from '../button/Button';
 import { ButtonColorType } from '../../types/IButtonType';
 import { userAPI, profileAPI } from '../../service/fetch/api';
@@ -20,6 +21,7 @@ type UserInfoProps = {
 
 function UserInfo({ isMyProfile }: UserInfoProps) {
   const navigate = useNavigate();
+  const { postId } = useParams<{ postId: string }>();
   const [buttonColor, setButtonColor] = useState<ButtonColorType>('normal');
   const [isFollow, setIsFollow] = useState('팔로우');
   const [accountName, setAccountName] = useState('');
@@ -58,15 +60,42 @@ function UserInfo({ isMyProfile }: UserInfoProps) {
   }
 
   // 유저의 프로필 정보를 갖고 오는 함수
+  // async function getUserProfile() {
+  //   setLoading(true);
+  //   try {
+  //     const res = await profileAPI.getProfile(accountName);
+  //     setProfileData(res.profile);
+  //   } catch (error) {
+  //     console.log(error);
+  //   } finally {
+  //     setLoading(false);
+  //   }
+  // }
+
   async function getUserProfile() {
     setLoading(true);
-    try {
-      const res = await profileAPI.getProfile(accountName);
-      setProfileData(res.profile);
-    } catch (error) {
-      console.log(error);
-    } finally {
-      setLoading(false);
+
+    if (isMyProfile) {
+      try {
+        const res = await profileAPI.getProfile(accountName);
+        setProfileData(res.profile);
+      } catch (error) {
+        console.log(error);
+      } finally {
+        setLoading(false);
+      }
+    }
+
+    if (!isMyProfile && postId) {
+      try {
+        setAccountName(postId);
+        const res = await profileAPI.getProfile(accountName);
+        setProfileData(res.profile);
+      } catch (error) {
+        console.log(error);
+      } finally {
+        setLoading(false);
+      }
     }
   }
 
@@ -144,13 +173,12 @@ function UserInfo({ isMyProfile }: UserInfoProps) {
             <button className="flex items-center justify-center w-[34px] h-[34px] rounded-full border-[1px] border-[#DBDBDB]">
               <img src={iconMessageCircle} alt="채팅하기" className="w-5 h-5" onClick={() => navigate('/chat-list')} />
             </button>
-            <Button
-              btnTextContent={isFollow}
+            <FollowToggleButton
+              followText="팔로우"
+              unfollowText="언팔로우"
               btnSize="medium"
-              btnColor={buttonColor}
-              btnType="button"
-              onClick={toggleFollow}
-              activeDisable={false}
+              userAccount={profileData.accountname}
+              isFollow={profileData.isfollow}
             />
             <button
               className="flex items-center justify-center w-[34px] h-[34px] rounded-full border-[1px] border-[#DBDBDB]
