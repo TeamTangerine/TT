@@ -60,18 +60,6 @@ function UserInfo({ isMyProfile }: UserInfoProps) {
   }
 
   // 유저의 프로필 정보를 갖고 오는 함수
-  // async function getUserProfile() {
-  //   setLoading(true);
-  //   try {
-  //     const res = await profileAPI.getProfile(accountName);
-  //     setProfileData(res.profile);
-  //   } catch (error) {
-  //     console.log(error);
-  //   } finally {
-  //     setLoading(false);
-  //   }
-  // }
-
   async function getUserProfile() {
     setLoading(true);
 
@@ -84,6 +72,7 @@ function UserInfo({ isMyProfile }: UserInfoProps) {
       } finally {
         setLoading(false);
       }
+      return;
     }
 
     if (!isMyProfile && postId) {

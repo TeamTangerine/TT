@@ -1,6 +1,4 @@
-import { useState, useEffect } from 'react';
 import productImgSample from '../../assets/product-img-example.png';
-import Modal from '../modal/Modal';
 import { imageAPI } from '../../service/fetch/api';
 
 /**

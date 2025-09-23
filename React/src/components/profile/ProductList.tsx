@@ -6,7 +6,11 @@ import { userAPI } from '../../service/fetch/api';
 import Modal from '../modal/Modal';
 import { ProductAPI } from '../../types/IFetchType';
 
-// onEditProduct
+/**
+ * @param isMyProfile -페이지별 버튼 동적할당을 위한 타입
+ * - MyProfile 페이지인 경우 true
+ * - YourProfile 페이지인 경우 false
+ */
 type ProductListProps = {
   isMyProfile: boolean;
 };
@@ -14,6 +18,7 @@ type ProductListProps = {
 function ProductList({ isMyProfile }: ProductListProps) {
   const [accountName, setAccountName] = useState('');
   const { postId } = useParams<{ postId: string }>();
+
   const [products, setProducts] = useState<ProductAPI.IProduct[]>([]);
   const [loading, setLoading] = useState(false);
   const [showModal, setShowModal] = useState(false);
@@ -22,6 +27,7 @@ function ProductList({ isMyProfile }: ProductListProps) {
   async function getUserInfo() {
     const res = await userAPI.getMyInfo();
     setAccountName(res.user.accountname);
+    console.log(accountName);
   }
 
   // 상품 목록 조회 함수(getUserProducts API를 통해 상품 목록 조회)
@@ -43,10 +49,8 @@ function ProductList({ isMyProfile }: ProductListProps) {
 
     if (!isMyProfile && postId) {
       try {
-        setAccountName(postId);
         const productData = await productAPI.getUserProducts(postId);
         setProducts(productData.product);
-        console.log('products :', products);
       } catch (error) {
         console.log('상품 목록 조회 실패', error);
       } finally {
@@ -56,15 +60,16 @@ function ProductList({ isMyProfile }: ProductListProps) {
   }
 
   useEffect(() => {
-    getUserInfo();
-    if (!isMyProfile && postId) {
+    if (isMyProfile) {
+      getUserInfo();
+    } else if (!isMyProfile && postId) {
       setAccountName(postId);
     }
-  }, []);
+  }, [isMyProfile, postId]);
 
   useEffect(() => {
     getUserProducts();
-  }, [accountName]);
+  }, [accountName, postId, isMyProfile]);
 
   return (
     <>

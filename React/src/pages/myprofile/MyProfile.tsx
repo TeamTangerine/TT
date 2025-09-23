@@ -12,7 +12,7 @@ function MyProfile() {
         <UserInfo isMyProfile={true} />
         {/* 버튼을 피그마 디자인에 맞게 동적 할당하는 로직 추가 필요합니다! */}
         <ProductList isMyProfile={true} />
-        <PostingGrid />
+        <PostingGrid isMyProfile={true} />
       </main>
       <Footer />
     </>
