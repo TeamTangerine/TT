@@ -4,8 +4,8 @@ import { createPortal } from 'react-dom';
 import ToastChildren from './components/ToastChildren';
 import { useNavigate } from 'react-router-dom';
 import Modal from './components/Modal';
-import { createModalConfigs } from './components/ModalConfigs';
-import { commentAPI, postAPI } from '../../service/fetch/api';
+import { createModalConfigs } from './components/modalConfigs';
+import { commentAPI } from '../../service/fetch/api';
 
 interface IModalProps {
   showModal: boolean;
@@ -16,25 +16,12 @@ interface IModalProps {
   commentId?: string;
 }
 
-// 리팩토링 todo
 /**
- * 1. 각 상황별로 모달 형태 정리
- * 2. 상황별 prop 이벤트 정리
- * 3. 내 게시글 수정인지 남의 게시글인지 구분하는 로직 필요
- * 4. 재사용성 고려(같은 기능 묶기)
- * 5. 모달 함수들 래핑
- * === 계획 초기화
- * 1. 모달 코딩 패턴 계획
- * 2. configuration Object Pattern
- * 3. 기능별 분류
- * 3-1. 콘텐츠 렌더링 (버튼)(madalStyle)
- * 3-2. 모달 설정 : 콘텐츠, 액션 함수 정의
- */
-
-/**
- * 모달 컴포넌트
+ * 토스트 / 모달 컴포넌트
+ * 더보기 누를때 나타나는 토스트 팝업 구현
  * @param showModal - showModal을 상위 컴포넌트에서 관리
  * @param closeModal - setShowModal(false)를 콜백으로 받음
+ * @param toastStyle - 토스트 팝업의 스타일을 넣어주세요 'header' | 'myProfile-post' | 'myProfile-product' | 'my-comment' | 'user-comment' | 'chat'
  * @returns
  */
 function Toast({ showModal, closeModal, toastStyle, postId, productId, commentId }: IModalProps) {
