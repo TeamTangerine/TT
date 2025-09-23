@@ -53,7 +53,7 @@ function validatePassword(password: string) {
  **/
 
 function validateUrl(url: string) {
-  const urlRegex = /^.+\/post\/:.+$/;
+  const urlRegex = /^.+\/post\/.+$/;
   let isOk = urlRegex.test(url);
   return isOk;
 }
