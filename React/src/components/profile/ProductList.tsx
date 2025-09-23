@@ -1,5 +1,6 @@
 import Product from './Product';
 import { useState, useEffect } from 'react';
+import { useParams } from 'react-router-dom';
 import { productAPI } from '../../service/fetch/api';
 import { userAPI } from '../../service/fetch/api';
 import Modal from '../modal/Modal';
@@ -7,11 +8,12 @@ import { ProductAPI } from '../../types/IFetchType';
 
 // onEditProduct
 type ProductListProps = {
-  isOwner: boolean;
+  isMyProfile: boolean;
 };
 
-function ProductList({ isOwner }: ProductListProps) {
+function ProductList({ isMyProfile }: ProductListProps) {
   const [accountName, setAccountName] = useState('');
+  const { postId } = useParams<{ postId: string }>();
   const [products, setProducts] = useState<ProductAPI.IProduct[]>([]);
   const [loading, setLoading] = useState(false);
   const [showModal, setShowModal] = useState(false);
@@ -25,19 +27,39 @@ function ProductList({ isOwner }: ProductListProps) {
   // 상품 목록 조회 함수(getUserProducts API를 통해 상품 목록 조회)
   async function getUserProducts() {
     setLoading(true);
-    try {
-      const productData = await productAPI.getUserProducts(accountName);
-      // product에 productData.product데이터 저장
-      setProducts(productData.product);
-    } catch (error) {
-      console.log('상품 목록 조회 실패:', error);
-    } finally {
-      setLoading(false);
+
+    if (isMyProfile) {
+      try {
+        const productData = await productAPI.getUserProducts(accountName);
+        // product에 productData.product데이터 저장
+        setProducts(productData.product);
+      } catch (error) {
+        console.log('상품 목록 조회 실패:', error);
+      } finally {
+        setLoading(false);
+        return;
+      }
+    }
+
+    if (!isMyProfile && postId) {
+      try {
+        setAccountName(postId);
+        const productData = await productAPI.getUserProducts(postId);
+        setProducts(productData.product);
+        console.log('products :', products);
+      } catch (error) {
+        console.log('상품 목록 조회 실패', error);
+      } finally {
+        setLoading(false);
+      }
     }
   }
 
   useEffect(() => {
     getUserInfo();
+    if (!isMyProfile && postId) {
+      setAccountName(postId);
+    }
   }, []);
 
   useEffect(() => {
@@ -62,7 +84,7 @@ function ProductList({ isOwner }: ProductListProps) {
                   itemName={product.itemName}
                   price={product.price}
                   productLink={product.link}
-                  isOwner={isOwner}
+                  isMyProfile={isMyProfile}
                   setShowModal={setShowModal}
                 />
               ))

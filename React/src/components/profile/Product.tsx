@@ -8,7 +8,7 @@ import { imageAPI } from '../../service/fetch/api';
  * @param itemName - 상품 이름
  * @param price - 상품 가격
  * @param productLink - 상품 판매 페이지 링크
- * @param isOwner - myProfile 페이지 여부
+ * @param isMyProfile - myProfile 페이지 여부
  * - true: myProfile 페이지
  * - false: yourProfile 페이지
  * @param setShowModal - myProfile 페이지인 경우, 상위 컴포넌트의 showModal 상태 관리
@@ -18,11 +18,11 @@ type ProductProps = {
   itemName: string;
   price: number;
   productLink: string;
-  isOwner: boolean;
+  isMyProfile: boolean;
   setShowModal: (isTrue: boolean) => void;
 };
 
-function Product({ itemImage, itemName, price, productLink, isOwner, setShowModal }: ProductProps) {
+function Product({ itemImage, itemName, price, productLink, isMyProfile, setShowModal }: ProductProps) {
   const productSample = productImgSample;
 
   // 가격을 원화 포맷에 맞혀 사용
@@ -30,11 +30,11 @@ function Product({ itemImage, itemName, price, productLink, isOwner, setShowModa
 
   // handleLink 함수를 통해 myProfile인지 yourProfile인지 구별
   function handleLink() {
-    if (isOwner === true) {
+    if (isMyProfile === true) {
       setShowModal(true);
     }
 
-    if (isOwner === false) {
+    if (isMyProfile === false) {
       window.open(`${productLink}`, '_blank');
     }
   }
