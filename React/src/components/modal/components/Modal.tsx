@@ -33,13 +33,17 @@ function Modal({ isOpen, isClose, message, rightLabel, action }: ModalProps) {
           <p className=" text-[16px] text-center font-medium">{message}</p>
         </div>
         <div className="flex">
-          <button type="button" onClick={isClose} className="w-[125px] h-[46px] border-t border-r border-[#DBDBDB]">
+          <button
+            type="button"
+            onClick={isClose}
+            className="w-[125px] h-[46px] border-t border-r border-[#DBDBDB] text-[14px]"
+          >
             취소
           </button>
           <button
             type="button"
             onClick={handleConfirm}
-            className="w-[126px] h-[46px] border-t border-[#DBDBDB] text-[#F26E22]"
+            className="w-[126px] h-[46px] border-t border-[#DBDBDB] text-[#F26E22] text-[14px]"
           >
             {rightLabel}
           </button>

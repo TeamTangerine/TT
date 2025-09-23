@@ -164,7 +164,7 @@ function Toast({ showModal, closeModal, toastStyle, postId, productId, commentId
       <dialog
         ref={dialogRef}
         open={isOpen}
-        className={`fixed bottom-0 z-20 flex flex-col items-center w-full max-w-[390px] rounded-t-[10px] bg-white shadow-inner
+        className={`fixed bottom-0 z-20 flex flex-col items-center w-full max-w-[390px] rounded-t-[10px] bg-white
     transition-transform duration-300 ${isOpen ? 'translate-y-0' : 'translate-y-full'}`}
       >
         <button type="button" onClick={handleClose}>
