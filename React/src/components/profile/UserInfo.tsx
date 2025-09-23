@@ -41,6 +41,16 @@ function UserInfo({ isMyProfile }: UserInfoProps) {
     }
   }
 
+  // 현재 url을 복사하는 함수
+  async function copyCurrentUrl() {
+    try {
+      await navigator.clipboard.writeText(window.location.href);
+      alert('URL이 복사되었습니다!');
+    } catch (error) {
+      console.error('복사 실패:', error);
+    }
+  }
+
   // 로그인한 유저의 accountname을 가져오는 함수
   async function getUserInfo() {
     const res = await userAPI.getMyInfo();
@@ -105,12 +115,9 @@ function UserInfo({ isMyProfile }: UserInfoProps) {
       </div>
       <p className="text-[#767676]">{profileData.intro}</p>
       <div className="mt-1 flex gap-[10px]">
-        <button className="flex items-center justify-center w-[34px] h-[34px] rounded-full border-[1px] border-[#DBDBDB]">
-          <img src={iconMessageCircle} alt="채팅하기" className="w-5 h-5" />
-        </button>
-
         {isMyProfile ? (
           // MyProfile인 경우
+
           <div className="flex flex-row gap-3">
             <Button
               btnTextContent="프로필 수정"
@@ -133,21 +140,27 @@ function UserInfo({ isMyProfile }: UserInfoProps) {
           </div>
         ) : (
           // MyProfile이 아닌 경우(YourProfile)
-          <Button
-            btnTextContent={isFollow}
-            btnSize="medium"
-            btnColor={buttonColor}
-            btnType="button"
-            onClick={toggleFollow}
-            activeDisable={false}
-          />
-        )}
-        <button
-          className="flex items-center justify-center w-[34px] h-[34px] rounded-full border-[1px] border-[#DBDBDB]
+          <>
+            <button className="flex items-center justify-center w-[34px] h-[34px] rounded-full border-[1px] border-[#DBDBDB]">
+              <img src={iconMessageCircle} alt="채팅하기" className="w-5 h-5" onClick={() => navigate('/chat-list')} />
+            </button>
+            <Button
+              btnTextContent={isFollow}
+              btnSize="medium"
+              btnColor={buttonColor}
+              btnType="button"
+              onClick={toggleFollow}
+              activeDisable={false}
+            />
+            <button
+              className="flex items-center justify-center w-[34px] h-[34px] rounded-full border-[1px] border-[#DBDBDB]
         "
-        >
-          <img src={iconShare} alt="공유하기" className="w-5 h-5" />
-        </button>
+              onClick={copyCurrentUrl}
+            >
+              <img src={iconShare} alt="공유하기" className="w-5 h-5" />
+            </button>
+          </>
+        )}
       </div>
     </section>
   );
