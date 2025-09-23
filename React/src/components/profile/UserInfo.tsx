@@ -22,26 +22,11 @@ type UserInfoProps = {
 function UserInfo({ isMyProfile }: UserInfoProps) {
   const navigate = useNavigate();
   const { postId } = useParams<{ postId: string }>();
-  const [buttonColor, setButtonColor] = useState<ButtonColorType>('normal');
-  const [isFollow, setIsFollow] = useState('팔로우');
   const [accountName, setAccountName] = useState('');
   const [profileData, setProfileData] = useState<UserAPI.IUserProfile>({} as UserAPI.IUserProfile);
   const [loading, setLoading] = useState(false);
 
   const profileImg = basicProfileImg;
-
-  // 팔로우 버튼 클릭시 색깔 변화(팔로우 기능 추가예정)
-  function toggleFollow() {
-    if (buttonColor === 'normal') {
-      setButtonColor('active');
-      setIsFollow('언팔로우');
-    }
-
-    if (buttonColor === 'active') {
-      setButtonColor('normal');
-      setIsFollow('팔로우');
-    }
-  }
 
   // 현재 url을 복사하는 함수
   async function copyCurrentUrl() {
