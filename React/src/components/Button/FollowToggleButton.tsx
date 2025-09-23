@@ -45,10 +45,6 @@ function FollowToggleButton({ followText, unfollowText, btnSize, userAccount, is
     }
   }
 
-  useEffect(() => {
-    setIsFollowing(isFollow);
-  }, [isFollow]);
-
   return (
     <>
       <button
