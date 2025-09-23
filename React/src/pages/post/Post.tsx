@@ -50,7 +50,6 @@ function Post() {
   // 게시글 불러오는 api 함수
   async function getDetailArticle() {
     // state값이 없을 경우 api 작동
-    console.log(postId);
     if (!statePost && postId) {
       setLoading(true);
       try {
