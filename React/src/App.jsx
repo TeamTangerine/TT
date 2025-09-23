@@ -26,7 +26,7 @@ function App() {
         <Route path="/login-with-email" element={<LoginWithEmail />} />
         <Route path="/join-membership" element={<JoinMembership />} />
         <Route path="/search-page" element={<SearchPage />} />
-        <Route path="/your-profile" element={<YourProfile />} />
+        <Route path="/your-profile/:postId" element={<YourProfile />} />
         <Route path="/my-profile" element={<MyProfile />} />
         <Route path="/followers-list/:accountName" element={<FollowersList />} />
         <Route path="/profile-modification" element={<ProfileModification />} />

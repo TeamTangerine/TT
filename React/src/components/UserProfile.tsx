@@ -2,6 +2,7 @@
 import { IUserProfileProps } from '../types/IUserProfileProps';
 import defaultImage from '../assets/Ellipse-1.png';
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 /**
  *
  * @param image:string 이미지 URL
@@ -11,7 +12,7 @@ import { useState } from 'react';
  * @returns
  */
 function UserProfile({ image, username, accountname, actionButton, hover }: IUserProfileProps) {
-  '';
+  const navigate = useNavigate();
 
   return (
     <article
@@ -20,6 +21,9 @@ function UserProfile({ image, username, accountname, actionButton, hover }: IUse
           ? `flex justify-between hover:px-2 hover:py-2  hover:scale-110 hover:shadow-xl duration-300 transition-all ease-in-out `
           : `flex justify-between`
       }
+      onClick={() => {
+        navigate(`/your-profile/${accountname}`);
+      }}
     >
       <div className="flex gap-3 ">
         <img src={image || defaultImage} alt={`${username}의 프로필 사진`} className="w-[42px] h-[42px] rounded-full" />
