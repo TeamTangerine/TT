@@ -28,10 +28,10 @@ function App() {
         <Route path="/search-page" element={<SearchPage />} />
         <Route path="/your-profile" element={<YourProfile />} />
         <Route path="/my-profile" element={<MyProfile />} />
-        <Route path="/followers-list" element={<FollowersList />} />
+        <Route path="/followers-list/:accountName" element={<FollowersList />} />
         <Route path="/profile-modification" element={<ProfileModification />} />
         <Route path="/add-product" element={<AddProduct />} />
-        <Route path="/post/:id" element={<Post />} />
+        <Route path="/post/:postId" element={<Post />} />
         <Route path="/upload" element={<Upload />} />
         <Route path="/chat-list" element={<ChatList />} />
         <Route path="/chat-room" element={<ChatRoom />} />
