@@ -176,7 +176,7 @@ function Posting({
                   className={`w-5 h-5 ${validateUrl(window.location.href) ? 'cursor-default' : 'cursor-pointer'}`}
                   type="button"
                 >
-                  <img src={!!commentCount ? iconMessageActive : iconMessage} alt="댓글" />
+                  <img src={iconMessage} alt="댓글" />
                 </button>
                 <span className="text-[12px] text-[#767676]">{commentCount}</span>
               </div>

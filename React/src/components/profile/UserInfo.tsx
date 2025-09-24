@@ -2,7 +2,6 @@ import { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import FollowToggleButton from '../Button/FollowToggleButton';
 import Button from '../button/Button';
-import { ButtonColorType } from '../../types/IButtonType';
 import { userAPI, profileAPI } from '../../service/fetch/api';
 import { UserAPI } from '../../types/IFetchType';
 
@@ -28,28 +27,15 @@ function UserInfo({ isMyProfile }: UserInfoProps) {
 
   const profileImg = basicProfileImg;
 
-  // 현재 url을 복사하는 함수
-  async function copyCurrentUrl() {
-    try {
-      await navigator.clipboard.writeText(window.location.href);
-      alert('URL이 복사되었습니다!');
-    } catch (error) {
-      console.error('복사 실패:', error);
-    }
-  }
-
-  // 로그인한 유저의 accountname을 가져오는 함수
-  async function getUserInfo() {
-    const res = await userAPI.getMyInfo();
-    setAccountName(res.user.accountname);
-  }
-
   // 유저의 프로필 정보를 갖고 오는 함수
   async function getUserProfile() {
     setLoading(true);
 
     if (isMyProfile) {
       try {
+        const myData = userAPI.getMyInfo();
+        setAccountName((await myData).user.accountname);
+        console.log(accountName);
         const res = await profileAPI.getProfile(accountName);
         setProfileData(res.profile);
       } catch (error) {
@@ -63,6 +49,7 @@ function UserInfo({ isMyProfile }: UserInfoProps) {
     if (!isMyProfile && postId) {
       try {
         setAccountName(postId);
+        console.log(accountName);
         const res = await profileAPI.getProfile(accountName);
         setProfileData(res.profile);
       } catch (error) {
@@ -70,6 +57,16 @@ function UserInfo({ isMyProfile }: UserInfoProps) {
       } finally {
         setLoading(false);
       }
+    }
+  }
+
+  // 현재 url을 복사하는 함수
+  async function copyCurrentUrl() {
+    try {
+      await navigator.clipboard.writeText(window.location.href);
+      alert('URL이 복사되었습니다!');
+    } catch (error) {
+      console.error('복사 실패:', error);
     }
   }
 
@@ -81,11 +78,6 @@ function UserInfo({ isMyProfile }: UserInfoProps) {
   function handleFollowerClick() {
     navigate(`/followers-list/${accountName}?type=follower`);
   }
-
-  //
-  useEffect(() => {
-    getUserInfo();
-  }, []);
 
   useEffect(() => {
     getUserProfile();
@@ -120,7 +112,6 @@ function UserInfo({ isMyProfile }: UserInfoProps) {
       <div className="mt-1 flex gap-[10px]">
         {isMyProfile ? (
           // MyProfile인 경우
-
           <div className="flex flex-row gap-3">
             <Button
               btnTextContent="프로필 수정"

@@ -13,8 +13,7 @@ type HomeCardGridProps = {
 };
 
 function HomeCardGrid({ isMyProfile }: HomeCardGridProps) {
-  const { postId } = useParams<{ postId: string }>();
-  const [accountName, setAccountName] = useState('');
+  const { postId } = useParams<string>();
   const [posts, setPosts] = useState<PostAPI.IPost[]>([]);
   const [showList, setShowList] = useState(true);
   const [loading, setLoading] = useState(false);
@@ -35,19 +34,15 @@ function HomeCardGrid({ isMyProfile }: HomeCardGridProps) {
     }
   }
 
-  // 로그인한 유저 accout를 받는 함수, setAccountName을 통해 상태 설정
-  async function getUserInfo() {
-    const accountData = await userAPI.getMyInfo();
-    setAccountName(accountData.user.accountname);
-  }
-
-  // 게시물 목록을 받아오는 함수
+  // 나의 프로필인지 여부에 따라 해당 게시물 목록을 받아오는 함수
   async function getUserPosts() {
     setLoading(true);
 
+    // 마이프로필 페이지인 경우
     if (isMyProfile) {
       try {
-        const postData = await postAPI.getUserPosts(accountName);
+        const accountData = await userAPI.getMyInfo();
+        const postData = await postAPI.getUserPosts(accountData.user.accountname);
         // posts에 postData.post 데이터 저장
         setPosts(postData.post);
       } catch (error) {
@@ -58,9 +53,10 @@ function HomeCardGrid({ isMyProfile }: HomeCardGridProps) {
       }
     }
 
+    // 유어 프로필 페이지인 경우
     if (!isMyProfile && postId) {
       try {
-        const postData = await postAPI.getUserPosts(accountName);
+        const postData = await postAPI.getUserPosts(postId);
         setPosts(postData.post);
       } catch (error) {
         console.log('포스트 조회 실패', error);
@@ -71,16 +67,8 @@ function HomeCardGrid({ isMyProfile }: HomeCardGridProps) {
   }
 
   useEffect(() => {
-    if (isMyProfile) {
-      getUserInfo();
-    } else if (postId) {
-      setAccountName(postId);
-    }
-  }, []);
-
-  useEffect(() => {
     getUserPosts();
-  }, [accountName, postId]);
+  }, []);
 
   return (
     <div className="h-full bg-white">
