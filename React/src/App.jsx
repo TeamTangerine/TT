@@ -26,13 +26,13 @@ function App() {
         <Route path="/login-with-email" element={<LoginWithEmail />} />
         <Route path="/join-membership" element={<JoinMembership />} />
         <Route path="/search-page" element={<SearchPage />} />
-        <Route path="/your-profile/:postId" element={<YourProfile />} />
+        <Route path="/your-profile/:accountname" element={<YourProfile />} />
         <Route path="/my-profile" element={<MyProfile />} />
         <Route path="/followers-list/:accountName" element={<FollowersList />} />
         <Route path="/profile-modification" element={<ProfileModification />} />
         <Route path="/add-product" element={<AddProduct />} />
         <Route path="/post/:postId" element={<Post />} />
-        <Route path="/upload" element={<Upload />} />
+        <Route path="/upload/:postId" element={<Upload />} />
         <Route path="/chat-list" element={<ChatList />} />
         <Route path="/chat-room" element={<ChatRoom />} />
       </Routes>
