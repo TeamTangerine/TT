@@ -89,6 +89,12 @@ function AddProduct() {
         setIsItemError(true);
         return;
       }
+      //이름 양 옆에 여백이 있는 경우
+      if (itemName.length !== itemName.trim().length) {
+        setIsItemError(true);
+        return;
+      }
+
       //링크가 정규식에 맞지 않으면
       if (!validateProductURL(link)) {
         setIsLinkError(true);
