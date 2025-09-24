@@ -92,10 +92,8 @@ export default function LoginSignUpForm({ formName, btnText, isLogin }: LoginSig
       setPwError(true);
 
       // 실패 처리
-      if (error.status === 422) {
-        setPwErrorMessage(error.message);
-        return;
-      }
+      setPwErrorMessage(error.message);
+      return;
     } finally {
       setLoading(false);
       setPassword('');

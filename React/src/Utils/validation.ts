@@ -75,7 +75,7 @@ function validateProductName(productName: string) {
  * @returns {boolean}
  */
 function validateProductPrice(productPrice: string) {
-  const productPriceRegex = /^[0-9]$/;
+  const productPriceRegex = /^[0-9]+$/;
   let isOk = productPriceRegex.test(productPrice);
   return isOk;
 }
