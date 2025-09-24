@@ -1,9 +1,8 @@
 import { useState, useEffect } from 'react';
-import Modal from './modal/Modal';
+import Toast from './modal/Toast';
 import Heart from './profile/Heart';
 import profileImg from '../assets/basic-profile-img.png';
 import iconMoreVertical from '../assets/icon/s-icon-more-vertical.png';
-import iconMessageActive from '../assets/icon/icon-message-circle-fill.png';
 import iconMessage from '../assets/icon/icon-message-circle.svg';
 import iconImgLayers from '../assets/icon/iccon-img-layers.png';
 import { imageAPI } from '../service/fetch/api';
@@ -43,7 +42,6 @@ type PostingProps = {
 
 function Posting({
   showList = true,
-  post,
   userProfileImage,
   userName,
   userId,
@@ -59,7 +57,6 @@ function Posting({
   const [seeMore, setSeeMore] = useState('');
   const [seeContent, setSeeContent] = useState('line-clamp-3');
   const [showModal, setShowModal] = useState(false);
-
   // 라우팅
   const navigate = useNavigate();
 
@@ -77,7 +74,7 @@ function Posting({
     if (validateUrl(window.location.href)) {
       return;
     }
-    navigate(`/post/:${postId}`, { state: { post } });
+    navigate(`/post/${postId}`);
   }
 
   // 이미지 배열을 변수에 할당
@@ -200,7 +197,7 @@ function Posting({
           )}
         </>
       )}
-      {showModal && <Modal showModal={showModal} closeModal={() => setShowModal(false)} />}
+      {showModal && <Toast toastStyle="myProfile-post" showModal={showModal} closeModal={() => setShowModal(false)} />}
     </>
   );
 }
