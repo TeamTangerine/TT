@@ -6,6 +6,7 @@ import { userAPI } from '../../../service/fetch/api';
 import { validateEmail, validateId, validatePassword } from '../../../Utils/validation';
 import { useNavigate } from 'react-router-dom';
 import ImgBtn from '../../../assets/upload-file.png';
+import profileImg from '../../../assets/Ellipse-1.png';
 
 /**
  * @param formName - form에 들어갈 텍스트를 기입해주세요.
@@ -323,7 +324,11 @@ export default function LoginSignUpForm({ formName, btnText, isLogin }: LoginSig
           </header>
           <main>
             <div className="my-[30px] flex flex-col items-center relative">
-              <img className="w-[110px] h-[110px] rounded-full " src={userImg} alt="내 프로필 이미지" />
+              <img
+                className="w-[110px] h-[110px] rounded-full "
+                src={!userImg || userImg === '/Ellipse.png' ? profileImg : userImg}
+                alt="내 프로필 이미지"
+              />
               <label
                 className=" w-9 h-9 rounded-full absolute bottom-0 translate-x-[37px]  cursor-pointer"
                 htmlFor="userImgSelectBtn"
