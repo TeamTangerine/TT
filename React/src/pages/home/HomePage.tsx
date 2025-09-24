@@ -62,6 +62,7 @@ function HomePage() {
                     heartCount={post.heartCount}
                     commentCount={post.commentCount}
                     updatedAt={post.updatedAt}
+                    hearted={post.hearted}
                   />
                 ))}
               </ul>
