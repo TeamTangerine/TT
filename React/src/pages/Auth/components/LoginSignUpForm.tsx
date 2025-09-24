@@ -69,10 +69,8 @@ export default function LoginSignUpForm({ formName, btnText, isLogin }: LoginSig
 
       // 실패 처리
       setPwErrorMessage(error.message);
-      return;
     } finally {
       setLoading(false);
-      setPassword('');
     }
   }
 
