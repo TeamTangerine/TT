@@ -36,20 +36,14 @@ function FollowToggleButton({ followText, unfollowText, btnSize, userAccount, is
       if (isFollowing) {
         const res = await profileAPI.unfollow(userAccount);
         setIsFollowing(res.profile.isfollow);
-        console.log(res.profile.isfollow);
       } else {
         const res = await profileAPI.follow(userAccount);
         setIsFollowing(res.profile.isfollow);
-        console.log(res.profile.isfollow);
       }
     } catch (error) {
       console.log(error);
     }
   }
-
-  useEffect(() => {
-    setIsFollowing(isFollow);
-  }, [isFollow]);
 
   return (
     <>

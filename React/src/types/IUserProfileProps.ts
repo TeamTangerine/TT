@@ -17,4 +17,7 @@ export interface IUserProfileProps {
 
   //마우스 호버를 위한 속성
   hover: true;
+
+  //클릭을 위한 속성
+  onClick?: () => void;
 }
