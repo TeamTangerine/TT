@@ -1,6 +1,10 @@
 import { useState, useEffect } from 'react';
 import productImgSample from '../../assets/product-img-example.png';
+
 import Modal from '../modal/Toast';
+
+import { imageAPI } from '../../service/fetch/api';
+
 
 /**
  * @param itemImgae - 상품 이미지
@@ -22,8 +26,7 @@ type ProductProps = {
 };
 
 function Product({ itemImage, itemName, price, productLink, isOwner, setShowModal }: ProductProps) {
-  // 이미지 랜더링을 위한 기본 url
-  const imgUrl = 'https://dev.wenivops.co.kr/services/mandarin/';
+  const productSample = productImgSample;
 
   // 가격을 원화 포맷에 맞혀 사용
   const formattedPrice = price.toLocaleString();
@@ -41,10 +44,14 @@ function Product({ itemImage, itemName, price, productLink, isOwner, setShowModa
 
   return (
     <>
-      <li className="w-[140px] h-[132px] flex flex-col flex-shrink-0" onClick={() => handleLink()}>
-        <img src={imgUrl + itemImage} alt="샘플이미지" className="w-[140px] h-[90px] rounded-[8px] object-cover" />
-        <h3 className="mt-[6px]">{itemName}</h3>
-        <p className="mt-1 text-bold text-[12px] text-[#F26E22]">{formattedPrice}원</p>
+      <li className="w-[140px] h-[132px] flex flex-col flex-shrink-0 cursor-pointer" onClick={() => handleLink()}>
+        <img
+          src={itemImage ? imageAPI.getImage(itemImage) : productSample}
+          alt="샘플이미지"
+          className="w-[140px] h-[90px] rounded-[8px] object-cover"
+        />
+        <h3 className="h-[18px] px-[2px] mt-[6px] text-[14px]">{itemName}</h3>
+        <p className="h-[14px] px-[2px] mt-1 text-bold text-[12px] text-[#F26E22]">{formattedPrice}원</p>
       </li>
     </>
   );
