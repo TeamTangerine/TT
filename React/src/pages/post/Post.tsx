@@ -6,6 +6,7 @@ import profileImg from '../../assets/Ellipse 6.png';
 import { useParams, useLocation } from 'react-router-dom';
 import { CommentAPI, PostAPI } from '../../types/IFetchType';
 import { commentAPI, postAPI, userAPI } from '../../service/fetch/api';
+import throttle from '../../Utils/throttle';
 
 function Post() {
   // 유저 프로필 이미지 상태 관리
@@ -62,6 +63,9 @@ function Post() {
       }
     }
   }
+
+  // 댓글 게시 버튼 클릭 시 스로틀링 함수 발동
+  const handleThrottle = throttle(postComment, 3000);
 
   // 해당 게시글에 대한 댓글 작성하는 api 함수
   async function postComment() {
@@ -135,7 +139,7 @@ function Post() {
             <form
               onSubmit={(e) => {
                 e.preventDefault();
-                postComment();
+                handleThrottle();
               }}
             >
               <input
