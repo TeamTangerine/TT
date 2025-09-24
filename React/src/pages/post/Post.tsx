@@ -16,9 +16,9 @@ function Post() {
   const { postId } = useParams<string>();
   // navigate에서 온 state 데이터 받기
   const location = useLocation();
-  const statePost = location.state?.post as PostAPI.IPost | null;
+  const statePost = location.state?.post as PostAPI.IPost;
   // 게시글 데이터
-  const [post, setPost] = useState<PostAPI.IPost | null>(statePost || null);
+  const [post, setPost] = useState<PostAPI.IPost>(statePost);
   // 댓글 목록 데이터
   const [comments, setComments] = useState<CommentAPI.IComment[]>([]);
   const [loading, setLoading] = useState(!statePost); // state가 있으면 false, 없으면 true
@@ -26,15 +26,12 @@ function Post() {
 
   // 게시글 불러오는 api가 담긴 함수 실행
   // 유저 프로필 이미지 렌더링
+  // 댓글 목록 렌더링
   useEffect(() => {
     getDetailArticle();
     getUserInfo();
-  }, []);
-
-  // 댓글 목록 렌더링
-  useEffect(() => {
     getCommentList();
-  }, [post?.id]);
+  }, []);
 
   // 현재 로그인 중인 유저의 프로필 이미지 가져오는 api
   async function getUserInfo() {
@@ -73,7 +70,7 @@ function Post() {
         const res = await commentAPI.createComment(post.id, message);
         alert('댓글 작성 완료!');
         setMessage('');
-        getCommentList();
+        setComments((prev) => [res.comment, ...prev]);
       } catch (error: any) {
         console.error(`댓글 작성 실패: ${error.message}`);
       }
