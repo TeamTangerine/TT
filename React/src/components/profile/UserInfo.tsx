@@ -5,7 +5,7 @@ import Button from '../button/Button';
 import { userAPI, profileAPI } from '../../service/fetch/api';
 import { UserAPI } from '../../types/IFetchType';
 
-import basicProfileImg from '../../assets/basic-profile-img.png';
+import profileImg from '../../assets/basic-profile-img.png';
 import iconMessageCircle from '../../assets/icon/icon-message-circle.svg';
 import iconShare from '../../assets/icon/icon-share.png';
 
@@ -25,19 +25,17 @@ function UserInfo({ isMyProfile }: UserInfoProps) {
   const [profileData, setProfileData] = useState<UserAPI.IUserProfile>({} as UserAPI.IUserProfile);
   const [loading, setLoading] = useState(false);
 
-  const profileImg = basicProfileImg;
-
   // 유저의 프로필 정보를 갖고 오는 함수
   async function getUserProfile() {
     setLoading(true);
 
     if (isMyProfile) {
       try {
-        const myData = userAPI.getMyInfo();
-        setAccountName((await myData).user.accountname);
-        console.log(accountName);
-        const res = await profileAPI.getProfile(accountName);
-        setProfileData(res.profile);
+        const myData = await userAPI.getMyInfo();
+        setAccountName(myData.user.accountname);
+        const profileData = await profileAPI.getProfile(accountName);
+        setProfileData(profileData.profile);
+        console.log(!profileData.profile.image);
       } catch (error: any) {
         console.error('프로필 정보 조회 실패:', error.message);
       } finally {
@@ -93,7 +91,7 @@ function UserInfo({ isMyProfile }: UserInfoProps) {
           <span className="text-[10px] text-[#767676]">followers</span>
         </div>
         <img
-          src={!!profileData.image ? profileData.image : profileImg}
+          src={!profileData.image || profileData.image === '/Ellipse.png' ? profileImg : profileData.image}
           alt="유저 이미지"
           className="w-[110px] h-[110px] border-[#dbdbdb] border-[1px] rounded-full object-cover"
         />

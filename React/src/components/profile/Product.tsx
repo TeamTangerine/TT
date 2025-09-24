@@ -1,4 +1,4 @@
-import productImgSample from '../../assets/product-img-example.png';
+import productSample from '../../assets/product-img-example.png';
 import { imageAPI } from '../../service/fetch/api';
 
 /**
@@ -21,18 +21,16 @@ type ProductProps = {
 };
 
 function Product({ itemImage, itemName, price, productLink, isMyProfile, setShowModal }: ProductProps) {
-  const productSample = productImgSample;
-
   // 가격을 원화 포맷에 맞혀 사용
   const formattedPrice = price.toLocaleString();
 
   // handleLink 함수를 통해 myProfile인지 yourProfile인지 구별
   function handleLink() {
-    if (isMyProfile === true) {
+    if (isMyProfile) {
       setShowModal(true);
     }
 
-    if (isMyProfile === false) {
+    if (!isMyProfile) {
       window.open(`${productLink}`, '_blank');
     }
   }

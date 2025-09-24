@@ -31,7 +31,6 @@ function ProductList({ isMyProfile }: ProductListProps) {
       try {
         const myData = await userAPI.getMyInfo();
         const productData = await productAPI.getUserProducts(myData.user.accountname);
-        // product에 productData.product데이터 저장
         setProducts(productData.product);
       } catch (error: any) {
         console.error('상품 목록 조회 실패:', error.message);
