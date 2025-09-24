@@ -32,7 +32,7 @@ function ProfileModification() {
     setUserName(res.user.username);
     setUserAcountName(res.user.accountname);
     setUserIntro(res.user.intro);
-    setUserImageUrl(res.user.image);
+    setUserImageUrl(imageAPI.getImage(res.user.image));
   };
   //첫 렌더시 실행
   useEffect(() => {
@@ -70,7 +70,7 @@ function ProfileModification() {
       // 새 이미지가 선택된 경우만 업로드
       if (image.length > 0) {
         const resImg = await imageAPI.uploadFile(image[0]);
-        finalImageUrl = imageAPI.getImage(resImg.info.filename);
+        finalImageUrl = resImg.info.filename;
       }
 
       //유저 이름 검사
