@@ -50,8 +50,8 @@ function HomeCardGrid({ isMyProfile }: HomeCardGridprops) {
         const postData = await postAPI.getUserPosts(accountName);
         // posts에 postData.post 데이터 저장
         setPosts(postData.post);
-      } catch (error) {
-        console.log('포스트 조회 실패:', error);
+      } catch (error: any) {
+        console.error('게시물 목록 조회 실패:', error.message);
       } finally {
         setLoading(false);
         return;
@@ -62,8 +62,8 @@ function HomeCardGrid({ isMyProfile }: HomeCardGridprops) {
       try {
         const postData = await postAPI.getUserPosts(accountName);
         setPosts(postData.post);
-      } catch (error) {
-        console.log('포스트 조회 실패', error);
+      } catch (error: any) {
+        console.error('게시물 목록 조회 실패:', error.message);
       } finally {
         setLoading(false);
       }

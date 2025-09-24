@@ -51,7 +51,7 @@ function HomePage() {
                     // 포스팅 컴포넌트에 대한 key
                     key={post.id}
                     // 각 게시글의 고유 id
-                    id={post.id}
+                    postId={post.id}
                     // 각 게시글 모든 내용(navigate의 state 값으로 넘기기 위한 props)
                     post={post}
                     userProfileImage={post.author.image}

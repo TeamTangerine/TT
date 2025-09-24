@@ -1,5 +1,10 @@
+import { useState, useEffect } from 'react';
 import productImgSample from '../../assets/product-img-example.png';
+
+import Modal from '../modal/Toast';
+
 import { imageAPI } from '../../service/fetch/api';
+
 
 /**
  * @param itemImgae - 상품 이미지
@@ -21,18 +26,16 @@ type ProductProps = {
 };
 
 function Product({ itemImage, itemName, price, productLink, isMyProfile, setShowModal }: ProductProps) {
-  const productSample = productImgSample;
-
   // 가격을 원화 포맷에 맞혀 사용
   const formattedPrice = price.toLocaleString();
 
   // handleLink 함수를 통해 myProfile인지 yourProfile인지 구별
   function handleLink() {
-    if (isMyProfile === true) {
+    if (isMyProfile) {
       setShowModal(true);
     }
 
-    if (isMyProfile === false) {
+    if (!isMyProfile) {
       window.open(`${productLink}`, '_blank');
     }
   }

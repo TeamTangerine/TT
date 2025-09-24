@@ -3,7 +3,7 @@ import { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { productAPI } from '../../service/fetch/api';
 import { userAPI } from '../../service/fetch/api';
-import Modal from '../modal/Modal';
+import Modal from '../modal/Toast';
 import { ProductAPI } from '../../types/IFetchType';
 
 /**
@@ -16,43 +16,37 @@ type ProductListProps = {
 };
 
 function ProductList({ isMyProfile }: ProductListProps) {
-  const [accountName, setAccountName] = useState('');
-  const { postId } = useParams<{ postId: string }>();
+  const { postId } = useParams<string>();
 
   const [products, setProducts] = useState<ProductAPI.IProduct[]>([]);
   const [loading, setLoading] = useState(false);
   const [showModal, setShowModal] = useState(false);
 
-  // 로그인한 유저 accout를 받는 함수
-  async function getUserInfo() {
-    const res = await userAPI.getMyInfo();
-    setAccountName(res.user.accountname);
-    console.log(accountName);
-  }
-
   // 상품 목록 조회 함수(getUserProducts API를 통해 상품 목록 조회)
   async function getUserProducts() {
     setLoading(true);
 
+    // 마이프로필 페이지인 경우
     if (isMyProfile) {
       try {
-        const productData = await productAPI.getUserProducts(accountName);
-        // product에 productData.product데이터 저장
+        const myData = await userAPI.getMyInfo();
+        const productData = await productAPI.getUserProducts(myData.user.accountname);
         setProducts(productData.product);
-      } catch (error) {
-        console.log('상품 목록 조회 실패:', error);
+      } catch (error: any) {
+        console.error('상품 목록 조회 실패:', error.message);
       } finally {
         setLoading(false);
         return;
       }
     }
 
+    // 유어프로필 페이지인 경우
     if (!isMyProfile && postId) {
       try {
         const productData = await productAPI.getUserProducts(postId);
         setProducts(productData.product);
-      } catch (error) {
-        console.log('상품 목록 조회 실패', error);
+      } catch (error: any) {
+        console.error('상품 목록 조회 실패:', error.message);
       } finally {
         setLoading(false);
       }
@@ -60,16 +54,8 @@ function ProductList({ isMyProfile }: ProductListProps) {
   }
 
   useEffect(() => {
-    if (isMyProfile) {
-      getUserInfo();
-    } else if (!isMyProfile && postId) {
-      setAccountName(postId);
-    }
-  }, [isMyProfile, postId]);
-
-  useEffect(() => {
     getUserProducts();
-  }, [accountName, postId, isMyProfile]);
+  }, []);
 
   return (
     <>

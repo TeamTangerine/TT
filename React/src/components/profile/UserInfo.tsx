@@ -2,11 +2,10 @@ import { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import FollowToggleButton from '../Button/FollowToggleButton';
 import Button from '../button/Button';
-import { ButtonColorType } from '../../types/IButtonType';
 import { userAPI, profileAPI } from '../../service/fetch/api';
 import { UserAPI } from '../../types/IFetchType';
 
-import basicProfileImg from '../../assets/basic-profile-img.png';
+import profileImg from '../../assets/basic-profile-img.png';
 import iconMessageCircle from '../../assets/icon/icon-message-circle.svg';
 import iconShare from '../../assets/icon/icon-share.png';
 
@@ -22,24 +21,40 @@ type UserInfoProps = {
 function UserInfo({ isMyProfile }: UserInfoProps) {
   const navigate = useNavigate();
   const { postId } = useParams<{ postId: string }>();
-  const [buttonColor, setButtonColor] = useState<ButtonColorType>('normal');
-  const [isFollow, setIsFollow] = useState('팔로우');
   const [accountName, setAccountName] = useState('');
   const [profileData, setProfileData] = useState<UserAPI.IUserProfile>({} as UserAPI.IUserProfile);
   const [loading, setLoading] = useState(false);
 
-  const profileImg = basicProfileImg;
+  // 유저의 프로필 정보를 갖고 오는 함수
+  async function getUserProfile() {
+    setLoading(true);
 
-  // 팔로우 버튼 클릭시 색깔 변화(팔로우 기능 추가예정)
-  function toggleFollow() {
-    if (buttonColor === 'normal') {
-      setButtonColor('active');
-      setIsFollow('언팔로우');
+    if (isMyProfile) {
+      try {
+        const myData = await userAPI.getMyInfo();
+        setAccountName(myData.user.accountname);
+        const profileData = await profileAPI.getProfile(accountName);
+        setProfileData(profileData.profile);
+        console.log(!profileData.profile.image);
+      } catch (error: any) {
+        console.error('프로필 정보 조회 실패:', error.message);
+      } finally {
+        setLoading(false);
+      }
+      return;
     }
 
-    if (buttonColor === 'active') {
-      setButtonColor('normal');
-      setIsFollow('팔로우');
+    if (!isMyProfile && postId) {
+      try {
+        setAccountName(postId);
+        console.log(accountName);
+        const res = await profileAPI.getProfile(accountName);
+        setProfileData(res.profile);
+      } catch (error: any) {
+        console.error('프로필 정보 조회 실패:', error.message);
+      } finally {
+        setLoading(false);
+      }
     }
   }
 
@@ -53,41 +68,6 @@ function UserInfo({ isMyProfile }: UserInfoProps) {
     }
   }
 
-  // 로그인한 유저의 accountname을 가져오는 함수
-  async function getUserInfo() {
-    const res = await userAPI.getMyInfo();
-    setAccountName(res.user.accountname);
-  }
-
-  // 유저의 프로필 정보를 갖고 오는 함수
-  async function getUserProfile() {
-    setLoading(true);
-
-    if (isMyProfile) {
-      try {
-        const res = await profileAPI.getProfile(accountName);
-        setProfileData(res.profile);
-      } catch (error) {
-        console.log(error);
-      } finally {
-        setLoading(false);
-      }
-      return;
-    }
-
-    if (!isMyProfile && postId) {
-      try {
-        setAccountName(postId);
-        const res = await profileAPI.getProfile(accountName);
-        setProfileData(res.profile);
-      } catch (error) {
-        console.log(error);
-      } finally {
-        setLoading(false);
-      }
-    }
-  }
-
   // 사용자 ID를 팔로워 리스트 페이지에 URL 파라미터로 넘기는 함수
   function handleFollowingClick() {
     navigate(`/followers-list/${accountName}?type=following`);
@@ -96,11 +76,6 @@ function UserInfo({ isMyProfile }: UserInfoProps) {
   function handleFollowerClick() {
     navigate(`/followers-list/${accountName}?type=follower`);
   }
-
-  //
-  useEffect(() => {
-    getUserInfo();
-  }, []);
 
   useEffect(() => {
     getUserProfile();
@@ -116,7 +91,7 @@ function UserInfo({ isMyProfile }: UserInfoProps) {
           <span className="text-[10px] text-[#767676]">followers</span>
         </div>
         <img
-          src={!!profileData.image ? profileData.image : profileImg}
+          src={!profileData.image || profileData.image === '/Ellipse.png' ? profileImg : profileData.image}
           alt="유저 이미지"
           className="w-[110px] h-[110px] border-[#dbdbdb] border-[1px] rounded-full object-cover"
         />
@@ -135,7 +110,6 @@ function UserInfo({ isMyProfile }: UserInfoProps) {
       <div className="mt-1 flex gap-[10px]">
         {isMyProfile ? (
           // MyProfile인 경우
-
           <div className="flex flex-row gap-3">
             <Button
               btnTextContent="프로필 수정"
