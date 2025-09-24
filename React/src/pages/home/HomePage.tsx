@@ -1,6 +1,6 @@
 import Symbol from '../../assets/symbol-logo-gray.png';
 import Header from '../../components/Header';
-import Footer from '../../components/footer/Footer';
+import Footer from '../../components/Footer/Footer';
 import { useNavigate } from 'react-router-dom';
 import { postAPI } from '../../service/fetch/api';
 import { useLayoutEffect, useState } from 'react';
