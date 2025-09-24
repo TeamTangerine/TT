@@ -124,7 +124,11 @@ function Posting({
         // 리스트형 랜더링
         <li className="flex gap-3 justify-center w-[358px]">
           <img
-            src={userProfileImage === '/Elipse.png' ? profileImg : imageAPI.getImage(userProfileImage)}
+            src={
+              userProfileImage === 'https://dev.wenivops.co.kr/services/mandarin//Ellipse.png'
+                ? profileImg
+                : imageAPI.getImage(userProfileImage)
+            }
             alt="프로필"
             className="w-[42px] h-[42px] rounded-full"
           />
