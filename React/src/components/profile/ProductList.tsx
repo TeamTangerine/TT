@@ -1,48 +1,61 @@
 import Product from './Product';
 import { useState, useEffect } from 'react';
+import { useParams } from 'react-router-dom';
 import { productAPI } from '../../service/fetch/api';
 import { userAPI } from '../../service/fetch/api';
 import Modal from '../modal/Toast';
 import { ProductAPI } from '../../types/IFetchType';
 
-// onEditProduct
+/**
+ * @param isMyProfile -페이지별 버튼 동적할당을 위한 타입
+ * - MyProfile 페이지인 경우 true
+ * - YourProfile 페이지인 경우 false
+ */
 type ProductListProps = {
-  isOwner: boolean;
+  isMyProfile: boolean;
 };
 
-function ProductList({ isOwner }: ProductListProps) {
-  const [accountName, setAccountName] = useState('');
+function ProductList({ isMyProfile }: ProductListProps) {
+  const { postId } = useParams<string>();
+
   const [products, setProducts] = useState<ProductAPI.IProduct[]>([]);
   const [loading, setLoading] = useState(false);
   const [showModal, setShowModal] = useState(false);
 
-  // 로그인한 유저 accout를 받는 함수
-  async function getUserInfo() {
-    const res = await userAPI.getMyInfo();
-    setAccountName(res.user.accountname);
-  }
-
   // 상품 목록 조회 함수(getUserProducts API를 통해 상품 목록 조회)
   async function getUserProducts() {
     setLoading(true);
-    try {
-      const productData = await productAPI.getUserProducts(accountName);
-      // product에 productData.product데이터 저장
-      setProducts(productData.product);
-    } catch (error) {
-      console.log('상품 목록 조회 실패:', error);
-    } finally {
-      setLoading(false);
+
+    // 마이프로필 페이지인 경우
+    if (isMyProfile) {
+      try {
+        const myData = await userAPI.getMyInfo();
+        const productData = await productAPI.getUserProducts(myData.user.accountname);
+        setProducts(productData.product);
+      } catch (error: any) {
+        console.error('상품 목록 조회 실패:', error.message);
+      } finally {
+        setLoading(false);
+        return;
+      }
+    }
+
+    // 유어프로필 페이지인 경우
+    if (!isMyProfile && postId) {
+      try {
+        const productData = await productAPI.getUserProducts(postId);
+        setProducts(productData.product);
+      } catch (error: any) {
+        console.error('상품 목록 조회 실패:', error.message);
+      } finally {
+        setLoading(false);
+      }
     }
   }
 
   useEffect(() => {
-    getUserInfo();
-  }, []);
-
-  useEffect(() => {
     getUserProducts();
-  }, [accountName]);
+  }, []);
 
   return (
     <>
@@ -62,7 +75,7 @@ function ProductList({ isOwner }: ProductListProps) {
                   itemName={product.itemName}
                   price={product.price}
                   productLink={product.link}
-                  isOwner={isOwner}
+                  isMyProfile={isMyProfile}
                   setShowModal={setShowModal}
                 />
               ))
