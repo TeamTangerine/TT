@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import Modal from './modal/Modal';
 import Heart from './profile/Heart';
-import basicProfileImg from '../assets/basic-profile-img.png';
+import profileImg from '../assets/basic-profile-img.png';
 import iconMoreVertical from '../assets/icon/s-icon-more-vertical.png';
 import iconMessageActive from '../assets/icon/icon-message-circle-fill.png';
 import iconMessage from '../assets/icon/icon-message-circle.svg';
@@ -59,9 +59,6 @@ function Posting({
   const [seeMore, setSeeMore] = useState('');
   const [seeContent, setSeeContent] = useState('line-clamp-3');
   const [showModal, setShowModal] = useState(false);
-
-  // 기본 프로필 이미지
-  const profileImg = basicProfileImg;
 
   // 라우팅
   const navigate = useNavigate();
