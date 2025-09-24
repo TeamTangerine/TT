@@ -19,29 +19,6 @@ type LoginSignUpFormProps = {
   isLogin: boolean;
 };
 
-// API 응답 타입 정의
-type LoginSuccessResponse = {
-  user: {
-    _id: string;
-    username: string;
-    email: string;
-    accountname: string;
-    image: string;
-    token: string;
-  };
-};
-
-type LoginErrorResponse = {
-  message: string;
-  status: number;
-};
-
-// 로그인 요청 데이터 타입
-type LoginData = {
-  email: string;
-  password: string;
-};
-
 export default function LoginSignUpForm({ formName, btnText, isLogin }: LoginSignUpFormProps) {
   // input값 관리
   const [email, setEmail] = useState('');
