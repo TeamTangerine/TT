@@ -38,7 +38,6 @@ function HomeCardGrid({ isMyProfile }: HomeCardGridProps) {
       try {
         const accountData = await userAPI.getMyInfo();
         const postData = await postAPI.getUserPosts(accountData.user.accountname);
-        // posts에 postData.post 데이터 저장
         setPosts(postData.post);
       } catch (error) {
         console.log('포스트 조회 실패:', error);
