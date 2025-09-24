@@ -1,6 +1,4 @@
-import { Navigate } from 'react-router-dom';
 import './App.css';
-import Splash from './pages/splash/Splash';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import HomePage from './pages/home/HomePage';
 import Login from './pages/Auth/Login';
@@ -21,8 +19,7 @@ function App() {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/" element={<Navigate to="/splash" />} />
-        <Route path="/home" element={<HomePage />} />
+        <Route path="/" element={<HomePage />} />
         <Route path="/login" element={<Login />} />
         <Route path="/login-with-email" element={<LoginWithEmail />} />
         <Route path="/join-membership" element={<JoinMembership />} />
