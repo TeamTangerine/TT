@@ -2,14 +2,9 @@ import React, { useEffect, useState } from 'react';
 import Header from '../../components/Header';
 import TextInput from '../../components/TextInput';
 import uploadImg from '../../assets/icon/icon-upload.png';
-import { imageAPI, postAPI, productAPI } from '../../service/fetch/api';
+import { imageAPI, productAPI } from '../../service/fetch/api';
 import { validateProductURL } from '../../Utils/validation';
 import { useNavigate, useSearchParams } from 'react-router-dom';
-
-interface AddProductProps {
-  isUpdateProduct?: boolean;
-  productId?: string;
-}
 
 function AddProduct() {
   //쿼리-를 사용해서 상품수정여부와 상품 아이디를 받습니다.
