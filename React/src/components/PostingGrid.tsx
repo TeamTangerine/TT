@@ -1,15 +1,22 @@
 import Posting from './Posting';
+import { useState, useEffect } from 'react';
+import { useParams } from 'react-router-dom';
+import { userAPI, postAPI } from '../service/fetch/api';
+import { PostAPI } from '../types/IFetchType';
 import postAlbumOff from '../assets/icon/icon-post-album-off.png';
 import postAlbumOn from '../assets/icon/icon-post-album-on.png';
 import postListOff from '../assets/icon/icon-post-list-off.png';
 import postListOn from '../assets/icon/icon-post-list-on.png';
-import { useState, useEffect } from 'react';
-import { userAPI, postAPI } from '../service/fetch/api';
-import { PostAPI } from '../types/IFetchType';
 
-function HomeCardGrid() {
-  const [showList, setShowList] = useState(true);
+type HomeCardGridprops = {
+  isMyProfile: boolean;
+};
+
+function HomeCardGrid({ isMyProfile }: HomeCardGridprops) {
+  const { postId } = useParams<{ postId: string }>();
+  const [accountName, setAccountName] = useState('');
   const [posts, setPosts] = useState<PostAPI.IPost[]>([]);
+  const [showList, setShowList] = useState(true);
   const [loading, setLoading] = useState(false);
 
   const listBtnOn = postListOn;
@@ -29,29 +36,51 @@ function HomeCardGrid() {
   }
 
   // 로그인한 유저 accout를 받는 함수, setAccountName을 통해 상태 설정
+  async function getUserInfo() {
+    const accountData = await userAPI.getMyInfo();
+    setAccountName(accountData.user.accountname);
+  }
 
   // 게시물 목록을 받아오는 함수
   async function getUserPosts() {
     setLoading(true);
-    try {
-      const accountData = await userAPI.getMyInfo();
-      const accountName = await accountData.user.accountname;
-      const postData = await postAPI.getUserPosts(accountName);
-      if (!postData) {
-        throw new Error(postData);
+
+    if (isMyProfile) {
+      try {
+        const postData = await postAPI.getUserPosts(accountName);
+        // posts에 postData.post 데이터 저장
+        setPosts(postData.post);
+      } catch (error: any) {
+        console.error('게시물 목록 조회 실패:', error.message);
+      } finally {
+        setLoading(false);
+        return;
       }
-      // posts에 postData.post 데이터 저장
-      setPosts(postData.post);
-    } catch (error) {
-      console.log('포스트 조회 실패:', error);
-    } finally {
-      setLoading(false);
+    }
+
+    if (!isMyProfile && postId) {
+      try {
+        const postData = await postAPI.getUserPosts(accountName);
+        setPosts(postData.post);
+      } catch (error: any) {
+        console.error('게시물 목록 조회 실패:', error.message);
+      } finally {
+        setLoading(false);
+      }
     }
   }
 
   useEffect(() => {
-    getUserPosts();
+    if (isMyProfile) {
+      getUserInfo();
+    } else if (postId) {
+      setAccountName(postId);
+    }
   }, []);
+
+  useEffect(() => {
+    getUserPosts();
+  }, [accountName, postId]);
 
   return (
     <div className="h-full bg-white">

@@ -1,11 +1,11 @@
 import { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
+import FollowToggleButton from '../Button/FollowToggleButton';
 import Button from '../button/Button';
-import { ButtonColorType } from '../../types/IButtonType';
 import { userAPI, profileAPI } from '../../service/fetch/api';
 import { UserAPI } from '../../types/IFetchType';
 
-import basicProfileImg from '../../assets/basic-profile-img.png';
+import profileImg from '../../assets/basic-profile-img.png';
 import iconMessageCircle from '../../assets/icon/icon-message-circle.svg';
 import iconShare from '../../assets/icon/icon-share.png';
 
@@ -20,43 +20,51 @@ type UserInfoProps = {
 
 function UserInfo({ isMyProfile }: UserInfoProps) {
   const navigate = useNavigate();
-  const [buttonColor, setButtonColor] = useState<ButtonColorType>('normal');
-  const [isFollow, setIsFollow] = useState('팔로우');
+  const { postId } = useParams<{ postId: string }>();
   const [accountName, setAccountName] = useState('');
   const [profileData, setProfileData] = useState<UserAPI.IUserProfile>({} as UserAPI.IUserProfile);
   const [loading, setLoading] = useState(false);
 
-  const profileImg = basicProfileImg;
-
-  // 팔로우 버튼 클릭시 색깔 변화(팔로우 기능 추가예정)
-  function toggleFollow() {
-    if (buttonColor === 'normal') {
-      setButtonColor('active');
-      setIsFollow('언팔로우');
-    }
-
-    if (buttonColor === 'active') {
-      setButtonColor('normal');
-      setIsFollow('팔로우');
-    }
-  }
-
-  // 로그인한 유저의 accountname을 가져오는 함수
-  async function getUserInfo() {
-    const res = await userAPI.getMyInfo();
-    setAccountName(res.user.accountname);
-  }
-
   // 유저의 프로필 정보를 갖고 오는 함수
   async function getUserProfile() {
     setLoading(true);
+
+    if (isMyProfile) {
+      try {
+        const myData = await userAPI.getMyInfo();
+        setAccountName(myData.user.accountname);
+        const profileData = await profileAPI.getProfile(accountName);
+        setProfileData(profileData.profile);
+        console.log(!profileData.profile.image);
+      } catch (error: any) {
+        console.error('프로필 정보 조회 실패:', error.message);
+      } finally {
+        setLoading(false);
+      }
+      return;
+    }
+
+    if (!isMyProfile && postId) {
+      try {
+        setAccountName(postId);
+        console.log(accountName);
+        const res = await profileAPI.getProfile(accountName);
+        setProfileData(res.profile);
+      } catch (error: any) {
+        console.error('프로필 정보 조회 실패:', error.message);
+      } finally {
+        setLoading(false);
+      }
+    }
+  }
+
+  // 현재 url을 복사하는 함수
+  async function copyCurrentUrl() {
     try {
-      const res = await profileAPI.getProfile(accountName);
-      setProfileData(res.profile);
+      await navigator.clipboard.writeText(window.location.href);
+      alert('URL이 복사되었습니다!');
     } catch (error) {
-      console.log(error);
-    } finally {
-      setLoading(false);
+      console.error('복사 실패:', error);
     }
   }
 
@@ -68,11 +76,6 @@ function UserInfo({ isMyProfile }: UserInfoProps) {
   function handleFollowerClick() {
     navigate(`/followers-list/${accountName}?type=follower`);
   }
-
-  //
-  useEffect(() => {
-    getUserInfo();
-  }, []);
 
   useEffect(() => {
     getUserProfile();
@@ -88,7 +91,7 @@ function UserInfo({ isMyProfile }: UserInfoProps) {
           <span className="text-[10px] text-[#767676]">followers</span>
         </div>
         <img
-          src={!!profileData.image ? profileData.image : profileImg}
+          src={!profileData.image || profileData.image === '/Ellipse.png' ? profileImg : profileData.image}
           alt="유저 이미지"
           className="w-[110px] h-[110px] border-[#dbdbdb] border-[1px] rounded-full object-cover"
         />
@@ -105,10 +108,6 @@ function UserInfo({ isMyProfile }: UserInfoProps) {
       </div>
       <p className="text-[#767676]">{profileData.intro}</p>
       <div className="mt-1 flex gap-[10px]">
-        <button className="flex items-center justify-center w-[34px] h-[34px] rounded-full border-[1px] border-[#DBDBDB]">
-          <img src={iconMessageCircle} alt="채팅하기" className="w-5 h-5" />
-        </button>
-
         {isMyProfile ? (
           // MyProfile인 경우
           <div className="flex flex-row gap-3">
@@ -133,21 +132,26 @@ function UserInfo({ isMyProfile }: UserInfoProps) {
           </div>
         ) : (
           // MyProfile이 아닌 경우(YourProfile)
-          <Button
-            btnTextContent={isFollow}
-            btnSize="medium"
-            btnColor={buttonColor}
-            btnType="button"
-            onClick={toggleFollow}
-            activeDisable={false}
-          />
-        )}
-        <button
-          className="flex items-center justify-center w-[34px] h-[34px] rounded-full border-[1px] border-[#DBDBDB]
+          <>
+            <button className="flex items-center justify-center w-[34px] h-[34px] rounded-full border-[1px] border-[#DBDBDB]">
+              <img src={iconMessageCircle} alt="채팅하기" className="w-5 h-5" onClick={() => navigate('/chat-list')} />
+            </button>
+            <FollowToggleButton
+              followText="팔로우"
+              unfollowText="언팔로우"
+              btnSize="medium"
+              userAccount={profileData.accountname}
+              isFollow={profileData.isfollow}
+            />
+            <button
+              className="flex items-center justify-center w-[34px] h-[34px] rounded-full border-[1px] border-[#DBDBDB]
         "
-        >
-          <img src={iconShare} alt="공유하기" className="w-5 h-5" />
-        </button>
+              onClick={copyCurrentUrl}
+            >
+              <img src={iconShare} alt="공유하기" className="w-5 h-5" />
+            </button>
+          </>
+        )}
       </div>
     </section>
   );
