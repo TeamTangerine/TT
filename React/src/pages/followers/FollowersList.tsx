@@ -4,7 +4,7 @@ import { profileAPI } from '../../service/fetch/api';
 import { ProfileAPI } from '../../types/IFetchType';
 import Header from '../../components/Header';
 import basicProfileImage from '../../assets/basic-profile-img.png';
-import FollowToggleButton from '../../components/Button/FollowToggleButton';
+import FollowToggleButton from '../../components/button/FollowToggleButton';
 
 function FollowersList() {
   const profileImg = basicProfileImage;
