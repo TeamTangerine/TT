@@ -31,8 +31,7 @@ function Post() {
     getUserInfo();
     getCommentList();
   }, []);
-  console.log('useParams 전체:', useParams());
-  console.log('postId:', postId);
+
   // 현재 로그인 중인 유저의 프로필 이미지 가져오는 api
   async function getUserInfo() {
     try {
