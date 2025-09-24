@@ -1,8 +1,8 @@
 import { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import FollowToggleButton from '../Button/FollowToggleButton';
+import FollowToggleButton from '../button/FollowToggleButton';
 import Button from '../button/Button';
-import { userAPI, profileAPI } from '../../service/fetch/api';
+import { userAPI, profileAPI, imageAPI } from '../../service/fetch/api';
 import { UserAPI } from '../../types/IFetchType';
 
 import profileImg from '../../assets/basic-profile-img.png';
