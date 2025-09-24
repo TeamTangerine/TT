@@ -12,7 +12,6 @@ function Splash() {
   async function checkToken() {
     try {
       const result = await userAPI.checkToken();
-      console.log(result.isValid);
       if (!result.isValid) {
         navigate('/login');
       } else {
