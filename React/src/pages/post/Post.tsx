@@ -108,7 +108,9 @@ function Post() {
                 userId={post.author.accountname}
                 userContent={post.content}
                 contentImage={post.image}
+                postId={post.id}
                 heartCount={post.heartCount}
+                hearted={post.hearted}
                 commentCount={post.commentCount}
                 updatedAt={post.updatedAt}
               />
