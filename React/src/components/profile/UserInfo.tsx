@@ -16,11 +16,11 @@ import iconShare from '../../assets/icon/icon-share.png';
  */
 type UserInfoProps = {
   isMyProfile: boolean;
+  userAccount?: string;
 };
 
-function UserInfo({ isMyProfile }: UserInfoProps) {
+function UserInfo({ isMyProfile, userAccount }: UserInfoProps) {
   const navigate = useNavigate();
-  const { postId } = useParams<{ postId: string }>();
   const [accountName, setAccountName] = useState('');
   const [profileData, setProfileData] = useState<UserAPI.IUserProfile>({} as UserAPI.IUserProfile);
   const [loading, setLoading] = useState(false);
@@ -33,22 +33,18 @@ function UserInfo({ isMyProfile }: UserInfoProps) {
       try {
         const myData = await userAPI.getMyInfo();
         setAccountName(myData.user.accountname);
-        const profileData = await profileAPI.getProfile(accountName);
+        const profileData = await profileAPI.getProfile(myData.user.accountname);
         setProfileData(profileData.profile);
-        console.log(!profileData.profile.image);
       } catch (error: any) {
         console.error('프로필 정보 조회 실패:', error.message);
       } finally {
         setLoading(false);
       }
       return;
-    }
-
-    if (!isMyProfile && postId) {
+    } else if (!isMyProfile && userAccount) {
       try {
-        setAccountName(postId);
-        console.log(accountName);
-        const res = await profileAPI.getProfile(accountName);
+        setAccountName(userAccount);
+        const res = await profileAPI.getProfile(userAccount);
         setProfileData(res.profile);
       } catch (error: any) {
         console.error('프로필 정보 조회 실패:', error.message);
@@ -91,7 +87,11 @@ function UserInfo({ isMyProfile }: UserInfoProps) {
           <span className="text-[10px] text-[#767676]">followers</span>
         </div>
         <img
-          src={!profileData.image || profileData.image === '/Ellipse.png' ? profileImg : profileData.image}
+          src={
+            !profileData.image || profileData.image === '/Ellipse.png'
+              ? profileImg
+              : imageAPI.getImage(profileData.image)
+          }
           alt="유저 이미지"
           className="w-[110px] h-[110px] border-[#dbdbdb] border-[1px] rounded-full object-cover"
         />
