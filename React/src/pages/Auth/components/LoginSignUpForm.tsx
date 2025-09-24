@@ -52,8 +52,6 @@ export default function LoginSignUpForm({ formName, btnText, isLogin }: LoginSig
     e.preventDefault();
 
     setLoading(true);
-    setPwErrorMessage('');
-    setPwError(false);
 
     try {
       const res = await userAPI.login(email, password);
@@ -83,13 +81,6 @@ export default function LoginSignUpForm({ formName, btnText, isLogin }: LoginSig
     e.preventDefault();
 
     setLoading(true);
-    setEmailErrorMessage('');
-    setPwErrorMessage('');
-    setIdErrorMessage('');
-
-    setEmailError(false);
-    setPwError(false);
-    setIdError(false);
 
     try {
       const res = await userAPI.validateEmail(email);
@@ -198,11 +189,13 @@ export default function LoginSignUpForm({ formName, btnText, isLogin }: LoginSig
   // 이메일 onChange 관리
   const handleEmail = (e: React.ChangeEvent<HTMLInputElement>) => {
     setEmail(e.target.value);
+    setEmailError(false);
   };
 
   // 비밀번호 onChange 관리
   const handlePw = (e: React.ChangeEvent<HTMLInputElement>) => {
     setPassword(e.target.value);
+    setPwError(false);
   };
 
   // 사용자 이름 onChange 관리
@@ -213,6 +206,7 @@ export default function LoginSignUpForm({ formName, btnText, isLogin }: LoginSig
   // 계정 ID onChange 관리
   const handleId = (e: React.ChangeEvent<HTMLInputElement>) => {
     setId(e.target.value);
+    setIdError(false);
   };
 
   // 소개 onChange 관리
