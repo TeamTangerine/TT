@@ -38,8 +38,8 @@ function UserInfo({ isMyProfile }: UserInfoProps) {
         console.log(accountName);
         const res = await profileAPI.getProfile(accountName);
         setProfileData(res.profile);
-      } catch (error) {
-        console.log(error);
+      } catch (error: any) {
+        console.error('프로필 정보 조회 실패:', error.message);
       } finally {
         setLoading(false);
       }
@@ -52,8 +52,8 @@ function UserInfo({ isMyProfile }: UserInfoProps) {
         console.log(accountName);
         const res = await profileAPI.getProfile(accountName);
         setProfileData(res.profile);
-      } catch (error) {
-        console.log(error);
+      } catch (error: any) {
+        console.error('프로필 정보 조회 실패:', error.message);
       } finally {
         setLoading(false);
       }

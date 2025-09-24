@@ -3,20 +3,26 @@ import { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { userAPI, postAPI } from '../service/fetch/api';
 import { PostAPI } from '../types/IFetchType';
-import albumBtnOff from '../assets/icon/icon-post-album-off.png';
-import albumBtnOn from '../assets/icon/icon-post-album-on.png';
-import listBtnOff from '../assets/icon/icon-post-list-off.png';
-import listBtnOn from '../assets/icon/icon-post-list-on.png';
+import postAlbumOff from '../assets/icon/icon-post-album-off.png';
+import postAlbumOn from '../assets/icon/icon-post-album-on.png';
+import postListOff from '../assets/icon/icon-post-list-off.png';
+import postListOn from '../assets/icon/icon-post-list-on.png';
 
-type HomeCardGridProps = {
+type HomeCardGridprops = {
   isMyProfile: boolean;
 };
 
-function HomeCardGrid({ isMyProfile }: HomeCardGridProps) {
-  const { postId } = useParams<string>();
+function HomeCardGrid({ isMyProfile }: HomeCardGridprops) {
+  const { postId } = useParams<{ postId: string }>();
+  const [accountName, setAccountName] = useState('');
   const [posts, setPosts] = useState<PostAPI.IPost[]>([]);
   const [showList, setShowList] = useState(true);
   const [loading, setLoading] = useState(false);
+
+  const listBtnOn = postListOn;
+  const listBtnOff = postListOff;
+  const albumBtnOn = postAlbumOn;
+  const albumBtnOff = postAlbumOff;
 
   // 토글 상태 관리 함수
   function toggleAlbum(value: boolean) {
@@ -29,31 +35,35 @@ function HomeCardGrid({ isMyProfile }: HomeCardGridProps) {
     }
   }
 
-  // 나의 프로필인지 여부에 따라 해당 게시물 목록을 받아오는 함수
+  // 로그인한 유저 accout를 받는 함수, setAccountName을 통해 상태 설정
+  async function getUserInfo() {
+    const accountData = await userAPI.getMyInfo();
+    setAccountName(accountData.user.accountname);
+  }
+
+  // 게시물 목록을 받아오는 함수
   async function getUserPosts() {
     setLoading(true);
 
-    // 마이프로필 페이지인 경우
     if (isMyProfile) {
       try {
-        const accountData = await userAPI.getMyInfo();
-        const postData = await postAPI.getUserPosts(accountData.user.accountname);
+        const postData = await postAPI.getUserPosts(accountName);
+        // posts에 postData.post 데이터 저장
         setPosts(postData.post);
-      } catch (error) {
-        console.log('포스트 조회 실패:', error);
+      } catch (error: any) {
+        console.error('게시물 목록 조회 실패:', error.message);
       } finally {
         setLoading(false);
         return;
       }
     }
 
-    // 유어 프로필 페이지인 경우
     if (!isMyProfile && postId) {
       try {
-        const postData = await postAPI.getUserPosts(postId);
+        const postData = await postAPI.getUserPosts(accountName);
         setPosts(postData.post);
-      } catch (error) {
-        console.log('포스트 조회 실패', error);
+      } catch (error: any) {
+        console.error('게시물 목록 조회 실패:', error.message);
       } finally {
         setLoading(false);
       }
@@ -61,8 +71,16 @@ function HomeCardGrid({ isMyProfile }: HomeCardGridProps) {
   }
 
   useEffect(() => {
-    getUserPosts();
+    if (isMyProfile) {
+      getUserInfo();
+    } else if (postId) {
+      setAccountName(postId);
+    }
   }, []);
+
+  useEffect(() => {
+    getUserPosts();
+  }, [accountName, postId]);
 
   return (
     <div className="h-full bg-white">

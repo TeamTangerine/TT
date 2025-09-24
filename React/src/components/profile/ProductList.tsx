@@ -33,8 +33,8 @@ function ProductList({ isMyProfile }: ProductListProps) {
         const productData = await productAPI.getUserProducts(myData.user.accountname);
         // product에 productData.product데이터 저장
         setProducts(productData.product);
-      } catch (error) {
-        console.log('상품 목록 조회 실패:', error);
+      } catch (error: any) {
+        console.error('상품 목록 조회 실패:', error.message);
       } finally {
         setLoading(false);
         return;
@@ -46,8 +46,8 @@ function ProductList({ isMyProfile }: ProductListProps) {
       try {
         const productData = await productAPI.getUserProducts(postId);
         setProducts(productData.product);
-      } catch (error) {
-        console.log('상품 목록 조회 실패', error);
+      } catch (error: any) {
+        console.error('상품 목록 조회 실패:', error.message);
       } finally {
         setLoading(false);
       }
