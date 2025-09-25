@@ -6,7 +6,7 @@ import Footer from '../../components/footer/Footer';
 import { useParams } from 'react-router-dom';
 
 function YourProfile() {
-  const { accountname } = useParams<{ accountname: string }>();
+  const { accountname } = useParams<string>();
   return (
     <>
       <Header navStyle="top-basic" />
