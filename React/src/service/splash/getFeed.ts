@@ -3,14 +3,13 @@ import { useNavigate } from 'react-router-dom';
 import { userAPI } from '../fetch/api';
 import { ARTICLE_URL } from '../fetch/https';
 
-const navigate = useNavigate();
-
 // 토큰 관리
 const TOKEN_KEY = 'accessToken';
-const getToken = (): string | null => localStorage.getItem('TOKEN_KEY');
+const getToken = (): string | null => localStorage.getItem(TOKEN_KEY);
 
 // 토큰 유효성 관리
 async function checkRedirect(): Promise<string> {
+  const navigate = useNavigate();
   const token = getToken();
   if (!token) {
     navigate('/login');
