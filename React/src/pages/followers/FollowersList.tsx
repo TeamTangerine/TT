@@ -4,7 +4,7 @@ import { profileAPI } from '../../service/fetch/api';
 import { ProfileAPI } from '../../types/IFetchType';
 import Header from '../../components/Header';
 import basicProfileImage from '../../assets/basic-profile-img.png';
-import FollowToggleButton from '../../components/Button/FollowToggleButton';
+import FollowToggleButton from '../../components/button/FollowToggleButton';
 
 function FollowersList() {
   const profileImg = basicProfileImage;
@@ -15,17 +15,14 @@ function FollowersList() {
 
   const [followList, setFollowList] = useState<ProfileAPI.IFollowingListResponse>([]);
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState('');
 
   async function getFollowList() {
     // 타입이 following인 경우 팔로잉 목록을, 타입이 follower인 경우 팔로워 목록을 불러옴
 
     setLoading(true);
-    setError('');
 
     // 타입체크하는 곳, accountName과 type의 타입을 체크
     if (!accountName || !type) {
-      setError('계정명 또는 타입이 없습니다.');
       setLoading(false);
       return;
     }
@@ -38,7 +35,6 @@ function FollowersList() {
       setFollowList(data);
     } catch (error) {
       console.log('팔로우 리스트를 불러오는데 실패했습니다.', error);
-      setError('목록을 불러오는데 실패했습니다.');
     } finally {
       setLoading(false);
     }

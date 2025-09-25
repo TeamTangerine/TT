@@ -1,4 +1,3 @@
-import React from 'react';
 import LoginSignUpForm from './components/LoginSignUpForm';
 
 export default function JoinMembership() {

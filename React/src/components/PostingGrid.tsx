@@ -3,10 +3,10 @@ import { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { userAPI, postAPI } from '../service/fetch/api';
 import { PostAPI } from '../types/IFetchType';
-import postAlbumOff from '../assets/icon/icon-post-album-off.png';
-import postAlbumOn from '../assets/icon/icon-post-album-on.png';
-import postListOff from '../assets/icon/icon-post-list-off.png';
-import postListOn from '../assets/icon/icon-post-list-on.png';
+import albumBtnOff from '../assets/icon/icon-post-album-off.png';
+import albumBtnOn from '../assets/icon/icon-post-album-on.png';
+import listBtnOff from '../assets/icon/icon-post-list-off.png';
+import listBtnOn from '../assets/icon/icon-post-list-on.png';
 
 type HomeCardGridprops = {
   isMyProfile: boolean;
@@ -18,11 +18,6 @@ function HomeCardGrid({ isMyProfile }: HomeCardGridprops) {
   const [posts, setPosts] = useState<PostAPI.IPost[]>([]);
   const [showList, setShowList] = useState(true);
   const [loading, setLoading] = useState(false);
-
-  const listBtnOn = postListOn;
-  const listBtnOff = postListOff;
-  const albumBtnOn = postAlbumOn;
-  const albumBtnOff = postAlbumOff;
 
   // 토글 상태 관리 함수
   function toggleAlbum(value: boolean) {
