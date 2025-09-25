@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import Modal from './modal/Modal';
+import Modal from './modal/Toast';
 import Heart from './profile/Heart';
 import profileImg from '../assets/basic-profile-img.png';
 import iconMoreVertical from '../assets/icon/s-icon-more-vertical.png';
