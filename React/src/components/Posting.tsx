@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef, useLayoutEffect } from 'react';
 import Modal from './modal/Modal';
 import Heart from './profile/Heart';
-import basicProfileImg from '../assets/basic-profile-img.png';
+import profileImg from '../assets/basic-profile-img.png';
 import iconMoreVertical from '../assets/icon/s-icon-more-vertical.png';
 import iconMessageActive from '../assets/icon/icon-message-circle-fill.png';
 import iconMessage from '../assets/icon/icon-message-circle.svg';
@@ -21,7 +21,7 @@ import { validateUrl } from '../Utils/validation';
  * @param userId - 유저의 아이디
  * @param userContent - 게시물 내용
  * @param contentImage - 게시물 이미지
- * @param postId- accountname을 받는
+ * @param postId- accountname을 받는 프롭
  * @param heartCount - 하트 개수
  * @param commentCount - 댓글 개수
  * @param updatedAt - 게시물 작성 일자
@@ -136,7 +136,6 @@ function Posting({
                 <img src={iconMoreVertical} onClick={() => setShowModal(true)} alt="더보기" />
               </button>
             </div>
-            <p
               className={`break-all whitespace-pre-wrap w-[304px] ${isEllipsed ? 'line-clamp-3' : 'hidden'}`}
               ref={commentRef}
             >
@@ -181,7 +180,7 @@ function Posting({
                   className={`w-5 h-5 ${validateUrl(window.location.href) ? 'cursor-default' : 'cursor-pointer'}`}
                   type="button"
                 >
-                  <img src={!!commentCount ? iconMessageActive : iconMessage} alt="댓글" />
+                  <img src={iconMessage} alt="댓글" />
                 </button>
                 <span className="text-[12px] text-[#767676]">{commentCount}</span>
               </div>

@@ -1,4 +1,3 @@
-import React, { useState } from 'react';
 import { IBtnType, ButtonSizeType, ButtonColorType } from '../../types/IButtonType';
 
 // 버튼 사이즈별 상수 정의
@@ -33,21 +32,16 @@ export default function Button({
   onClick,
 
   btnForm,
-
 }: IBtnType) {
   return (
-    <>
-      <button
-        type={btnType}
-        className={`flex justify-center items-center py-[14px] px-[11px] font-medium ${getButtonSize(btnSize)} ${getButtonColor(btnColor)} ${btnFlexBasis}`}
-        onClick={onClick}
-
-        disabled={btnColor === 'disable' ? true : false}
-        form={btnForm}
-
-      >
-        {btnTextContent}
-      </button>
-    </>
+    <button
+      type={btnType}
+      className={`flex justify-center items-center py-[14px] px-[11px] font-medium ${getButtonSize(btnSize)} ${getButtonColor(btnColor)} ${btnFlexBasis}`}
+      onClick={onClick}
+      disabled={btnColor === 'disable' ? true : false}
+      form={btnForm}
+    >
+      {btnTextContent}
+    </button>
   );
 }

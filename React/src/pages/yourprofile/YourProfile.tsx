@@ -10,8 +10,8 @@ function YourProfile() {
       <Header navStyle="top-basic" />
       <main className="pb-[60px] flex flex-col gap-[6px] bg-[#f2f2f2]">
         <UserInfo isMyProfile={false} />
-        <ProductList isOwner={false} />
-        <PostingGrid />
+        <ProductList isMyProfile={false} />
+        <PostingGrid isMyProfile={false} />
       </main>
       <Footer />
     </>
