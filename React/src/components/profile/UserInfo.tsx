@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import FollowToggleButton from '../Button/FollowToggleButton';
+import FollowToggleButton from '../button/FollowToggleButton';
 import Button from '../button/Button';
 import { userAPI, profileAPI } from '../../service/fetch/api';
 import { UserAPI } from '../../types/IFetchType';
@@ -35,7 +35,6 @@ function UserInfo({ isMyProfile }: UserInfoProps) {
         setAccountName(myData.user.accountname);
         const profileData = await profileAPI.getProfile(accountName);
         setProfileData(profileData.profile);
-        console.log(!profileData.profile.image);
       } catch (error: any) {
         console.error('프로필 정보 조회 실패:', error.message);
       } finally {
