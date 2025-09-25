@@ -73,7 +73,9 @@ function UserInfo({ isMyProfile }: UserInfoProps) {
 
   // 사용자 ID를 팔로워 리스트 페이지에 URL 파라미터로 넘기는 함수
   function handleFollowingClick() {
-    navigate(`/follow-list/${accountName}?type=following`);
+    navigate(`/follow-list/${accountName}?type=following`, {
+      state: { currentUser: userAccount },
+    });
   }
 
   function handleFollowerClick() {
