@@ -37,7 +37,7 @@ function FollowersList() {
           : await profileAPI.getFollowerList(accountName);
       setFollowList(data);
     } catch (error) {
-      console.log('팔로우 리스트를 불러오는데 실패했습니다.', error);
+      console.error('팔로우 리스트를 불러오는데 실패했습니다.', error);
     } finally {
       setLoading(false);
     }
