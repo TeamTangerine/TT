@@ -41,7 +41,7 @@ export async function getFeed(limit?: number, skip?: number) {
     }
     const feedDataJson = await feedData.json();
     return feedDataJson;
-  } catch (error) {
-    console.error('피드를 조회하지 못했습니다.', error);
+  } catch (error: any) {
+    console.error('피드를 조회하지 못했습니다.', error.message);
   }
 }

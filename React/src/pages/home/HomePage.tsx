@@ -1,7 +1,7 @@
 import Symbol from '../../assets/symbol-logo-gray.png';
 import Splash from '../splash/Splash';
 import Header from '../../components/Header';
-import Footer from '../../components/Footer/Footer';
+import Footer from '../../components/footer/Footer';
 import { useNavigate } from 'react-router-dom';
 import { userAPI } from '../../service/fetch/api';
 import { useLayoutEffect, useState } from 'react';
@@ -30,8 +30,8 @@ function HomePage() {
       } else {
         navigate('/');
       }
-    } catch (error) {
-      console.error('토큰 검사 중 에러 발생', error);
+    } catch (error: any) {
+      console.error('토큰 검사 중 에러 발생', error.message);
       navigate('/login');
     }
   }
@@ -71,9 +71,7 @@ function HomePage() {
   return (
     <>
       {isFirst ? (
-        <>
-          <Splash />
-        </>
+        <Splash />
       ) : (
         <>
           {loading && <>로딩중...</>}
