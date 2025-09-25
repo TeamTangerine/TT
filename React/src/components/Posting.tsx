@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef, useLayoutEffect } from 'react';
-import Modal from './modal/Modal';
+import Modal from './modal/Toast';
 import Heart from './profile/Heart';
 import profileImg from '../assets/basic-profile-img.png';
 import iconMoreVertical from '../assets/icon/s-icon-more-vertical.png';
@@ -60,9 +60,6 @@ function Posting({
   // 모달 상태관리
   const [showModal, setShowModal] = useState(false);
 
-  // 기본 프로필 이미지
-  const profileImg = basicProfileImg;
-
   // 더보기 버튼 상태관리
   const commentRef = useRef<HTMLParagraphElement>(null);
   const originalCommentRef = useRef<HTMLParagraphElement>(null);
@@ -100,7 +97,7 @@ function Posting({
     if (validateUrl(window.location.href)) {
       return;
     }
-    navigate(`/post/:${postId}`, { state: { post } });
+    navigate(`/post/${postId}`, { state: { post } });
   }
 
   // 이미지 배열을 변수에 할당
@@ -136,6 +133,7 @@ function Posting({
                 <img src={iconMoreVertical} onClick={() => setShowModal(true)} alt="더보기" />
               </button>
             </div>
+            <p
               className={`break-all whitespace-pre-wrap w-[304px] ${isEllipsed ? 'line-clamp-3' : 'hidden'}`}
               ref={commentRef}
             >
@@ -207,7 +205,7 @@ function Posting({
           )}
         </>
       )}
-      {showModal && <Modal showModal={showModal} closeModal={() => setShowModal(false)} />}
+      {showModal && <Modal showModal={showModal} closeModal={() => setShowModal(false)} toastStyle="myProfile-post" />}
     </>
   );
 }
