@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import FollowToggleButton from '../Button/FollowToggleButton';
+import FollowToggleButton from '../button/FollowToggleButton';
 import Button from '../button/Button';
 import { userAPI, profileAPI } from '../../service/fetch/api';
 import { UserAPI } from '../../types/IFetchType';
@@ -21,6 +21,7 @@ type UserInfoProps = {
 function UserInfo({ isMyProfile }: UserInfoProps) {
   const navigate = useNavigate();
   const { postId } = useParams<{ postId: string }>();
+  const [userAccount, setUserAccount] = useState('');
   const [accountName, setAccountName] = useState('');
   const [profileData, setProfileData] = useState<UserAPI.IUserProfile>({} as UserAPI.IUserProfile);
   const [loading, setLoading] = useState(false);
@@ -46,6 +47,8 @@ function UserInfo({ isMyProfile }: UserInfoProps) {
 
     if (!isMyProfile && postId) {
       try {
+        const userData = await userAPI.getMyInfo();
+        setUserAccount(userData.user.accountname);
         setAccountName(postId);
         console.log(accountName);
         const res = await profileAPI.getProfile(accountName);
@@ -70,11 +73,13 @@ function UserInfo({ isMyProfile }: UserInfoProps) {
 
   // 사용자 ID를 팔로워 리스트 페이지에 URL 파라미터로 넘기는 함수
   function handleFollowingClick() {
-    navigate(`/followers-list/${accountName}?type=following`);
+    navigate(`/follow-list/${accountName}?type=following`);
   }
 
   function handleFollowerClick() {
-    navigate(`/followers-list/${accountName}?type=follower`);
+    navigate(`/follow-list/${accountName}?type=follower`, {
+      state: { currentUser: userAccount },
+    });
   }
 
   useEffect(() => {
