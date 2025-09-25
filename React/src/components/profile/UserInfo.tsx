@@ -72,14 +72,8 @@ function UserInfo({ isMyProfile }: UserInfoProps) {
   }
 
   // 사용자 ID를 팔로워 리스트 페이지에 URL 파라미터로 넘기는 함수
-  function handleFollowingClick() {
-    navigate(`/follow-list/${accountName}?type=following`, {
-      state: { currentUser: userAccount },
-    });
-  }
-
-  function handleFollowerClick() {
-    navigate(`/follow-list/${accountName}?type=follower`, {
+  function handleFollowClick(value: string) {
+    navigate(`/follow-list/${accountName}?type=${value}`, {
       state: { currentUser: userAccount },
     });
   }
@@ -92,7 +86,12 @@ function UserInfo({ isMyProfile }: UserInfoProps) {
     <section className="flex flex-col items-center gap-4 pt-[30px] pb-6 bg-white">
       <div className=" flex items-center gap-[45px]">
         <div className="flex flex-col gap-[6px] items-center">
-          <span className="text-lg font-bold" onClick={handleFollowerClick}>
+          <span
+            className="text-lg font-bold"
+            onClick={() => {
+              handleFollowClick('follower');
+            }}
+          >
             {profileData.followerCount}
           </span>
           <span className="text-[10px] text-[#767676]">followers</span>
@@ -103,7 +102,7 @@ function UserInfo({ isMyProfile }: UserInfoProps) {
           className="w-[110px] h-[110px] border-[#dbdbdb] border-[1px] rounded-full object-cover"
         />
         <div className="flex flex-col gap-[6px] items-center">
-          <span className="text-lg font-bold text-[#767676]" onClick={handleFollowingClick}>
+          <span className="text-lg font-bold text-[#767676]" onClick={() => handleFollowClick('following')}>
             {profileData.followingCount}
           </span>
           <span className="text-[10px] text-[#767676]">followings</span>
