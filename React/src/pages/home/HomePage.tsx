@@ -10,7 +10,7 @@ import { PostAPI } from '../../types/IFetchType';
 import { getFeed } from '../../service/splash/getFeed';
 
 function HomePage() {
-  // 스플래쉬 체크 상태 추가
+  // 스플래쉬 체크 상태 추가 - 세션 스토리지에 저장된 값을 이용.
   const [isFirst, setIsFirst] = useState(() => {
     return !sessionStorage.getItem('FIRST_VISIT');
   });
@@ -31,7 +31,7 @@ function HomePage() {
         navigate('/');
       }
     } catch (error) {
-      console.log('토큰 검사 중 에러 발생', error);
+      console.error('토큰 검사 중 에러 발생', error);
       navigate('/login');
     }
   }
