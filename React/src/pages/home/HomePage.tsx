@@ -54,7 +54,7 @@ function HomePage() {
   // 화면 깜빡임 현상이 심해서 useLayoutEffect 사용
   useLayoutEffect(() => {
     if (isFirst) {
-      const hasVisited = sessionStorage.setItem('FIRST_VISIT', 'false');
+      sessionStorage.setItem('FIRST_VISIT', 'false');
       const timer = setTimeout(() => {
         showSplash();
         setIsFirst(false);
