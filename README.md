@@ -31,11 +31,6 @@
 - 좋아요, 댓글, 공유 기능으로 활발한 커뮤니케이션
 
 ## 화면 구성
-
-## 프로젝트의 목표
-- [API명세](https://oreumi.notion.site/API-25eebaa8982b8001819bece8f093932d)와, 피그마에 제공되는 디자인 완벽하게 구현
-- Git & GitHub 기반 팀 협업 경험쌓기
-- React, TypeScript 기술 경험 고도화
   
 ## 기술 스택
 - **FE**   
@@ -45,8 +40,10 @@
 - **협업 툴**   
     <img alt="Static Badge" src="https://img.shields.io/badge/Github%20Projects-black"> <img alt="Static Badge" src="https://img.shields.io/badge/Notion-tan%20"> <img alt="Static Badge" src="https://img.shields.io/badge/Discord-dodgerblue"> <img alt="Static Badge" src="https://img.shields.io/badge/Figma-orchid%20">
 
-
-
+## 프로젝트의 목표
+- [API명세](https://oreumi.notion.site/API-25eebaa8982b8001819bece8f093932d)와, 피그마에 제공되는 디자인 완벽하게 구현
+- Git & GitHub 기반 팀 협업 경험쌓기
+- React, TypeScript 기술 경험 고도화
 
 ## 프로젝트 구조
 ```
