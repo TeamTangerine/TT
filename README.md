@@ -14,9 +14,10 @@
 감귤 농부들이 자신만의 스토어에서 직접 기른 감귤을 소개하고, 동시에 농장의 일상을 SNS처럼 자유롭게 공유할 수 있는 공간을 제공합니다.   
 
 농장의 진짜 이야기가 시작되는 곳, 감귤마켓에서 만나보세요!🍊
-
+<p align="center">
 <img src="https://github.com/user-attachments/assets/7036e90e-592b-41e4-9de7-cf1f6f8f1102" alt="유저 프로필" width="220" height="442" />
 <img src="https://github.com/user-attachments/assets/30292b06-d8a1-4ae2-a13d-f4d13dcdfd52" alt="로그인 페이지" width="300" height="605" />
+</p>
 
 ## 서비스 핵심 기능
 ### 1. 상품 홍보 & 판매
