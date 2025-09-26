@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useRef } from 'react';
 import throttle from './throttle';
 
 /**
@@ -13,6 +13,12 @@ import throttle from './throttle';
  */
 
 function infiniteScroll(func: () => void, delay: number) {
+  const getFunc = useRef(func);
+
+  useEffect(() => {
+    getFunc.current = func;
+  }, [func]);
+
   useEffect(() => {
     const handleScroll = throttle(() => {
       const scrollTop = window.scrollY;
@@ -20,7 +26,7 @@ function infiniteScroll(func: () => void, delay: number) {
       const scrollHeight = document.documentElement.scrollHeight;
 
       if (scrollTop + clientHeight >= scrollHeight - 50) {
-        func();
+        getFunc.current();
       }
     }, delay);
 
