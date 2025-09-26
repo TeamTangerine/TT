@@ -41,8 +41,8 @@ function FollowToggleButton({ followText, unfollowText, btnSize, userAccount, is
         const res = await profileAPI.follow(userAccount);
         setIsFollowing(res.profile.isfollow);
       }
-    } catch (error) {
-      console.log(error);
+    } catch (error: any) {
+      console.error('팔로우 또는 언팔로우를 실패하였습니다.', error.message);
     }
   }
 
