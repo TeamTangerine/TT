@@ -5,7 +5,11 @@ import { useEffect, useState } from 'react';
  * @param commentCount - 해당 게시물의 댓글 수
  */
 
-function CommentCount(commentCount: number) {
+type CommentCountProps = {
+  commentCount: number;
+};
+
+function CommentCount({ commentCount }: CommentCountProps) {
   const [count, setCount] = useState(0);
 
   useEffect(() => {
