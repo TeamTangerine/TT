@@ -1,5 +1,3 @@
-import Splash from './pages/Splash/Splash';
-/* tailwind 호환성을 위해 App.css import했음 */
 import './App.css';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import HomePage from './pages/home/HomePage';
@@ -16,6 +14,7 @@ import Post from './pages/post/Post';
 import Upload from './pages/upload/Upload';
 import ChatList from './pages/chat/ChatList';
 import ChatRoom from './pages/chat/ChatRoom';
+import Splash from './pages/splash/Splash';
 
 function App() {
   return (
@@ -35,6 +34,7 @@ function App() {
         <Route path="/upload" element={<Upload />} />
         <Route path="/chat-list" element={<ChatList />} />
         <Route path="/chat-room" element={<ChatRoom />} />
+        <Route path="/splash" element={<Splash />} />
       </Routes>
     </BrowserRouter>
   );
