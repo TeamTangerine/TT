@@ -2,18 +2,19 @@
 감미로운 일상, 귤향 가득한 소통, 감귤 마켓! 
 
 ## 배포 주소 (url이 담길 자리)
-💡 접속하시면 배포된 서비스를 바로 이용해보실 수 있습니다.
-- **테스트 계정**   
-    **id**: tt1team@example.com   
-    **pw** : test1team_
+💡 접속하시면 배포된 서비스를 바로 이용해보실 수 있습니다.   
+ ### 테스트 계정   
+
+**id :** `tt1team@example.com`   
+**pw :**  `test1team_`
 
 ## 서비스 소개
 
-감귤마켓은 농장의 따뜻한 이야기와 상품을 공유할 수 있는 소셜 커머스 플랫폼입니다.   
+감귤마켓은 농장의 따뜻한 이야기와 상품을 공유할 수 있는 **소셜 커머스 플랫폼**입니다.   
 
-감귤 농부들이 자신만의 스토어에서 직접 기른 감귤을 소개하고, 동시에 농장의 일상을 SNS처럼 자유롭게 공유할 수 있는 공간을 제공합니다.   
+감귤 농부들이 자신만의 스토어에서 직접 기른 감귤을 소개하고, 동시에 농장의 일상을 **SNS**처럼 **자유롭게 공유할 수 있는 공간**을 제공합니다.   
 
-농장의 진짜 이야기가 시작되는 곳, 감귤마켓에서 만나보세요!🍊
+농장의 진짜 이야기가 시작되는 곳, **감귤마켓**에서 만나보세요!🍊
 <p align="center">
 <img src="https://github.com/user-attachments/assets/7036e90e-592b-41e4-9de7-cf1f6f8f1102" alt="유저 프로필" width="220" height="442" />
 <img src="https://github.com/user-attachments/assets/30292b06-d8a1-4ae2-a13d-f4d13dcdfd52" alt="로그인 페이지" width="300" height="605" />
@@ -21,18 +22,18 @@
 
 ## 서비스 핵심 기능
 ### 1. 상품 홍보 & 판매
-농장에서 직접 기른 감귤과 농산물을 등록하여 고객들에게 직접 홍보할 수 있습니다. 상품 사진, 가격, 판매 링크까지 간편하게 등록 가능합니다.
+상품 사진, 가격, 판매 링크까지 간편하게 **등록** 가능
 
 ### 2. 일상 공유
-상품 등록 없이도 농장의 일상, 계절의 변화, 수확의 기쁨 등을 글과 사진으로 자유롭게 공유할 수 있습니다.
+상품 등록 없이도 **글과 사진을 자유롭게 공유** 가능
 
 ### 3. 검색 & 발견
-새로운 농장과 사용자들을 쉽게 찾고 연결될 수 있는 검색 기능을 제공합니다.
+새로운 농장과 사용자들을 쉽게 찾고 연결될 수 있는 **검색 기능** 제공
 
 ### 4. 소설네트워킹
-- 관심있는 농장과 사용자를 팔로우하여 소식을 받아보세요.
-- 팔로우한 사용자들의 게시물만 모아서 확인이 가능합니다.
-- 좋아요, 댓글, 공유 기능으로 활발한 커뮤니케이션
+- 관심있는 농장과 사용자를 **팔로우**하여 소식 받기
+- 팔로우한 사용자들의 게시물만 **모아서** 확인 가능
+- 좋아요, 댓글, 공유 기능으로 활발한 **커뮤니케이션**
   
 ## 기술 스택
 - **FE**   
@@ -43,7 +44,7 @@
     <img alt="Static Badge" src="https://img.shields.io/badge/Github%20Projects-black"> <img alt="Static Badge" src="https://img.shields.io/badge/Notion-tan%20"> <img alt="Static Badge" src="https://img.shields.io/badge/Discord-dodgerblue"> <img alt="Static Badge" src="https://img.shields.io/badge/Figma-orchid%20">
 
 ## 프로젝트의 목표
-- [API명세](https://oreumi.notion.site/API-25eebaa8982b8001819bece8f093932d)와, 피그마에 제공되는 디자인 완벽하게 구현
+- [API명세](https://oreumi.notion.site/API-25eebaa8982b8001819bece8f093932d)와 피그마에 제공되는 디자인 완벽하게 구현
 - Git & GitHub 기반 팀 협업 경험쌓기
 - React, TypeScript 기술 경험 고도화
 
@@ -58,6 +59,14 @@
  ┃ ┣ 📂fetch // api 호출 함수, fetch 함수, api 주소 모듈화
  ┣ 📂types // 공통 타입 선언
  ┣ 📂Utils // 공통 함수
+```
+
+## 프로젝트 시작하기
+```
+git clone "https://github.com/TeamTangerine/TT.git"
+cd react
+npm i
+npm run dev
 ```
 
 <details>
@@ -127,10 +136,4 @@
 ## 개발 기간 
 - **2025년 9월 4일 ~ 2025년 9월 26일**
 
-## 프로젝트 시작하기
-```
-git clone "https://github.com/TeamTangerine/TT.git"
-cd react
-npm i
-npm run dev
-```
+## [더 상세한 노션 보기](https://www.notion.so/oreumi/261ebaa8982b807e95e9d53d9bb86755)
