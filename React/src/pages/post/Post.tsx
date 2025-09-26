@@ -31,7 +31,9 @@ function Post() {
   useEffect(() => {
     getDetailArticle();
     getUserInfo();
-    getCommentList();
+    if (comments.length === 0) {
+      getCommentList();
+    }
   }, []);
 
   // 현재 로그인 중인 유저의 프로필 이미지 가져오는 api
