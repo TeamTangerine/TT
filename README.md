@@ -47,7 +47,7 @@ npm run dev
   
 ## 기술 스택
 - **FE**   
-    <img alt="Static Badge" src="https://img.shields.io/badge/HTML5-red" size="longsize"> <img alt="Static Badge" src="https://img.shields.io/badge/React-%5E19.1.1-skyblue%20">
+    <img alt="Static Badge" src="https://img.shields.io/badge/HTML5-red" size="longSize"> <img alt="Static Badge" src="https://img.shields.io/badge/React-%5E19.1.1-skyblue%20">
      <img alt="Static Badge" src="https://img.shields.io/badge/TypeScript-^5.9.2-blue"> <img alt="Static Badge" src="https://img.shields.io/badge/TailwindCSS-^3.3.3-deepskyblue"> <img alt="Static Badge" src="https://img.shields.io/badge/Vite-^7.1.4-darkmagenta">   
 
 - **협업 툴**   
