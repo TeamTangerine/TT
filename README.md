@@ -61,7 +61,7 @@
 
 <details>
 <summary>
-   <h2>개발 컨벤션</h2>
+   <h2>개발 컨벤션</h2> (클릭해보세요!)
    <p>💡 개발 컨벤션은 <a href="https://google.github.io/styleguide/">Google Style Guides</a>를 기반으로 필요하다고 생각되는 부분을 가져와 개량했습니다.</p>
 </summary>
 <div markdown="1">
