@@ -6,14 +6,6 @@
 - **테스트 계정**   
     **id**: tt1team@example.com   
     **pw** : test1team_
-  
-## 프로젝트 시작하기
-```
-git clone "https://github.com/TeamTangerine/TT.git"
-cd react
-npm i
-npm run dev
-```
 
 ## 서비스 소개
 감귤마켓은 농장의 따뜻한 이야기와 상품을 공유할 수 있는 소셜 커머스 플랫폼입니다.
@@ -135,3 +127,11 @@ npm run dev
 
 ## 개발 기간 
 - **2025년 9월 4일 ~ 2025년 9월 26일**
+
+## 프로젝트 시작하기
+```
+git clone "https://github.com/TeamTangerine/TT.git"
+cd react
+npm i
+npm run dev
+```
