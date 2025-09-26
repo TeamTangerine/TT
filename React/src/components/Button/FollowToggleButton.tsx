@@ -2,6 +2,7 @@ import React from 'react';
 import { useState, useEffect } from 'react';
 import { IFollowToggleButtonType, ButtonSizeType, ButtonColorType } from '../../types/IFollowToggleButtonType';
 import { profileAPI } from '../../service/fetch/api';
+import throttle from '../../Utils/throttle';
 
 // 버튼 사이즈별 상수 정의
 const BUTTON_SIZES = {
@@ -45,12 +46,14 @@ function FollowToggleButton({ followText, unfollowText, btnSize, userAccount, is
     }
   }
 
+  const handleThrottle = throttle(handleFollowToggle, 1000);
+
   return (
     <>
       <button
         type="button"
         className={`flex justify-center items-center py-[14px] px-[11px] font-medium ${getButtonSize(btnSize)} ${getButtonColor(isFollowing ? 'active' : 'normal')}`}
-        onClick={handleFollowToggle}
+        onClick={handleThrottle}
       >
         {isFollowing ? unfollowText : followText}
       </button>
