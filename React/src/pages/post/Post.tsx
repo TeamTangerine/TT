@@ -7,6 +7,7 @@ import { useParams, useLocation } from 'react-router-dom';
 import { CommentAPI, PostAPI } from '../../types/IFetchType';
 import { commentAPI, postAPI, userAPI } from '../../service/fetch/api';
 import throttle from '../../Utils/throttle';
+import infiniteScroll from '../../Utils/infiniteScroll';
 
 function Post() {
   // 유저 프로필 이미지 상태 관리
@@ -83,17 +84,34 @@ function Post() {
     }
   }
 
+  const [scrollSkip, setScrollSkip] = useState(0);
+
+  // 스크롤해서 바닥에 닿으면 추가적인 댓글 목록 10개씩 불러오기
+  infiniteScroll(getCommentList, 3000);
+
   // 해당 게시글의 댓글 목록을 불러오는 api 함수
   async function getCommentList() {
-    if (post?.id) {
-      setCommentLoading(true);
-      try {
-        const res = await commentAPI.getComments(post.id);
-        setComments(res.comments);
-      } catch (error: any) {
-        console.error(`댓글 목록 불러오기 실패: ${error.message}`);
-      } finally {
-        setCommentLoading(false);
+    if (scrollSkip <= comments.length) {
+      if (post?.id) {
+        setCommentLoading(true);
+        try {
+          const res = await commentAPI.getComments(post.id, 10, scrollSkip);
+          console.log(res);
+          // 더 불러올 댓글이 없을 경우 실행x
+          // if (res.comments.length === 0) {
+          //   return;
+          // }
+
+          setComments((prev) => [...prev, ...res.comments]);
+
+          console.log('댓글 목록 불러오기', comments);
+          console.log('스킵', scrollSkip);
+        } catch (error: any) {
+          console.error(`댓글 목록 불러오기 실패: ${error.message}`);
+        } finally {
+          setScrollSkip(scrollSkip + 10);
+          setCommentLoading(false);
+        }
       }
     }
   }
