@@ -14,8 +14,7 @@ import Post from './pages/post/Post';
 import Upload from './pages/upload/Upload';
 import ChatList from './pages/chat/ChatList';
 import ChatRoom from './pages/chat/ChatRoom';
-import Splash from './pages/splash/Splash';
-
+import Splash from './pages/Splash/Splash';
 function App() {
   return (
     <BrowserRouter>

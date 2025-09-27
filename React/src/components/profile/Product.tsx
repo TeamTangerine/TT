@@ -5,7 +5,6 @@ import Modal from '../modal/Toast';
 
 import { imageAPI } from '../../service/fetch/api';
 
-
 /**
  * @param itemImgae - 상품 이미지
  * @param itemName - 상품 이름
@@ -44,7 +43,7 @@ function Product({ itemImage, itemName, price, productLink, isMyProfile, setShow
     <>
       <li className="w-[140px] h-[132px] flex flex-col flex-shrink-0 cursor-pointer" onClick={() => handleLink()}>
         <img
-          src={itemImage ? imageAPI.getImage(itemImage) : productSample}
+          src={itemImage ? imageAPI.getImage(itemImage) : productImgSample}
           alt="샘플이미지"
           className="w-[140px] h-[90px] rounded-[8px] object-cover"
         />

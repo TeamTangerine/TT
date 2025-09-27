@@ -5,6 +5,7 @@ import { productAPI } from '../../service/fetch/api';
 import { userAPI } from '../../service/fetch/api';
 import Modal from '../modal/Toast';
 import { ProductAPI } from '../../types/IFetchType';
+import Toast from '../modal/Toast';
 
 /**
  * @param isMyProfile -페이지별 버튼 동적할당을 위한 타입
@@ -83,7 +84,9 @@ function ProductList({ isMyProfile }: ProductListProps) {
           </ul>
         </div>
       </section>
-      {showModal && <Modal showModal={showModal} closeModal={() => setShowModal(false)} />}
+      {showModal && (
+        <Toast toastStyle="myProfile-product" showModal={showModal} closeModal={() => setShowModal(false)} />
+      )}
     </>
   );
 }

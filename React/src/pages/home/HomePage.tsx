@@ -1,5 +1,4 @@
 import Symbol from '../../assets/symbol-logo-gray.png';
-import Splash from '../splash/Splash';
 import Header from '../../components/Header';
 import Footer from '../../components/footer/Footer';
 import { useNavigate } from 'react-router-dom';
@@ -8,6 +7,7 @@ import { useLayoutEffect, useState } from 'react';
 import Posting from '../../components/Posting';
 import { PostAPI } from '../../types/IFetchType';
 import { getFeed } from '../../service/splash/getFeed';
+import Splash from '../Splash/Splash';
 
 function HomePage() {
   // 스플래쉬 체크 상태 추가 - 세션 스토리지에 저장된 값을 이용.
@@ -88,9 +88,10 @@ function HomePage() {
                         // 포스팅 컴포넌트에 대한 key
                         key={post.id}
                         // 각 게시글의 고유 id
-                        id={post.id}
+                        postId={post.id}
                         // 각 게시글 모든 내용(navigate의 state 값으로 넘기기 위한 props)
                         post={post}
+                        hearted={post.hearted}
                         userProfileImage={post.author.image}
                         userName={post.author.username}
                         userId={post.author.accountname}

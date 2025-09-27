@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import profileImg from '../../../assets/Ellipse 6.png';
 import MoreBtn from '../../../assets/icon/s-icon-more-vertical.png';
-import Modal from '../../../components/modal/Modal';
+import Toast from '../../../components/modal/Toast';
 import { elapsedTime } from '../../../Utils/convertTime';
 
 type CommentProps = {
@@ -35,7 +35,7 @@ function Comment({ userProfileImage, userName, content, createdAt }: CommentProp
           <p className="text-[14px] text-[#333333]">{content}</p>
         </div>
       </li>
-      {/* showModal && <Toast toastStyle='commentId' showModal={showModal} closeModal={() => setShowModal(false)} /> */}
+      {showModal && <Toast toastStyle="user-comment" showModal={showModal} closeModal={() => setShowModal(false)} />}
     </>
   );
 }
