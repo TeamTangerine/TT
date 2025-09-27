@@ -1,4 +1,3 @@
-import { useEffect, useRef } from 'react';
 import throttle from './throttle';
 
 /**
@@ -12,40 +11,35 @@ import throttle from './throttle';
  * 사용자가 스크롤을 내려서 화면 바닥이 전체 문서의 바닥과 50px 이내로 가까워졌을 때 함수 실행
  */
 
-function infiniteScroll(func: () => void, delay: number) {
-  const getFunc = useRef(func);
+function infiniteScroll() {
+  //화면 스크롤 값
+  const scrollTop = window.scrollY;
+  //유저의 화면 크기
+  const clientHeight = window.innerHeight;
+  //콘텐츠 총 높이
+  const scrollHeight = document.documentElement.scrollHeight;
 
-  useEffect(() => {
-    getFunc.current = func;
-  }, [func]);
-
-  useEffect(() => {
-    const handleScroll = throttle(() => {
-      const scrollTop = window.scrollY;
-      const clientHeight = window.innerHeight;
-      const scrollHeight = document.documentElement.scrollHeight;
-
-      if (scrollTop + clientHeight >= scrollHeight - 50) {
-        getFunc.current();
-      }
-    }, delay);
-
-    window.addEventListener('scroll', handleScroll);
-    // useEffect 내부에서 이벤트를 등록할 때는 이벤트 중복 및 메모리 누수 방지를 위해 클린업 함수 사용함
-    return () => {
-      window.removeEventListener('scroll', handleScroll);
-    };
-  }, []);
+  //값만 비교해서 true/false 리턴
+  return scrollTop + clientHeight >= scrollHeight - 50;
 }
-
 export default infiniteScroll;
 
 // infiniteScroll 함수 사용 예시
 
-// 스크롤해서 바닥에 닿은 후 실행할 함수
-//  const func = () => {
-//      // 새로운 게시글이나 댓글 추가
-//      // setComments(prev => [... prev, 10개의 게시글이나 댓글 추가 로직])
-//   };
+// useEffect(() => {
+//   // infiniteScroll가 true 일때(바닥에 도달했을 때)
+//    if (infiniteScroll()) {
+//      스크롤해서 바닥에 닿은 후 실행할 함수 넣기
+//     }
 
-//   infiniteScroll(func, 3000);
+//   // 기존 이벤트 리스너 제거 (혹시 남아있을 수 있는 것들)
+//   window.removeEventListener('scroll', handleScroll);
+
+//   // 스크롤 이벤트 리스너 등록
+//   window.addEventListener('scroll', handleScroll);
+
+//   // 컴포넌트 언마운트 시 이벤트 리스너 제거
+//   return () => {
+//     window.removeEventListener('scroll', handleScroll);
+//   };
+// }, [의존성 지정하기]);
