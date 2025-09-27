@@ -1,8 +1,8 @@
 import { useState, useEffect } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import FollowToggleButton from '../button/FollowToggleButton';
 import Button from '../button/Button';
-import { userAPI, profileAPI } from '../../service/fetch/api';
+import { userAPI, profileAPI, imageAPI } from '../../service/fetch/api';
 import { UserAPI } from '../../types/IFetchType';
 
 import profileImg from '../../assets/basic-profile-img.png';
@@ -16,11 +16,11 @@ import iconShare from '../../assets/icon/icon-share.png';
  */
 type UserInfoProps = {
   isMyProfile: boolean;
+  userAccountName?: string;
 };
 
-function UserInfo({ isMyProfile }: UserInfoProps) {
+function UserInfo({ isMyProfile, userAccountName }: UserInfoProps) {
   const navigate = useNavigate();
-  const { postId } = useParams<{ postId: string }>();
   const [userAccount, setUserAccount] = useState('');
   const [accountName, setAccountName] = useState('');
   const [profileData, setProfileData] = useState<UserAPI.IUserProfile>({} as UserAPI.IUserProfile);
@@ -33,8 +33,8 @@ function UserInfo({ isMyProfile }: UserInfoProps) {
     if (isMyProfile) {
       try {
         const myData = await userAPI.getMyInfo();
+        const profileData = await profileAPI.getProfile(myData.user.accountname);
         setAccountName(myData.user.accountname);
-        const profileData = await profileAPI.getProfile(accountName);
         setProfileData(profileData.profile);
       } catch (error: any) {
         console.error('프로필 정보 조회 실패:', error.message);
@@ -44,12 +44,11 @@ function UserInfo({ isMyProfile }: UserInfoProps) {
       return;
     }
 
-    if (!isMyProfile && postId) {
+    if (!isMyProfile && userAccountName) {
       try {
         const userData = await userAPI.getMyInfo();
         setUserAccount(userData.user.accountname);
-        setAccountName(postId);
-        console.log(accountName);
+        setAccountName(userAccountName);
         const res = await profileAPI.getProfile(accountName);
         setProfileData(res.profile);
       } catch (error: any) {
@@ -65,8 +64,8 @@ function UserInfo({ isMyProfile }: UserInfoProps) {
     try {
       await navigator.clipboard.writeText(window.location.href);
       alert('URL이 복사되었습니다!');
-    } catch (error) {
-      console.error('복사 실패:', error);
+    } catch (error: any) {
+      console.error('복사 실패:', error.message);
     }
   }
 
@@ -86,7 +85,7 @@ function UserInfo({ isMyProfile }: UserInfoProps) {
       <div className=" flex items-center gap-[45px]">
         <div className="flex flex-col gap-[6px] items-center">
           <span
-            className="text-lg font-bold"
+            className="text-lg font-bold cursor-pointer"
             onClick={() => {
               handleFollowClick('follower');
             }}
@@ -96,12 +95,19 @@ function UserInfo({ isMyProfile }: UserInfoProps) {
           <span className="text-[10px] text-[#767676]">followers</span>
         </div>
         <img
-          src={!profileData.image || profileData.image === '/Ellipse.png' ? profileImg : profileData.image}
+          src={
+            !profileData.image || profileData.image === '/Ellipse.png'
+              ? profileImg
+              : imageAPI.getImage(profileData.image)
+          }
           alt="유저 이미지"
           className="w-[110px] h-[110px] border-[#dbdbdb] border-[1px] rounded-full object-cover"
         />
         <div className="flex flex-col gap-[6px] items-center">
-          <span className="text-lg font-bold text-[#767676]" onClick={() => handleFollowClick('following')}>
+          <span
+            className="text-lg font-bold text-[#767676] cursor-pointer"
+            onClick={() => handleFollowClick('following')}
+          >
             {profileData.followingCount}
           </span>
           <span className="text-[10px] text-[#767676]">followings</span>
