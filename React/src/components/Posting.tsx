@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef, useLayoutEffect } from 'react';
-import Modal from './modal/Toast';
+import Toast from './modal/Toast';
 import Heart from './profile/Heart';
 import profileImg from '../assets/basic-profile-img.png';
 import iconMoreVertical from '../assets/icon/s-icon-more-vertical.png';
@@ -8,7 +8,8 @@ import iconImgLayers from '../assets/icon/iccon-img-layers.png';
 import { imageAPI } from '../service/fetch/api';
 import { useNavigate } from 'react-router-dom';
 import { PostAPI } from '../types/IFetchType';
-import { validateUrl } from '../Utils/validation';
+import { validateUrl } from '../utils/validation';
+import CommentCount from '../pages/post/components/CommentCount';
 
 // 리스트형 / 앨범형 선택을 위한 props 타입
 /**
@@ -38,6 +39,7 @@ type PostingProps = {
   hearted: boolean;
   commentCount: number;
   updatedAt: string;
+  isMyProfile?: boolean;
 };
 
 function Posting({
@@ -53,6 +55,7 @@ function Posting({
   hearted,
   commentCount,
   updatedAt,
+  isMyProfile,
 }: PostingProps) {
   const navigate = useNavigate();
 
@@ -118,7 +121,7 @@ function Posting({
         // 리스트형 랜더링
         <li className="flex gap-3 justify-center w-[358px]">
           <img
-            src={userProfileImage === '/Elipse.png' ? profileImg : userProfileImage}
+            src={userProfileImage === '/Elipse.png' ? profileImg : imageAPI.getImage(userProfileImage)}
             alt="프로필"
             className="w-[42px] h-[42px] rounded-full"
           />
@@ -179,7 +182,7 @@ function Posting({
                 >
                   <img src={iconMessage} alt="댓글" />
                 </button>
-                <span className="text-[12px] text-[#767676]">{commentCount}</span>
+                <CommentCount commentCount={commentCount} />
               </div>
             </div>
             <time dateTime={formatDate(updatedAt)} className="text-[10px] text-[#767676]">
@@ -204,7 +207,13 @@ function Posting({
           )}
         </>
       )}
-      {showModal && <Modal showModal={showModal} closeModal={() => setShowModal(false)} toastStyle="myProfile-post" />}
+      {showModal && (
+        <Toast
+          toastStyle={isMyProfile ? 'myProfile-post' : 'user-post'}
+          showModal={showModal}
+          closeModal={() => setShowModal(false)}
+        />
+      )}
     </>
   );
 }

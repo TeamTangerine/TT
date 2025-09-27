@@ -85,11 +85,13 @@ function HomePage() {
                   <ul className="flex flex-col items-center gap-5 pt-5 px-4">
                     {posts.map((post) => (
                       <Posting
+                        isMyProfile={false}
                         // 포스팅 컴포넌트에 대한 key
                         key={post.id}
                         // 각 게시글의 고유 id
                         postId={post.id}
                         // 각 게시글 모든 내용(navigate의 state 값으로 넘기기 위한 props)
+                        hearted={post.hearted}
                         post={post}
                         hearted={post.hearted}
                         userProfileImage={post.author.image}

@@ -5,8 +5,9 @@ import Comment from './components/Comment';
 import profileImg from '../../assets/Ellipse 6.png';
 import { useParams, useLocation } from 'react-router-dom';
 import { CommentAPI, PostAPI } from '../../types/IFetchType';
-import { commentAPI, postAPI, userAPI } from '../../service/fetch/api';
-import throttle from '../../Utils/throttle';
+import { commentAPI, imageAPI, postAPI, userAPI } from '../../service/fetch/api';
+import throttle from '../../utils/throttle';
+import infiniteScroll from '../../utils/infiniteScroll';
 
 function Post() {
   // 유저 프로필 이미지 상태 관리
@@ -25,14 +26,24 @@ function Post() {
   const [loading, setLoading] = useState(!statePost); // state가 있으면 false, 없으면 true
   const [commentLoading, setCommentLoading] = useState(false);
 
+  const [firstRender, setFirstRender] = useState(false);
+
   // 게시글 불러오는 api가 담긴 함수 실행
   // 유저 프로필 이미지 렌더링
   // 댓글 목록 렌더링
   useEffect(() => {
     getDetailArticle();
     getUserInfo();
-    getCommentList();
   }, []);
+
+  useEffect(() => {
+    if (!post?.id) return;
+    // 댓글이 아직 없을 때만 첫 로딩
+    if (comments.length === 0) {
+      getCommentList();
+      setFirstRender(true);
+    }
+  }, [post?.id]);
 
   // 현재 로그인 중인 유저의 프로필 이미지 가져오는 api
   async function getUserInfo() {
@@ -75,26 +86,77 @@ function Post() {
         alert('댓글 작성 완료!');
         setMessage('');
         setComments((prev) => [res.comment, ...prev]);
+
+        // 댓글 수 1 증가
+        setPost((prev) => (prev ? { ...prev, commentCount: prev.commentCount + 1 } : prev));
       } catch (error: any) {
         console.error(`댓글 작성 실패: ${error.message}`);
       }
     }
   }
 
+  // const [scrollSkip, setScrollSkip] = useState(0);
+
+  // 스크롤해서 바닥에 닿으면 추가적인 댓글 목록 10개씩 불러오기
+  // infiniteScroll(500);
+
   // 해당 게시글의 댓글 목록을 불러오는 api 함수
   async function getCommentList() {
-    if (post?.id) {
-      setCommentLoading(true);
-      try {
-        const res = await commentAPI.getComments(post.id);
-        setComments(res.comments);
-      } catch (error: any) {
-        console.error(`댓글 목록 불러오기 실패: ${error.message}`);
-      } finally {
-        setCommentLoading(false);
+    //todo
+    // 1. 첫 로딩시 댓글 불러오기
+    // 1-1 포스트에 댓글이 있는지 확인(포스트 응답값에 comments가 배열로 오고있음)
+    // 2. 댓글의 크기가 0보다 크면 댓글 로딩
+    // 2-1 만약 스크롤 이벤트가 트루고(바닥에 닿음), 댓글수 -10 이 0 보다 크면 댓글 스킵 로딩
+    // 3. 종료
+
+    //총 댓글 갯수
+    const totalComments = post.commentCount;
+
+    //총 댓글이 0보다 크면(댓글이 존재하면)
+    if (totalComments > 0) {
+      //댓글의 갯수가 총 댓글수보다 적다면
+      if (comments.length < totalComments) {
+        //통신 시도..
+        try {
+          //로딩
+          setCommentLoading(true);
+          const res = await commentAPI.getComments(post.id, 10, comments.length);
+          //기존 댓글에 새 댓글 추가
+          setComments((prev) => [...prev, ...res.comments]);
+        } catch (error: any) {
+          console.error(error.message);
+        } finally {
+          //로딩완료
+          setCommentLoading(false);
+        }
       }
     }
   }
+
+  // 무한스크롤 이펙트
+  useEffect(() => {
+    //아직 포스트 객체 없으면 리턴
+    if (!post?.id) return;
+
+    //쓰로틀
+    const handleScroll = throttle(() => {
+      // 바닥에 도달하고, 더 불러올 댓글이 있고, 로딩 중이 아닐 때만 실행
+      if (infiniteScroll() && comments.length < post.commentCount && !commentLoading && firstRender) {
+        getCommentList();
+      }
+    }, 300); // 조금 더 빠르게 반응하도록 300ms로 조정
+
+    // 기존 이벤트 리스너 제거 (혹시 남아있을 수 있는 것들)
+    window.removeEventListener('scroll', handleScroll);
+
+    // 스크롤 이벤트 리스너 등록
+    window.addEventListener('scroll', handleScroll);
+
+    // 컴포넌트 언마운트 시 이벤트 리스너 제거
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+    };
+  }, [post?.id, comments.length]);
 
   return (
     <>
@@ -119,12 +181,14 @@ function Post() {
                 updatedAt={post.updatedAt}
               />
             </span>
-            {commentLoading && <p>댓글 로딩중</p>}
-            {!commentLoading && comments.length > 0 && (
-              <ul className="flex flex-col items-center  gap-4 pt-5 px-4 border-t border-t-[#DBDBDB]">
+            {/* 댓글 목록은 로딩 상태와 관계없이 항상 표시 */}
+            {comments.length > 0 && (
+              <ul className="flex flex-col items-center  gap-4 pt-5 px-4 border-t border-t-[#DBDBDB] pb-[60px]">
                 {comments.map((comment) => (
                   <Comment
                     key={comment.id}
+                    commentId={comment.id}
+                    postId={post.id}
                     userProfileImage={comment.author.image}
                     userName={comment.author.username}
                     content={comment.content}
@@ -133,9 +197,19 @@ function Post() {
                 ))}
               </ul>
             )}
+            {/* 로딩 표시는 댓글 목록 아래에 별도로 표시 */}
+            {commentLoading && (
+              <div className="flex justify-center py-4">
+                <p>댓글 로딩중...</p>
+              </div>
+            )}
           </main>
           <div className="fixed bottom-0 flex items-center justify-center w-full h-[60px] border-t border-t-[#DBDBDB] bg-white">
-            <img className="w-9 h-9 rounded-full" src={userImg ? userImg : profileImg} alt="내 프로필 이미지" />
+            <img
+              className="w-9 h-9 rounded-full object-cover"
+              src={userImg ? imageAPI.getImage(userImg) : profileImg}
+              alt="내 프로필 이미지"
+            />
             <form
               onSubmit={(e) => {
                 e.preventDefault();

@@ -59,6 +59,7 @@ export const createModalConfigs = (
       try {
         await productAPI.deleteProduct(productId);
         alert('상품을 성공적으로 삭제했습니다.');
+        window.location.reload();
       } catch (error) {
         console.error('통신 실패', error);
         alert('통신 오류가 발생했습니다.');

@@ -5,15 +5,16 @@ import ToastChildren from './components/ToastChildren';
 import { useNavigate } from 'react-router-dom';
 import Modal from './components/Modal';
 import { createModalConfigs } from './components/modalConfigs';
-import { commentAPI } from '../../service/fetch/api';
+import { commentAPI, postAPI } from '../../service/fetch/api';
 
 interface IModalProps {
   showModal: boolean;
   closeModal: () => void;
-  toastStyle: 'header' | 'myProfile-post' | 'myProfile-product' | 'my-comment' | 'user-comment' | 'chat';
+  toastStyle: 'header' | 'myProfile-post' | 'myProfile-product' | 'my-comment' | 'user-comment' | 'chat' | 'user-post';
   postId?: string;
   productId?: string;
   commentId?: string;
+  productLink?: string;
 }
 
 /**
@@ -24,7 +25,7 @@ interface IModalProps {
  * @param toastStyle - 토스트 팝업의 스타일을 넣어주세요 'header' | 'myProfile-post' | 'myProfile-product' | 'my-comment' | 'user-comment' | 'chat'
  * @returns
  */
-function Toast({ showModal, closeModal, toastStyle, postId, productId, commentId }: IModalProps) {
+function Toast({ showModal, closeModal, toastStyle, postId, productId, commentId, productLink }: IModalProps) {
   //네비게이트
   const navigate = useNavigate();
 
@@ -78,11 +79,13 @@ function Toast({ showModal, closeModal, toastStyle, postId, productId, commentId
       }
       case 'myProfile-post': {
         const deleteMyPost = () => {
-          setModalType('deleteMyPost');
-          setOpenModal(true);
+          alert('추후 구현 예정인 기능입니다! 기대해주세요~👍🏻♥️');
+          // setModalType('deleteMyPost');
+          // setOpenModal(true);
         };
         const editMyPost = () => {
-          navigate('/upload');
+          alert('추후 구현 예정인 기능입니다! 기대해주세요~👍🏻♥️');
+          // navigate('/upload');
         };
         return (
           <>
@@ -97,13 +100,16 @@ function Toast({ showModal, closeModal, toastStyle, postId, productId, commentId
           setOpenModal(true);
         };
         const editMyProduct = () => {
-          navigate('/add-product');
+          navigate(`/add-product/${productId}`);
+        };
+        const linkTo = () => {
+          window.open(`${productLink}`, '_blank');
         };
         return (
           <>
             <ToastChildren content="삭제" click={deleteMyProduct} />
             <ToastChildren content="수정" click={editMyProduct} />
-            <ToastChildren content="웹사이트에서 상품 보기" />
+            <ToastChildren content="웹사이트에서 상품 보기" click={linkTo} />
           </>
         );
       }
@@ -136,6 +142,9 @@ function Toast({ showModal, closeModal, toastStyle, postId, productId, commentId
               return;
             }
             await commentAPI.reportComment(postId, commentId);
+            alert('성공적으로 신고했습니다!');
+            setIsOpen(false);
+            return;
           }
         };
         return <ToastChildren content="신고" click={reportComment} />;
@@ -147,6 +156,16 @@ function Toast({ showModal, closeModal, toastStyle, postId, productId, commentId
           }
         };
         return <ToastChildren content="채팅방 나가기" click={leaveChat} />;
+      }
+      case 'user-post': {
+        const reportPost = async () => {
+          if (confirm('해당 게시글을 신고하시겠습니까?')) {
+            if (!postId) return;
+            await postAPI.reportPost(postId);
+            alert('성공적으로 신고했습니다!');
+          }
+        };
+        return <ToastChildren content="신고하기" click={reportPost} />;
       }
       default: {
         return;

@@ -2,8 +2,8 @@ import { useEffect, useState } from 'react';
 import Footer from '../../components/footer/Footer';
 import Header from '../../components/Header';
 import UserProfile from '../../components/UserProfile';
-import useDebounce from '../../Utils/debouncer';
-import { userAPI } from '../../service/fetch/api';
+import useDebounce from '../../utils/debouncer';
+import { imageAPI, userAPI } from '../../service/fetch/api';
 import { UserAPI } from '../../types/IFetchType';
 
 function SearchPage() {
@@ -60,7 +60,7 @@ function SearchPage() {
                 key={user._id}
                 username={user.username}
                 accountname={user.accountname}
-                image={user.image}
+                image={imageAPI.getImage(user.image)}
                 hover={true}
               />
             ))

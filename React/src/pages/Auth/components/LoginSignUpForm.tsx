@@ -2,8 +2,8 @@ import React from 'react';
 import { useState } from 'react';
 import Button from '../../../components/button/Button';
 import TextInput from '../../../components/TextInput';
-import { userAPI } from '../../../service/fetch/api';
-import { validateEmail, validateId, validatePassword } from '../../../Utils/validation';
+import { imageAPI, userAPI } from '../../../service/fetch/api';
+import { validateEmail, validateId, validatePassword } from '../../../utils/validation';
 import { useNavigate } from 'react-router-dom';
 import ImgBtn from '../../../assets/upload-file.png';
 import profileImg from '../../../assets/Ellipse-1.png';
@@ -23,7 +23,8 @@ export default function LoginSignUpForm({ formName, btnText, isLogin }: LoginSig
   // input값 관리
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [userImg, setUserImg] = useState('');
+  const [userImg, setUserImg] = useState<File>();
+  const [prevImg, setPrevImg] = useState('');
   const [userName, setUserName] = useState('');
   const [id, setId] = useState('');
   const [intro, setIntro] = useState('');
@@ -150,12 +151,12 @@ export default function LoginSignUpForm({ formName, btnText, isLogin }: LoginSig
       alert('이미지 파일만 업로드 가능합니다.');
       return;
     }
-
+    setUserImg(file);
     const reader = new FileReader();
 
     reader.onload = () => {
       const result = reader.result;
-      if (typeof result === 'string') setUserImg(result);
+      if (typeof result === 'string') setPrevImg(result);
     };
     reader.onerror = () => {
       console.error('파일 읽기 실패');
@@ -174,7 +175,7 @@ export default function LoginSignUpForm({ formName, btnText, isLogin }: LoginSig
 
     const res = await userAPI.validateAccountName(id);
 
-    if (res.message === '이미 사용중인 계정 ID입니다.') {
+    if (res.message === '이미 가입된 계정ID 입니다.') {
       setIdError(true);
       setIdErrorMessage(res.message);
       return;
@@ -218,11 +219,20 @@ export default function LoginSignUpForm({ formName, btnText, isLogin }: LoginSig
 
     setLoading(true);
     try {
-      await userAPI.signUp(userName, email, password, id, intro, userImg);
+      let uploadImg = '';
+      if (userImg) {
+        const resImg = await imageAPI.uploadFile(userImg);
+        uploadImg = resImg.info.filename;
+
+        await userAPI.signUp(userName, email, password, id, intro, uploadImg);
+      } else {
+        await userAPI.signUp(userName, email, password, id, intro);
+      }
+
       alert('회원 가입 성공!');
       navigate('/login-with-email');
     } catch (error: any) {
-      console.error(error.message);
+      console.error('최종 에러', error.message);
     } finally {
       setLoading(false);
     }
@@ -294,8 +304,8 @@ export default function LoginSignUpForm({ formName, btnText, isLogin }: LoginSig
           <main>
             <div className="my-[30px] flex flex-col items-center relative">
               <img
-                className="w-[110px] h-[110px] rounded-full "
-                src={!userImg || userImg === '/Ellipse.png' ? profileImg : userImg}
+                className="w-[110px] h-[110px] rounded-full object-cover"
+                src={prevImg ? prevImg : profileImg}
                 alt="내 프로필 이미지"
               />
               <label
