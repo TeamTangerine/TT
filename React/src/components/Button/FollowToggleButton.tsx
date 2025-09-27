@@ -2,7 +2,7 @@ import React from 'react';
 import { useState, useEffect } from 'react';
 import { IFollowToggleButtonType, ButtonSizeType, ButtonColorType } from '../../types/IFollowToggleButtonType';
 import { profileAPI } from '../../service/fetch/api';
-import throttle from '../../Utils/throttle';
+import throttle from '../../utils/throttle';
 
 // 버튼 사이즈별 상수 정의
 const BUTTON_SIZES = {

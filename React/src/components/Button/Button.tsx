@@ -1,5 +1,5 @@
 import { IBtnType, ButtonSizeType, ButtonColorType } from '../../types/IButtonType';
-import throttle from '../../Utils/throttle';
+import throttle from '../../utils/throttle';
 
 // 버튼 사이즈별 상수 정의
 const BUTTON_SIZES = {
@@ -35,7 +35,6 @@ function Button({
   btnForm,
 }: IBtnType) {
   const handleThrottle = onClick ? throttle(onClick, 3000) : undefined;
-  console.log(handleThrottle);
 
   return (
     <button
