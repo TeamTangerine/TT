@@ -1,4 +1,3 @@
-import { useState, useEffect } from 'react';
 import productSample from '../../assets/product-img-example.png';
 
 import Modal from '../modal/Toast';
@@ -21,17 +20,17 @@ type ProductProps = {
   price: number;
   productLink: string;
   isMyProfile: boolean;
-  setShowModal: (isTrue: boolean) => void;
+  click: () => void;
 };
 
-function Product({ itemImage, itemName, price, productLink, isMyProfile, setShowModal }: ProductProps) {
+function Product({ itemImage, itemName, price, productLink, isMyProfile, click }: ProductProps) {
   // 가격을 원화 포맷에 맞혀 사용
   const formattedPrice = price.toLocaleString();
 
   // handleLink 함수를 통해 myProfile인지 yourProfile인지 구별
   function handleLink() {
     if (isMyProfile) {
-      setShowModal(true);
+      return click();
     }
 
     if (!isMyProfile) {
@@ -40,17 +39,15 @@ function Product({ itemImage, itemName, price, productLink, isMyProfile, setShow
   }
 
   return (
-    <>
-      <li className="w-[140px] h-[132px] flex flex-col flex-shrink-0 cursor-pointer" onClick={() => handleLink()}>
-        <img
-          src={itemImage ? imageAPI.getImage(itemImage) : productSample}
-          alt="샘플이미지"
-          className="w-[140px] h-[90px] rounded-[8px] object-cover"
-        />
-        <h3 className="h-[18px] px-[2px] mt-[6px] text-[14px]">{itemName}</h3>
-        <p className="h-[14px] px-[2px] mt-1 text-bold text-[12px] text-[#F26E22]">{formattedPrice}원</p>
-      </li>
-    </>
+    <div className="w-[140px] h-[132px] flex flex-col flex-shrink-0 cursor-pointer" onClick={() => handleLink()}>
+      <img
+        src={itemImage ? imageAPI.getImage(itemImage) : productSample}
+        alt="샘플이미지"
+        className="w-[140px] h-[90px] rounded-[8px] object-cover"
+      />
+      <h3 className="h-[18px] px-[2px] mt-[6px] text-[14px]">{itemName}</h3>
+      <p className="h-[14px] px-[2px] mt-1 text-bold text-[12px] text-[#F26E22]">{formattedPrice}원</p>
+    </div>
   );
 }
 export default Product;

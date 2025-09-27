@@ -17,11 +17,11 @@ type ProductListProps = {
 };
 
 function ProductList({ isMyProfile, userAccount }: ProductListProps) {
-  const { postId } = useParams<string>();
-
   const [products, setProducts] = useState<ProductAPI.IProduct[]>([]);
   const [loading, setLoading] = useState(false);
   const [showModal, setShowModal] = useState(false);
+  const [selectedItem, setSelectedItem] = useState('');
+  const [selectedLink, setSelectedLink] = useState('');
 
   // 상품 목록 조회 함수(getUserProducts API를 통해 상품 목록 조회)
   async function getUserProducts() {
@@ -54,6 +54,12 @@ function ProductList({ isMyProfile, userAccount }: ProductListProps) {
     }
   }
 
+  function openModal(itemid: string, itemLink: string) {
+    setSelectedItem(itemid);
+    setSelectedLink(itemLink);
+    setShowModal(true);
+  }
+
   useEffect(() => {
     getUserProducts();
   }, []);
@@ -66,27 +72,31 @@ function ProductList({ isMyProfile, userAccount }: ProductListProps) {
         <div className="flex flex-col w-[390px] md:w-[648px] gap-4">
           <h2 className="font-bold h-[20px]">판매 중인 상품</h2>
           <ul className="flex gap-[10px] overflow-hidden overflow-x-auto scrollbar-hide">
-            {loading ? (
-              <li>로딩 중...</li>
-            ) : (
-              products.map((product) => (
+            {products.map((product) => (
+              <li key={product.id}>
                 <Product
-                  key={product.id}
                   itemImage={product.itemImage}
                   itemName={product.itemName}
                   price={product.price}
                   productLink={product.link}
                   isMyProfile={isMyProfile}
-                  setShowModal={setShowModal}
+                  click={() => openModal(product.id, product.link)}
                 />
-              ))
-            )}
+              </li>
+            ))}
           </ul>
+          {loading && <p>로딩 중...</p>}
         </div>
       </section>
-
-      {showModal && <Toast toastStyle="myProfile-post" showModal={showModal} closeModal={() => setShowModal(false)} />}
-
+      {showModal && isMyProfile && (
+        <Toast
+          toastStyle="myProfile-product"
+          showModal={showModal}
+          closeModal={() => setShowModal(false)}
+          productId={selectedItem}
+          productLink={selectedLink}
+        />
+      )}
     </>
   );
 }
