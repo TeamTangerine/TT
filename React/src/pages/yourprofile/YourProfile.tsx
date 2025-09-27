@@ -11,7 +11,7 @@ function YourProfile() {
     <>
       <Header navStyle="top-basic" />
       <main className="pb-[60px] flex flex-col gap-[6px] bg-[#f2f2f2]">
-        <UserInfo isMyProfile={false} userAccount={accountname} />
+        <UserInfo isMyProfile={false} userAccountName={accountname} />
         <ProductList isMyProfile={false} userAccount={accountname} />
         <PostingGrid isMyProfile={false} userAccount={accountname} />
       </main>
