@@ -5,7 +5,7 @@ import TextInput from '../../components/TextInput';
 import { imageAPI, userAPI } from '../../service/fetch/api';
 import { useNavigate } from 'react-router-dom';
 import React, { useEffect, useState } from 'react';
-import { validateUserName } from '../../Utils/validation';
+import { validateUserName } from '../../utils/validation';
 
 function ProfileModification() {
   //라우팅
@@ -32,7 +32,7 @@ function ProfileModification() {
     setUserName(res.user.username);
     setUserAcountName(res.user.accountname);
     setUserIntro(res.user.intro);
-    setUserImageUrl(imageAPI.getImage(res.user.image));
+    setUserImageUrl(res.user.image);
   };
   //첫 렌더시 실행
   useEffect(() => {
@@ -124,9 +124,9 @@ function ProfileModification() {
       <main>
         <div className="my-[30px] flex flex-col items-center relative">
           <img
-            className="w-[110px] h-[110px] rounded-full "
+            className="w-[110px] h-[110px] rounded-full object-cover"
             //프리뷰(파일에 업로드)가 있으면 프리뷰, 없으면 기존 유저 이미지, 없으면 basicProfile
-            src={previewUrl ? previewUrl : userImageUrl ? userImageUrl : basicProfileImg}
+            src={previewUrl ? previewUrl : userImageUrl ? imageAPI.getImage(userImageUrl) : basicProfileImg}
             alt="내 프로필 이미지"
           />
           <label htmlFor="uploadImg" className="absolute bottom-0 translate-x-[37px] cursor-pointer">
