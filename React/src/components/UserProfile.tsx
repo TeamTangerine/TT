@@ -29,7 +29,7 @@ function UserProfile({ image, username, accountname, actionButton, hover }: IUse
         <img
           src={!image || image === '/Ellipse.png' ? defaultImage : image}
           alt={`${username}의 프로필 사진`}
-          className="w-[42px] h-[42px] rounded-full"
+          className="w-[42px] h-[42px] rounded-full object-cover"
         />
         <div className="flex flex-col gap-[6px]">
           <h2 className="text-sm font-medium">{username}</h2>
