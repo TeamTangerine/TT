@@ -1,5 +1,5 @@
 # 🍊감귤마켓 서비스 프로젝트
-감미로운 일상, 귤향 가득한 소통, 감귤 마켓! 
+*감미로운 일상, 귤 향 가득한 소통, 감귤 마켓!*
 
 ## 배포 주소  https://gamguul.netlify.app/
 💡 접속하시면 배포된 서비스를 바로 이용해보실 수 있습니다.   
@@ -136,4 +136,4 @@ npm run dev
 ## 개발 기간 
 - **2025년 9월 4일 ~ 2025년 9월 26일**
 
-## [더 상세한 노션 보기](https://www.notion.so/oreumi/261ebaa8982b807e95e9d53d9bb86755)
+## <a href="https://www.notion.so/oreumi/261ebaa8982b807e95e9d53d9bb86755" target='_blank'>더 상세한 노션 보기</a> 

@@ -65,7 +65,7 @@ function ProductList({ isMyProfile, userAccount }: ProductListProps) {
       >
         <div className="flex flex-col w-[390px] md:w-[648px] gap-4">
           <h2 className="font-bold h-[20px]">판매 중인 상품</h2>
-          <ul className="flex gap-[10px] overflow-hidden overflow-x-auto scrollbar-width: none">
+          <ul className="flex gap-[10px] overflow-hidden overflow-x-auto scrollbar-hide">
             {loading ? (
               <li>로딩 중...</li>
             ) : (
@@ -84,7 +84,9 @@ function ProductList({ isMyProfile, userAccount }: ProductListProps) {
           </ul>
         </div>
       </section>
+
       {showModal && <Toast toastStyle="myProfile-post" showModal={showModal} closeModal={() => setShowModal(false)} />}
+
     </>
   );
 }

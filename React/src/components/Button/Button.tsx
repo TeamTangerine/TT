@@ -1,4 +1,5 @@
 import { IBtnType, ButtonSizeType, ButtonColorType } from '../../types/IButtonType';
+import throttle from '../../Utils/throttle';
 
 // 버튼 사이즈별 상수 정의
 const BUTTON_SIZES = {
@@ -23,7 +24,7 @@ function getButtonColor(color: ButtonColorType) {
   return BUTTON_COLORS[color] || BUTTON_COLORS.normal;
 }
 
-export default function Button({
+function Button({
   btnTextContent,
   btnSize,
   btnColor,
@@ -33,11 +34,14 @@ export default function Button({
 
   btnForm,
 }: IBtnType) {
+  const handleThrottle = onClick ? throttle(onClick, 3000) : undefined;
+  console.log(handleThrottle);
+
   return (
     <button
       type={btnType}
       className={`flex justify-center items-center py-[14px] px-[11px] font-medium ${getButtonSize(btnSize)} ${getButtonColor(btnColor)} ${btnFlexBasis}`}
-      onClick={onClick}
+      onClick={handleThrottle}
       disabled={btnColor === 'disable' ? true : false}
       form={btnForm}
     >
@@ -45,3 +49,5 @@ export default function Button({
     </button>
   );
 }
+
+export default Button;

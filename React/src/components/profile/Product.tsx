@@ -1,10 +1,9 @@
 import { useState, useEffect } from 'react';
-import productImgSample from '../../assets/product-img-example.png';
+import productSample from '../../assets/product-img-example.png';
 
 import Modal from '../modal/Toast';
 
 import { imageAPI } from '../../service/fetch/api';
-
 
 /**
  * @param itemImgae - 상품 이미지
