@@ -96,9 +96,10 @@ function HomeCardGrid({ isMyProfile, userAccount }: HomeCardGridprops) {
               posts.map((post) => {
                 return (
                   <Posting
+                    isMyProfile={isMyProfile}
                     key={post.id}
                     showList={showList}
-                    userProfileImage={imageAPI.getImage(post.author.image)}
+                    userProfileImage={post.author.image}
                     userName={post.author.username}
                     userId={post.author.accountname}
                     userContent={post.content}
