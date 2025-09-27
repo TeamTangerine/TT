@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useParams, useSearchParams, useLocation } from 'react-router-dom';
-import { profileAPI } from '../../service/fetch/api';
+import { imageAPI, profileAPI } from '../../service/fetch/api';
 import { ProfileAPI } from '../../types/IFetchType';
 import Header from '../../components/Header';
 import profileImg from '../../assets/basic-profile-img.png';
@@ -50,7 +50,7 @@ function FollowersList() {
           <div className="flex gap-3 items-center">
             <img
               className="w-[50px] h-[50px] rounded-full"
-              src={user.image === '/Ellipse-1.png' ? profileImg : user.image}
+              src={user.image === '/Ellipse.png' ? profileImg : user.image}
               alt="프로필 이미지"
             />
             <div className="flex flex-col gap-[6px]">
@@ -81,7 +81,8 @@ function FollowersList() {
   return (
     <>
       <Header navStyle="top-follow" isFollowing={type === 'following' ? true : false} />
-      <ul className="flex flex-col gap-4 mx-4 mt-6">{loading ? <p>로딩중 입니다.</p> : showFollowerList()}</ul>
+      <ul className="flex flex-col gap-4 mx-4 mt-6">{showFollowerList()}</ul>
+      {loading ? <p>로딩중 입니다.</p> : <p></p>}
     </>
   );
 }
