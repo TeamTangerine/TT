@@ -99,6 +99,9 @@ export const imageAPI = {
    * @returns string 파일 url
    */
   getImage: (fileName: string): string => {
+    if (fileName.includes('https://dev.wenivops.co.kr/services/mandarin')) {
+      return fileName;
+    }
     return IMAGE_URL.getFile(fileName);
   },
 };
