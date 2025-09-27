@@ -36,7 +36,6 @@ function UserInfo({ isMyProfile }: UserInfoProps) {
         setAccountName(myData.user.accountname);
         const profileData = await profileAPI.getProfile(accountName);
         setProfileData(profileData.profile);
-        console.log(!profileData.profile.image);
       } catch (error: any) {
         console.error('프로필 정보 조회 실패:', error.message);
       } finally {
