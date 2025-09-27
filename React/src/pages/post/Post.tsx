@@ -5,9 +5,9 @@ import Comment from './components/Comment';
 import profileImg from '../../assets/Ellipse 6.png';
 import { useParams, useLocation } from 'react-router-dom';
 import { CommentAPI, PostAPI } from '../../types/IFetchType';
-import { commentAPI, postAPI, userAPI } from '../../service/fetch/api';
-import throttle from '../../Utils/throttle';
-import infiniteScroll from '../../Utils/infiniteScroll';
+import { commentAPI, imageAPI, postAPI, userAPI } from '../../service/fetch/api';
+import throttle from '../../utils/throttle';
+import infiniteScroll from '../../utils/infiniteScroll';
 
 function Post() {
   // 유저 프로필 이미지 상태 관리
@@ -187,6 +187,8 @@ function Post() {
                 {comments.map((comment) => (
                   <Comment
                     key={comment.id}
+                    commentId={comment.id}
+                    postId={post.id}
                     userProfileImage={comment.author.image}
                     userName={comment.author.username}
                     content={comment.content}
@@ -203,7 +205,11 @@ function Post() {
             )}
           </main>
           <div className="fixed bottom-0 flex items-center justify-center w-full h-[60px] border-t border-t-[#DBDBDB] bg-white">
-            <img className="w-9 h-9 rounded-full" src={userImg ? userImg : profileImg} alt="내 프로필 이미지" />
+            <img
+              className="w-9 h-9 rounded-full object-cover"
+              src={userImg ? imageAPI.getImage(userImg) : profileImg}
+              alt="내 프로필 이미지"
+            />
             <form
               onSubmit={(e) => {
                 e.preventDefault();
