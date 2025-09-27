@@ -136,4 +136,4 @@ npm run dev
 ## 개발 기간 
 - **2025년 9월 4일 ~ 2025년 9월 26일**
 
-## [더 상세한 노션 보기](https://www.notion.so/oreumi/261ebaa8982b807e95e9d53d9bb86755)
+## <a href="https://www.notion.so/oreumi/261ebaa8982b807e95e9d53d9bb86755" target="_blank">더 상세한 노션 보기</a> 
