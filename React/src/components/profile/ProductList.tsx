@@ -3,7 +3,7 @@ import { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { productAPI } from '../../service/fetch/api';
 import { userAPI } from '../../service/fetch/api';
-import Modal from '../modal/Toast';
+import Toast from '../modal/Toast';
 import { ProductAPI } from '../../types/IFetchType';
 
 /**
@@ -13,9 +13,10 @@ import { ProductAPI } from '../../types/IFetchType';
  */
 type ProductListProps = {
   isMyProfile: boolean;
+  userAccount?: string;
 };
 
-function ProductList({ isMyProfile }: ProductListProps) {
+function ProductList({ isMyProfile, userAccount }: ProductListProps) {
   const { postId } = useParams<string>();
 
   const [products, setProducts] = useState<ProductAPI.IProduct[]>([]);
@@ -41,9 +42,9 @@ function ProductList({ isMyProfile }: ProductListProps) {
     }
 
     // 유어프로필 페이지인 경우
-    if (!isMyProfile && postId) {
+    if (!isMyProfile && userAccount) {
       try {
-        const productData = await productAPI.getUserProducts(postId);
+        const productData = await productAPI.getUserProducts(userAccount);
         setProducts(productData.product);
       } catch (error: any) {
         console.error('상품 목록 조회 실패:', error.message);
@@ -83,9 +84,9 @@ function ProductList({ isMyProfile }: ProductListProps) {
           </ul>
         </div>
       </section>
-      {showModal && (
-        <Modal showModal={showModal} closeModal={() => setShowModal(false)} toastStyle="myProfile-product" />
-      )}
+
+      {showModal && <Toast toastStyle="myProfile-post" showModal={showModal} closeModal={() => setShowModal(false)} />}
+
     </>
   );
 }

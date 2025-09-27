@@ -1,7 +1,6 @@
 // API 명세서 기반의 명확한 타입
 import { IUserProfileProps } from '../types/IUserProfileProps';
 import defaultImage from '../assets/Ellipse-1.png';
-import { imageAPI } from '../service/fetch/api';
 import { useNavigate } from 'react-router-dom';
 import { useEffect } from 'react';
 /**
@@ -15,15 +14,11 @@ import { useEffect } from 'react';
  */
 function UserProfile({ image, username, accountname, actionButton, hover }: IUserProfileProps) {
   const navigate = useNavigate();
-
-  useEffect(() => {
-    console.log(image);
-  }, []);
   return (
     <article
       className={
         hover
-          ? `flex justify-between hover:px-2 hover:py-2  hover:scale-110 hover:shadow-xl duration-300 transition-all ease-in-out `
+          ? `flex justify-between hover:bg-gray-100 duration-300 transition-all ease-in-out `
           : `flex justify-between`
       }
       onClick={() => {
