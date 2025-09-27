@@ -205,6 +205,7 @@ function Posting({
         </>
       )}
       {showModal && <Modal showModal={showModal} closeModal={() => setShowModal(false)} toastStyle="myProfile-post" />}
+      {showModal && <Modal showModal={showModal} closeModal={() => setShowModal(false)} toastStyle="myProfile-post" />}
     </>
   );
 }

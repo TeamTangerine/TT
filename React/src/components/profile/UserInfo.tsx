@@ -21,6 +21,7 @@ type UserInfoProps = {
 function UserInfo({ isMyProfile }: UserInfoProps) {
   const navigate = useNavigate();
   const { postId } = useParams<{ postId: string }>();
+  const [userAccount, setUserAccount] = useState('');
   const [accountName, setAccountName] = useState('');
   const [profileData, setProfileData] = useState<UserAPI.IUserProfile>({} as UserAPI.IUserProfile);
   const [loading, setLoading] = useState(false);
@@ -45,6 +46,8 @@ function UserInfo({ isMyProfile }: UserInfoProps) {
 
     if (!isMyProfile && postId) {
       try {
+        const userData = await userAPI.getMyInfo();
+        setUserAccount(userData.user.accountname);
         setAccountName(postId);
         console.log(accountName);
         const res = await profileAPI.getProfile(accountName);
@@ -68,12 +71,10 @@ function UserInfo({ isMyProfile }: UserInfoProps) {
   }
 
   // 사용자 ID를 팔로워 리스트 페이지에 URL 파라미터로 넘기는 함수
-  function handleFollowingClick() {
-    navigate(`/followers-list/${accountName}?type=following`);
-  }
-
-  function handleFollowerClick() {
-    navigate(`/followers-list/${accountName}?type=follower`);
+  function handleFollowClick(value: string) {
+    navigate(`/follow-list/${accountName}?type=${value}`, {
+      state: { currentUser: userAccount },
+    });
   }
 
   useEffect(() => {
@@ -84,7 +85,12 @@ function UserInfo({ isMyProfile }: UserInfoProps) {
     <section className="flex flex-col items-center gap-4 pt-[30px] pb-6 bg-white">
       <div className=" flex items-center gap-[45px]">
         <div className="flex flex-col gap-[6px] items-center">
-          <span className="text-lg font-bold" onClick={handleFollowerClick}>
+          <span
+            className="text-lg font-bold"
+            onClick={() => {
+              handleFollowClick('follower');
+            }}
+          >
             {profileData.followerCount}
           </span>
           <span className="text-[10px] text-[#767676]">followers</span>
@@ -95,7 +101,7 @@ function UserInfo({ isMyProfile }: UserInfoProps) {
           className="w-[110px] h-[110px] border-[#dbdbdb] border-[1px] rounded-full object-cover"
         />
         <div className="flex flex-col gap-[6px] items-center">
-          <span className="text-lg font-bold text-[#767676]" onClick={handleFollowingClick}>
+          <span className="text-lg font-bold text-[#767676]" onClick={() => handleFollowClick('following')}>
             {profileData.followingCount}
           </span>
           <span className="text-[10px] text-[#767676]">followings</span>
