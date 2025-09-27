@@ -9,6 +9,7 @@ import { imageAPI } from '../service/fetch/api';
 import { useNavigate } from 'react-router-dom';
 import { PostAPI } from '../types/IFetchType';
 import { validateUrl } from '../Utils/validation';
+import CommentCount from '../pages/post/components/CommentCount';
 
 // 리스트형 / 앨범형 선택을 위한 props 타입
 /**
@@ -179,7 +180,7 @@ function Posting({
                 >
                   <img src={iconMessage} alt="댓글" />
                 </button>
-                <span className="text-[12px] text-[#767676]">{commentCount}</span>
+                <CommentCount commentCount={commentCount} />
               </div>
             </div>
             <time dateTime={formatDate(updatedAt)} className="text-[10px] text-[#767676]">

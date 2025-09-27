@@ -75,6 +75,9 @@ function Post() {
         alert('댓글 작성 완료!');
         setMessage('');
         setComments((prev) => [res.comment, ...prev]);
+
+        // 댓글 수 1 증가
+        setPost((prev) => (prev ? { ...prev, commentCount: prev.commentCount + 1 } : prev));
       } catch (error: any) {
         console.error(`댓글 작성 실패: ${error.message}`);
       }
