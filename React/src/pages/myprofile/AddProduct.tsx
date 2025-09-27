@@ -3,26 +3,26 @@ import Header from '../../components/Header';
 import TextInput from '../../components/TextInput';
 import uploadImg from '../../assets/icon/icon-upload.png';
 import { imageAPI, productAPI } from '../../service/fetch/api';
-import { validateProductURL } from '../../Utils/validation';
-import { useNavigate, useSearchParams } from 'react-router-dom';
+import { validateProductURL } from '../../utils/validation';
+import { useNavigate, useParams, useSearchParams } from 'react-router-dom';
 
 function AddProduct() {
   //쿼리-를 사용해서 상품수정여부와 상품 아이디를 받습니다.
-  const [searchParams] = useSearchParams();
-  const isUpdateProduct = searchParams.get('isUpdateProduct');
-  const productId = searchParams.get('productId');
+  const { productId } = useParams<string>();
   // 라우팅
   const navigate = useNavigate();
   //인풋에 담기는 이미지 파일
   const [image, setImage] = useState<File[]>([]);
   //이미지 미리보기 URL
   const [previewUrls, setPreviewUrls] = useState<string[]>([]);
+  //이미지 업로드 URL
+  const [imageUrl, setImageUrl] = useState('');
   //상품이름
   const [itemName, setItemName] = useState('');
   //상품이름 에러 메세지
   const [isItemError, setIsItemError] = useState(false);
   //가격
-  const [price, setPrice] = useState('');
+  const [price, setPrice] = useState(0);
   //상품Url
   const [link, setLink] = useState<string>('');
   //상품URL 에러 메세지
@@ -59,13 +59,24 @@ function AddProduct() {
   const handlePrice = (e: React.ChangeEvent<HTMLInputElement>) => {
     //toLocaleString때문에 숫자에 콤마가 찍힐때를 정규식으로 방지
     const number = e.target.value.replace(/[^0-9]/g, '');
-    setPrice(number);
+    setPrice(Number(number));
   };
   //상품url관리
   const handleLink = (e: React.ChangeEvent<HTMLInputElement>) => {
     setIsLinkError(false);
     setLink(e.target.value);
   };
+  //이미지를 체크해서 업로드하는 함수
+  async function uploadImgUrl() {
+    console.log('이미지 업로드 시작');
+    if (image.length === 0) return;
+    //이미지 업로드해서 url저장
+    const res = await imageAPI.uploadFile(image[0]);
+    if (!res) {
+      throw new Error('이미지 업로드에 실패하였습니다.');
+    }
+    setImageUrl(res.info.filename);
+  }
 
   // 상품을 업로드 하는 함수
   async function postProduct() {
@@ -95,50 +106,48 @@ function AddProduct() {
         setIsLinkError(true);
         return;
       }
-      //이미지 업로드해서 url저장
-      const res = await imageAPI.uploadFile(image[0]);
-      if (!res) {
-        throw new Error('이미지 업로드에 실패하였습니다.');
-      }
-      const fileUrl = res.info.filename;
+      //이미지 업로드
+      uploadImgUrl();
+
       //상품 추가시
-      if (!isUpdateProduct) {
-        await productAPI.createProduct(itemName, numberPrice, link, fileUrl);
+      if (!productId) {
+        await productAPI.createProduct(itemName, numberPrice, link, imageUrl);
         alert('상품 게시 성공!');
         navigate('/my-profile');
       } else {
         //상품 수정시
-        if (!productId) {
-          alert('상품 정보를 불러오지 못했습니다. 다시 시도해주세요.');
+        if (productId) {
+          const resUpdate = await productAPI.updateProduct(productId, itemName, numberPrice, link, imageUrl);
+          if (!resUpdate) {
+            throw new Error('업데이트 실패');
+          }
+          alert('상품 수정 성공!');
           navigate('/my-profile');
-          return;
         }
-        await productAPI.updateProduct(productId, itemName, numberPrice, link, fileUrl);
-        navigate('/my-profile');
       }
     } catch (error) {
       console.error('에러 발생', error);
     }
   }
 
-  //====상품 수정====
+  //====기존 상품 있으면 상품 불러오기====
 
   const getProduct = async () => {
     try {
-      if (isUpdateProduct) {
-        if (!productId) {
-          alert('상품을 불러오지 못했습니다. 다시 시도해 주세요.');
-          navigate('/my-profile');
-          return;
-        }
+      if (productId) {
         const res = await productAPI.getProduct(productId);
+        if (!res) {
+          throw new Error('상품 정보를 불러오지 못했습니다!');
+        }
         setItemName(res.product.itemName);
         setPreviewUrls([imageAPI.getImage(res.product.itemImage)]);
-        setPrice(res.product.price.toLocaleString());
+        setPrice(res.product.price);
         setLink(res.product.link);
+        setImageUrl(res.product.itemImage);
       }
-    } catch (error) {
-      console.log(error);
+    } catch (error: any) {
+      console.error('상품 수정 에러', error.message);
+      navigate('/my-profile');
     }
   };
   //상품 수정으로 들어왔을때, 기존 상품 렌더링
@@ -150,7 +159,7 @@ function AddProduct() {
     <>
       <Header
         navStyle="top-save"
-        button={image.length === 1 && itemName && price && link ? true : false}
+        button={(productId || image.length === 1) && itemName && price && link ? true : false}
         formTarget="upload"
       />
       <form
