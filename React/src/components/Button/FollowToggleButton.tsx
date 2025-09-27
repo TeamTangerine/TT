@@ -5,9 +5,7 @@ import { profileAPI } from '../../service/fetch/api';
 
 // 버튼 사이즈별 상수 정의
 const BUTTON_SIZES = {
-  large: `text-[14px] w-[322px] h-[44px] rounded-[44px]`,
   medium: `text-[14px] w-[120px] h-[34px] rounded-[44px]`,
-  mediumSmall: `text-[14px] w-[90px] h-[32px] rounded-[32px]`,
   small: `text-[12px] w-[56px] h-[28px] rounded-[26px]`,
 } as const;
 
@@ -18,7 +16,6 @@ function getButtonSize(size: ButtonSizeType) {
 // 버튼 색깔별 상수 정의
 const BUTTON_COLORS = {
   normal: 'bg-[#F26E22] text-white active:bg-[#D4541A]',
-  disable: 'bg-[#FFC7A7] text-white',
   active: 'bg-[#FFFFFF] text-[#767676] border-[1px] border-[#DBDBDB] active:bg-[#BFBFBF]',
 } as const;
 

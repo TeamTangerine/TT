@@ -1,6 +1,6 @@
 // btnSize, btnColor에 사용할 리터럴 타입 별도 지정
-export type ButtonSizeType = 'large' | 'medium' | 'mediumSmall' | 'small';
-export type ButtonColorType = 'normal' | 'disable' | 'active';
+export type ButtonSizeType = 'medium' | 'small';
+export type ButtonColorType = 'normal' | 'active';
 
 /**
  * @param followText - (string) 팔로우 할 경우 텍스트

@@ -73,7 +73,7 @@ function AddProduct() {
       //가격 콤마빼고 number로 변환
       const numberPrice = Number(String(price).replace(',', ''));
       //상품명 정규식
-      const itemRegExp = /^[a-zA-Z가-힣]{2,15}$/;
+      const itemRegExp = /^[a-zA-Z가-힣0-9\s]{2,15}$/;
       //이름 빈 값이면
       if (!itemName) {
         setIsItemError(true);
@@ -84,6 +84,12 @@ function AddProduct() {
         setIsItemError(true);
         return;
       }
+      //이름 양 옆에 여백이 있는 경우
+      if (itemName.length !== itemName.trim().length) {
+        setIsItemError(true);
+        return;
+      }
+
       //링크가 정규식에 맞지 않으면
       if (!validateProductURL(link)) {
         setIsLinkError(true);

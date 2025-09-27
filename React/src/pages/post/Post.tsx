@@ -5,7 +5,8 @@ import Comment from './components/Comment';
 import profileImg from '../../assets/Ellipse 6.png';
 import { useParams, useLocation } from 'react-router-dom';
 import { CommentAPI, PostAPI } from '../../types/IFetchType';
-import { commentAPI, imageAPI, postAPI, userAPI } from '../../service/fetch/api';
+import { commentAPI, postAPI, userAPI } from '../../service/fetch/api';
+import throttle from '../../Utils/throttle';
 
 function Post() {
   // 유저 프로필 이미지 상태 관리
@@ -14,10 +15,11 @@ function Post() {
   const [message, setMessage] = useState('');
   // URL에서 파라미터 값 가져오기
   const { postId } = useParams<string>();
+  // navigate에서 온 state 데이터 받기
   const location = useLocation();
   const statePost = location.state?.post as PostAPI.IPost;
   // 게시글 데이터
-  const [post, setPost] = useState<PostAPI.IPost>();
+  const [post, setPost] = useState<PostAPI.IPost>(statePost);
   // 댓글 목록 데이터
   const [comments, setComments] = useState<CommentAPI.IComment[]>([]);
   const [loading, setLoading] = useState(!statePost); // state가 있으면 false, 없으면 true
@@ -35,36 +37,41 @@ function Post() {
   // 현재 로그인 중인 유저의 프로필 이미지 가져오는 api
   async function getUserInfo() {
     try {
-      setLoading(true);
       const res = await userAPI.getMyInfo();
-      const image = imageAPI.getImage(res.user.image);
+      const image = res.user.image;
       setUserImg(image);
     } catch (error) {
       console.error('현재 로그인 중인 유저의 프로필 이미지 불러오기 실패', error);
-    } finally {
-      setLoading(false);
     }
   }
 
   // 게시글 불러오는 api 함수
   async function getDetailArticle() {
-    try {
-      if (!postId) {
-        return;
+    // state값이 없을 경우 api 작동
+    if (!statePost && postId) {
+      setLoading(true);
+      try {
+        const res = await postAPI.getPost(postId);
+        // post가 빈값이거나 넘겨받은 게시물 데이터와 현재(로컬) 게시물 데이터의 수정 시각이 다르면 서버에서 최신 데이터를 부름
+        if (!post || res.post.updatedAt !== post.updatedAt) {
+          setPost(res.post);
+        }
+      } catch (error: any) {
+        console.error(`상세 게시글 불러오기 실패: ${error.message}`);
+      } finally {
+        setLoading(false);
       }
-      const res = await postAPI.getPost(postId);
-
-      setPost(res.post);
-    } catch (error: any) {
-      console.error(error.message);
     }
   }
 
+  // 댓글 게시 버튼 클릭 시 스로틀링 함수 발동
+  const handleThrottle = throttle(postComment, 3000);
+
   // 해당 게시글에 대한 댓글 작성하는 api 함수
   async function postComment() {
-    if (postId) {
+    if (post?.id) {
       try {
-        const res = await commentAPI.createComment(postId, message);
+        const res = await commentAPI.createComment(post.id, message);
         alert('댓글 작성 완료!');
         setMessage('');
         setComments((prev) => [res.comment, ...prev]);
@@ -100,14 +107,14 @@ function Post() {
               <Posting
                 // 포스팅 컴포넌트에 대한 key
                 key={post.id}
-                postId={post.id}
-                hearted={post.hearted}
-                userProfileImage={imageAPI.getImage(post.author.image)}
+                userProfileImage={post.author.image}
                 userName={post.author.username}
                 userId={post.author.accountname}
                 userContent={post.content}
                 contentImage={post.image}
+                postId={post.id}
                 heartCount={post.heartCount}
+                hearted={post.hearted}
                 commentCount={post.commentCount}
                 updatedAt={post.updatedAt}
               />
@@ -132,7 +139,7 @@ function Post() {
             <form
               onSubmit={(e) => {
                 e.preventDefault();
-                postComment();
+                handleThrottle();
               }}
             >
               <input

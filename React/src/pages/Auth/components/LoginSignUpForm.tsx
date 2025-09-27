@@ -19,29 +19,6 @@ type LoginSignUpFormProps = {
   isLogin: boolean;
 };
 
-// API 응답 타입 정의
-type LoginSuccessResponse = {
-  user: {
-    _id: string;
-    username: string;
-    email: string;
-    accountname: string;
-    image: string;
-    token: string;
-  };
-};
-
-type LoginErrorResponse = {
-  message: string;
-  status: number;
-};
-
-// 로그인 요청 데이터 타입
-type LoginData = {
-  email: string;
-  password: string;
-};
-
 export default function LoginSignUpForm({ formName, btnText, isLogin }: LoginSignUpFormProps) {
   // input값 관리
   const [email, setEmail] = useState('');
@@ -75,8 +52,6 @@ export default function LoginSignUpForm({ formName, btnText, isLogin }: LoginSig
     e.preventDefault();
 
     setLoading(true);
-    setPwErrorMessage('');
-    setPwError(false);
 
     try {
       const res = await userAPI.login(email, password);
@@ -94,10 +69,8 @@ export default function LoginSignUpForm({ formName, btnText, isLogin }: LoginSig
 
       // 실패 처리
       setPwErrorMessage(error.message);
-      return;
     } finally {
       setLoading(false);
-      setPassword('');
     }
   }
 
@@ -106,13 +79,6 @@ export default function LoginSignUpForm({ formName, btnText, isLogin }: LoginSig
     e.preventDefault();
 
     setLoading(true);
-    setEmailErrorMessage('');
-    setPwErrorMessage('');
-    setIdErrorMessage('');
-
-    setEmailError(false);
-    setPwError(false);
-    setIdError(false);
 
     try {
       const res = await userAPI.validateEmail(email);
@@ -221,11 +187,13 @@ export default function LoginSignUpForm({ formName, btnText, isLogin }: LoginSig
   // 이메일 onChange 관리
   const handleEmail = (e: React.ChangeEvent<HTMLInputElement>) => {
     setEmail(e.target.value);
+    setEmailError(false);
   };
 
   // 비밀번호 onChange 관리
   const handlePw = (e: React.ChangeEvent<HTMLInputElement>) => {
     setPassword(e.target.value);
+    setPwError(false);
   };
 
   // 사용자 이름 onChange 관리
@@ -236,6 +204,7 @@ export default function LoginSignUpForm({ formName, btnText, isLogin }: LoginSig
   // 계정 ID onChange 관리
   const handleId = (e: React.ChangeEvent<HTMLInputElement>) => {
     setId(e.target.value);
+    setIdError(false);
   };
 
   // 소개 onChange 관리

@@ -1,31 +1,31 @@
 import { useState, useEffect } from 'react';
-import { useParams, useSearchParams } from 'react-router-dom';
+import { useParams, useSearchParams, useLocation } from 'react-router-dom';
 import { profileAPI } from '../../service/fetch/api';
 import { ProfileAPI } from '../../types/IFetchType';
 import Header from '../../components/Header';
-import basicProfileImage from '../../assets/basic-profile-img.png';
+import profileImg from '../../assets/basic-profile-img.png';
 import FollowToggleButton from '../../components/button/FollowToggleButton';
 
 function FollowersList() {
-  const profileImg = basicProfileImage;
-
   const { accountName } = useParams();
   const [searchParams] = useSearchParams();
+  const location = useLocation();
   const type = searchParams.get('type');
 
   const [followList, setFollowList] = useState<ProfileAPI.IFollowingListResponse>([]);
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState('');
+
+  // state에서 현재 user의 account 정보를 받기
+  const stateData = location.state || {};
+  const { currentUser } = stateData;
 
   async function getFollowList() {
     // 타입이 following인 경우 팔로잉 목록을, 타입이 follower인 경우 팔로워 목록을 불러옴
 
     setLoading(true);
-    setError('');
 
     // 타입체크하는 곳, accountName과 type의 타입을 체크
     if (!accountName || !type) {
-      setError('계정명 또는 타입이 없습니다.');
       setLoading(false);
       return;
     }
@@ -37,8 +37,7 @@ function FollowersList() {
           : await profileAPI.getFollowerList(accountName);
       setFollowList(data);
     } catch (error) {
-      console.log('팔로우 리스트를 불러오는데 실패했습니다.', error);
-      setError('목록을 불러오는데 실패했습니다.');
+      console.error('팔로우 리스트를 불러오는데 실패했습니다.', error);
     } finally {
       setLoading(false);
     }
@@ -59,13 +58,17 @@ function FollowersList() {
               <p className="text-[12px] text-[#767676] h-[15px]">{user.intro}</p>
             </div>
           </div>
-          <FollowToggleButton
-            followText="팔로우"
-            unfollowText="취소"
-            btnSize="small"
-            userAccount={user.accountname}
-            isFollow={user.isfollow}
-          />
+          {user.accountname === currentUser ? (
+            <></>
+          ) : (
+            <FollowToggleButton
+              followText="팔로우"
+              unfollowText="취소"
+              btnSize="small"
+              userAccount={user.accountname}
+              isFollow={user.isfollow}
+            />
+          )}
         </li>
       );
     });

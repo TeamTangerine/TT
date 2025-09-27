@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import FollowToggleButton from '../button/FollowToggleButton';
 import Button from '../button/Button';
-import { userAPI, profileAPI, imageAPI } from '../../service/fetch/api';
+import { userAPI, profileAPI } from '../../service/fetch/api';
 import { UserAPI } from '../../types/IFetchType';
 
 import profileImg from '../../assets/basic-profile-img.png';
@@ -16,11 +16,12 @@ import iconShare from '../../assets/icon/icon-share.png';
  */
 type UserInfoProps = {
   isMyProfile: boolean;
-  userAccount?: string;
 };
 
-function UserInfo({ isMyProfile, userAccount }: UserInfoProps) {
+function UserInfo({ isMyProfile }: UserInfoProps) {
   const navigate = useNavigate();
+  const { postId } = useParams<{ postId: string }>();
+  const [userAccount, setUserAccount] = useState('');
   const [accountName, setAccountName] = useState('');
   const [profileData, setProfileData] = useState<UserAPI.IUserProfile>({} as UserAPI.IUserProfile);
   const [loading, setLoading] = useState(false);
@@ -33,7 +34,7 @@ function UserInfo({ isMyProfile, userAccount }: UserInfoProps) {
       try {
         const myData = await userAPI.getMyInfo();
         setAccountName(myData.user.accountname);
-        const profileData = await profileAPI.getProfile(myData.user.accountname);
+        const profileData = await profileAPI.getProfile(accountName);
         setProfileData(profileData.profile);
       } catch (error: any) {
         console.error('프로필 정보 조회 실패:', error.message);
@@ -41,10 +42,15 @@ function UserInfo({ isMyProfile, userAccount }: UserInfoProps) {
         setLoading(false);
       }
       return;
-    } else if (!isMyProfile && userAccount) {
+    }
+
+    if (!isMyProfile && postId) {
       try {
-        setAccountName(userAccount);
-        const res = await profileAPI.getProfile(userAccount);
+        const userData = await userAPI.getMyInfo();
+        setUserAccount(userData.user.accountname);
+        setAccountName(postId);
+        console.log(accountName);
+        const res = await profileAPI.getProfile(accountName);
         setProfileData(res.profile);
       } catch (error: any) {
         console.error('프로필 정보 조회 실패:', error.message);
@@ -65,12 +71,10 @@ function UserInfo({ isMyProfile, userAccount }: UserInfoProps) {
   }
 
   // 사용자 ID를 팔로워 리스트 페이지에 URL 파라미터로 넘기는 함수
-  function handleFollowingClick() {
-    navigate(`/followers-list/${accountName}?type=following`);
-  }
-
-  function handleFollowerClick() {
-    navigate(`/followers-list/${accountName}?type=follower`);
+  function handleFollowClick(value: string) {
+    navigate(`/follow-list/${accountName}?type=${value}`, {
+      state: { currentUser: userAccount },
+    });
   }
 
   useEffect(() => {
@@ -81,22 +85,23 @@ function UserInfo({ isMyProfile, userAccount }: UserInfoProps) {
     <section className="flex flex-col items-center gap-4 pt-[30px] pb-6 bg-white">
       <div className=" flex items-center gap-[45px]">
         <div className="flex flex-col gap-[6px] items-center">
-          <span className="text-lg font-bold" onClick={handleFollowerClick}>
+          <span
+            className="text-lg font-bold"
+            onClick={() => {
+              handleFollowClick('follower');
+            }}
+          >
             {profileData.followerCount}
           </span>
           <span className="text-[10px] text-[#767676]">followers</span>
         </div>
         <img
-          src={
-            !profileData.image || profileData.image === '/Ellipse.png'
-              ? profileImg
-              : imageAPI.getImage(profileData.image)
-          }
+          src={!profileData.image || profileData.image === '/Ellipse.png' ? profileImg : profileData.image}
           alt="유저 이미지"
           className="w-[110px] h-[110px] border-[#dbdbdb] border-[1px] rounded-full object-cover"
         />
         <div className="flex flex-col gap-[6px] items-center">
-          <span className="text-lg font-bold text-[#767676]" onClick={handleFollowingClick}>
+          <span className="text-lg font-bold text-[#767676]" onClick={() => handleFollowClick('following')}>
             {profileData.followingCount}
           </span>
           <span className="text-[10px] text-[#767676]">followings</span>
