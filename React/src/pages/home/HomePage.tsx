@@ -7,7 +7,7 @@ import { useLayoutEffect, useState } from 'react';
 import Posting from '../../components/Posting';
 import { PostAPI } from '../../types/IFetchType';
 import { getFeed } from '../../service/splash/getFeed';
-import Splash from '../Splash/Splash';
+import Splash from '../splash/Splash';
 
 function HomePage() {
   // 스플래쉬 체크 상태 추가 - 세션 스토리지에 저장된 값을 이용.
@@ -93,7 +93,6 @@ function HomePage() {
                         // 각 게시글 모든 내용(navigate의 state 값으로 넘기기 위한 props)
                         hearted={post.hearted}
                         post={post}
-                        hearted={post.hearted}
                         userProfileImage={post.author.image}
                         userName={post.author.username}
                         userId={post.author.accountname}
