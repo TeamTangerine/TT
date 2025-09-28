@@ -51,8 +51,8 @@ function Post() {
       const res = await userAPI.getMyInfo();
       const image = res.user.image;
       setUserImg(image);
-    } catch (error) {
-      console.error('현재 로그인 중인 유저의 프로필 이미지 불러오기 실패', error);
+    } catch (error: any) {
+      console.error('현재 로그인 중인 유저의 프로필 이미지 불러오기 실패', error.message);
     }
   }
 
@@ -63,8 +63,8 @@ function Post() {
       setLoading(true);
       try {
         const res = await postAPI.getPost(postId);
-        // post가 빈값이거나 넘겨받은 게시물 데이터와 현재(로컬) 게시물 데이터의 수정 시각이 다르면 서버에서 최신 데이터를 부름
-        if (!post || res.post.updatedAt !== post.updatedAt) {
+        // post가 빈값일때 서버에서 최신 데이터를 부름
+        if (!post) {
           setPost(res.post);
         }
       } catch (error: any) {
