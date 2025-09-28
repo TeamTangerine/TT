@@ -30,6 +30,7 @@ function App() {
         <Route path="/my-profile" element={<MyProfile />} />
         <Route path="/follow-list/:accountName" element={<FollowList />} />
         <Route path="/profile-modification" element={<ProfileModification />} />
+        <Route path="/add-product" element={<AddProduct />} />
         <Route path="/add-product/:productId" element={<AddProduct />} />
         <Route path="/post/:postId" element={<Post />} />
         <Route path="/upload" element={<Upload />} />

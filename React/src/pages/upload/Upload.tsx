@@ -115,7 +115,7 @@ function Upload() {
             {/* 프로필 이미지 */}
             <img
               className="w-[42px] h-[42px] rounded-full"
-              src={!userImg || userImg === '/Ellipse.png' ? profileImg : userImg}
+              src={!userImg || userImg === '/Ellipse.png' ? profileImg : imageAPI.getImage(userImg)}
               alt="프로필"
             />
             {/* 게시글 */}
