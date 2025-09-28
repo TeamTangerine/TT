@@ -21,19 +21,16 @@
 </p>
 
 ## 서비스 핵심 기능
-### 1. 상품 홍보 & 판매
-상품 사진, 가격, 판매 링크까지 간편하게 **등록** 가능
 
-### 2. 일상 공유
-상품 등록 없이도 **글과 사진을 자유롭게 공유** 가능
+|상품 홍보 & 판매|일상 공유|검색 & 발견|
+|---|---|---|
+|상품 사진, 가격, 판매 링크까지 간편하게 **등록** 가능|상품 등록 없이도 **글과 사진을 자유롭게 공유** 가능|새로운 농장과 사용자들을 쉽게 찾고 연결될 수 있는 **검색 기능** 제공|
+|<img width="260" height="460" alt="product modification" src="https://github.com/user-attachments/assets/ce7de804-0d5c-40ab-b7a1-38ade66500f6" />|<img width="260" height="460" alt="Upload" src="https://github.com/user-attachments/assets/dcd818a2-d602-404e-9d4f-8894b312bea8" />|<img width="400" height="174" alt="search" src="https://github.com/user-attachments/assets/1b4aba5c-4e1f-4245-bfbe-432074f59aab" /> <br/> <img width="400" height="192" alt="searchValue" src="https://github.com/user-attachments/assets/217d9d40-50fc-4f77-9716-3b79f198cae0" />|
 
-### 3. 검색 & 발견
-새로운 농장과 사용자들을 쉽게 찾고 연결될 수 있는 **검색 기능** 제공
-
-### 4. 소설네트워킹
-- 관심있는 농장과 사용자를 **팔로우**하여 소식 받기
-- 팔로우한 사용자들의 게시물만 **모아서** 확인 가능
-- 좋아요, 댓글, 공유 기능으로 활발한 **커뮤니케이션**
+|소설네트워킹|소설네트워킹|소설네트워킹|
+|---|---|---|
+|관심있는 농장과 사용자를 **팔로우**하여 소식 받기|팔로우한 사용자들의 게시물만 **모아서** 확인 가능|좋아요, 댓글, 공유 기능으로 활발한 **커뮤니케이션**|
+|<img width="380" height="565" alt="your profile" src="https://github.com/user-attachments/assets/089a56bb-79c9-4690-98ca-8e35bf13f605" />|<img width="380" height="565" alt="Home" src="https://github.com/user-attachments/assets/ff961dd5-6b90-445b-9785-6b5d2ae44624" />|<img width="380" height="565" alt="PostComment" src="https://github.com/user-attachments/assets/78070917-7711-45be-a184-dcac9f8580c4" />|
   
 ## 기술 스택
 - **FE**   
@@ -136,4 +133,5 @@ npm run dev
 ## 개발 기간 
 - **2025년 9월 4일 ~ 2025년 9월 26일**
 
-## <a href="https://www.notion.so/oreumi/261ebaa8982b807e95e9d53d9bb86755" target='_blank'>더 상세한 노션 보기</a> 
+## 더 상세한 노션 보기 
+- https://www.notion.so/oreumi/261ebaa8982b807e95e9d53d9bb86755

@@ -48,8 +48,8 @@ function UserInfo({ isMyProfile, userAccountName }: UserInfoProps) {
       try {
         const userData = await userAPI.getMyInfo();
         setUserAccount(userData.user.accountname);
+        const res = await profileAPI.getProfile(userData.user.accountname);
         setAccountName(userAccountName);
-        const res = await profileAPI.getProfile(accountName);
         setProfileData(res.profile);
       } catch (error: any) {
         console.error('프로필 정보 조회 실패:', error.message);
