@@ -734,7 +734,7 @@ export const productAPI = {
    * @throws {Error} 요청 실패 시 에러
    */
   deleteProduct: async (productId: string): Promise<void> => {
-    const token = await checkRedirect();
+    const token = getToken();
     return await fetchAPI(
       PRODUCT_URL.deleteProduct(productId),
       options({
@@ -751,7 +751,7 @@ export const productAPI = {
    * @throws {Error} 요청 실패 시 에러
    */
   getProduct: async (productId: string): Promise<ProductAPI.IProductDetailResponse> => {
-    const token = await checkRedirect();
+    const token = getToken();
     return await fetchAPI(
       PRODUCT_URL.productDetail(productId),
       options({
@@ -769,7 +769,7 @@ export const productAPI = {
    * @throws {Error} 요청 실패 시 에러
    */
   getUserProducts: async (accountName: string): Promise<ProductAPI.IProductListResponse> => {
-    const token = await checkRedirect();
+    const token = getToken();
     return await fetchAPI(
       PRODUCT_URL.listProduct(accountName),
       options({
