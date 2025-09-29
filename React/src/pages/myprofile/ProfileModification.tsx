@@ -84,7 +84,7 @@ function ProfileModification() {
       // 현재 계정명과 다를 때만 검증
       if (userAcountName !== userAcountName) {
         const resAcountName = await userAPI.validateAccountName(userAcountName);
-        if (resAcountName.message === '이미 가입된 계정ID 입니다.') {
+        if (resAcountName.message === '이미 사용중인 계정 ID입니다.') {
           setIsAccountNameValid(true);
           alert('이미 가입된 계정ID 입니다.');
           return;
