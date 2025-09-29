@@ -14,22 +14,6 @@ import { ImageAPI, UserAPI, PostAPI, ProfileAPI, CommentAPI, ProductAPI } from '
 // 토큰관리
 const TOKEN_KEY = 'accessToken';
 const getToken = (): string | null => localStorage.getItem('TOKEN_KEY');
-// 토큰 유효성 관리
-const checkRedirect = async (): Promise<string> => {
-  const token = getToken();
-  if (!token) {
-    alert('로그인이 만료되었습니다.');
-    window.location.href = '/login';
-    throw new Error('토큰 없음');
-  }
-  const result = await userAPI.checkToken();
-  if (!result.isValid) {
-    alert('로그인이 만료되었습니다.');
-    window.location.href = '/login';
-    throw new Error('토큰 만료');
-  }
-  return token;
-};
 
 /**
  * 이미지 API 모음
@@ -216,7 +200,7 @@ export const userAPI = {
    * @throws {Error} 요청 실패 시 에러
    */
   getMyInfo: async (): Promise<UserAPI.IMyInfoResponse> => {
-    const token = await checkRedirect();
+    const token = getToken();
     return await fetchAPI(
       USER_URL.getInfo,
       options({
@@ -233,28 +217,9 @@ export const userAPI = {
    * @throws {Error} 요청 실패 시 에러
    */
   searchUser: async (keyword: string): Promise<UserAPI.ISearchUserResponse> => {
-    const token = await checkRedirect();
+    const token = getToken();
     return await fetchAPI(
       SEARCH_USER_URL.searchUser(keyword),
-      options({
-        method: 'GET',
-        token: token,
-      })
-    );
-  },
-
-  /**
-   * 토큰의 유효성을 검사합니다.
-   * @returns Promise<UserAPI.ITokenValidResponse> 토큰 검증 결과
-   * @throws {Error} 요청 실패 시 에러
-   */
-  checkToken: async (): Promise<UserAPI.ITokenValidResponse> => {
-    const token = getToken();
-    if (!token) {
-      throw new Error('토큰 없음');
-    }
-    return await fetchAPI(
-      TOKEN_URL.checkToken,
       options({
         method: 'GET',
         token: token,
@@ -285,7 +250,7 @@ export const userAPI = {
         image,
       },
     };
-    const token = await checkRedirect();
+    const token = getToken();
     return await fetchAPI(
       PROFILE_URL.putUser,
       options({
@@ -308,7 +273,7 @@ export const profileAPI = {
    * @throws {Error} 요청 실패 시 에러
    */
   getProfile: async (accountname: string): Promise<ProfileAPI.IProfileResponse> => {
-    const token = await checkRedirect();
+    const token = getToken();
     return await fetchAPI(
       PROFILE_URL.accountProfile(accountname),
       options({
@@ -325,7 +290,7 @@ export const profileAPI = {
    * @throws {Error} 요청 실패 시 에러
    */
   follow: async (accountname: string): Promise<ProfileAPI.IFollowResponse> => {
-    const token = await checkRedirect();
+    const token = getToken();
     return await fetchAPI(
       PROFILE_URL.accountFollow(accountname),
       options({
@@ -342,7 +307,7 @@ export const profileAPI = {
    * @throws {Error} 요청 실패 시 에러
    */
   unfollow: async (accountname: string): Promise<ProfileAPI.IFollowResponse> => {
-    const token = await checkRedirect();
+    const token = getToken();
     return await fetchAPI(
       PROFILE_URL.unFollow(accountname),
       options({
@@ -359,7 +324,7 @@ export const profileAPI = {
    * @throws {Error} 요청 실패 시 에러
    */
   getFollowingList: async (accountname: string): Promise<ProfileAPI.IFollowingListResponse> => {
-    const token = await checkRedirect();
+    const token = getToken();
     return await fetchAPI(
       PROFILE_URL.followerList(accountname),
       options({
@@ -376,7 +341,7 @@ export const profileAPI = {
    * @throws {Error} 요청 실패 시 에러
    */
   getFollowerList: async (accountname: string): Promise<ProfileAPI.IFollowerListResponse> => {
-    const token = await checkRedirect();
+    const token = getToken();
     return await fetchAPI(
       PROFILE_URL.userFollowerList(accountname),
       options({
@@ -399,7 +364,7 @@ export const postAPI = {
    * @throws {Error} 요청 실패 시 에러
    */
   createPost: async (content: string, image?: string): Promise<PostAPI.ICreatePostResponse> => {
-    const token = await checkRedirect();
+    const token = getToken();
     const requestData: PostAPI.ICreatePostRequest = {
       post: {
         content: content,
@@ -426,7 +391,7 @@ export const postAPI = {
    * @throws {Error} 요청 실패 시 에러
    */
   updatePost: async (postId: string, content?: string, image?: string): Promise<PostAPI.IUpdatePostResponse> => {
-    const token = await checkRedirect();
+    const token = getToken();
     const requestData: PostAPI.IUpdatePostRequest = {
       post: {
         ...(content !== undefined && { content }),
@@ -451,7 +416,7 @@ export const postAPI = {
    * @throws {Error} 요청 실패 시 에러
    */
   deletePost: async (postId: string): Promise<void> => {
-    const token = await checkRedirect();
+    const token = getToken();
     return await fetchAPI(
       ARTICLE_URL.deleteArticle(postId),
       options({
@@ -468,7 +433,7 @@ export const postAPI = {
    * @throws {Error} 요청 실패 시 에러
    */
   getPost: async (postId: string): Promise<PostAPI.IPostDetailResponse> => {
-    const token = await checkRedirect();
+    const token = getToken();
     return await fetchAPI(
       ARTICLE_URL.articleDetail(postId),
       options({
@@ -488,7 +453,7 @@ export const postAPI = {
   getFeed: async (limit?: number, skip?: number): Promise<PostAPI.IPostListResponse> => {
     let url = ARTICLE_URL.followFeedArticle;
 
-    const token = await checkRedirect();
+    const token = getToken();
     // 쿼리 파라미터 추가
     const params = new URLSearchParams();
     if (limit) params.append('limit', limit.toString());
@@ -518,7 +483,7 @@ export const postAPI = {
   getUserPosts: async (accountname: string, limit?: number, skip?: number): Promise<PostAPI.IUserPostListResponse> => {
     let url = ARTICLE_URL.userArticle(accountname);
 
-    const token = await checkRedirect();
+    const token = getToken();
     // 쿼리 파라미터 추가
     const params = new URLSearchParams();
     if (limit) params.append('limit', limit.toString());
@@ -544,7 +509,7 @@ export const postAPI = {
    * @throws {Error} 요청 실패 시 에러
    */
   likePost: async (postId: string): Promise<PostAPI.IHeartResponse> => {
-    const token = await checkRedirect();
+    const token = getToken();
     return await fetchAPI(
       HEART_URL.postHeart(postId),
       options({
@@ -561,7 +526,7 @@ export const postAPI = {
    * @throws {Error} 요청 실패 시 에러
    */
   unlikePost: async (postId: string): Promise<PostAPI.IHeartResponse> => {
-    const token = await checkRedirect();
+    const token = getToken();
     return await fetchAPI(
       HEART_URL.deleteHeart(postId),
       options({
@@ -578,7 +543,7 @@ export const postAPI = {
    * @throws {Error} 요청 실패 시 에러
    */
   reportPost: async (postId: string): Promise<PostAPI.IReportPostResponse> => {
-    const token = await checkRedirect();
+    const token = getToken();
     return await fetchAPI(
       ARTICLE_URL.reportArticle(postId),
       options({
@@ -601,7 +566,7 @@ export const commentAPI = {
    * @throws {Error} 요청 실패 시 에러
    */
   createComment: async (postId: string, content: string): Promise<CommentAPI.ICreateCommentResponse> => {
-    const token = await checkRedirect();
+    const token = getToken();
     const requestData: CommentAPI.ICreateCommentRequest = {
       comment: { content: content },
     };
@@ -627,7 +592,7 @@ export const commentAPI = {
   getComments: async (postId: string, limit?: number, skip?: number): Promise<CommentAPI.ICommentListResponse> => {
     let url = COMMENT_URL.listComment(postId);
 
-    const token = await checkRedirect();
+    const token = getToken();
     // 쿼리 파라미터 추가
     const params = new URLSearchParams();
     if (limit) params.append('limit', limit.toString());
@@ -655,7 +620,7 @@ export const commentAPI = {
    * @throws {Error} 요청 실패 시 에러
    */
   deleteComment: async (postId: string, commentId: string): Promise<void> => {
-    const token = await checkRedirect();
+    const token = getToken();
     return await fetchAPI(
       COMMENT_URL.deleteComment(postId, commentId),
       options({
@@ -674,7 +639,7 @@ export const commentAPI = {
    * @throws {Error} 요청 실패 시 에러
    */
   reportComment: async (postId: string, commentId: string): Promise<CommentAPI.IReportCommentResponse> => {
-    const token = await checkRedirect();
+    const token = getToken();
     return await fetchAPI(
       COMMENT_URL.reportComment(postId, commentId),
       options({
@@ -704,7 +669,7 @@ export const productAPI = {
     link: string,
     itemImage: string
   ): Promise<ProductAPI.ICreateProductResponse> => {
-    const token = await checkRedirect();
+    const token = getToken();
     const requestData: ProductAPI.ICreateProductRequest = {
       product: {
         itemName: itemName,
@@ -741,7 +706,7 @@ export const productAPI = {
     link: string,
     itemImage: string
   ): Promise<ProductAPI.IUpdateProductResponse> => {
-    const token = await checkRedirect();
+    const token = getToken();
     const requestData: ProductAPI.IUpdateProductRequest = {
       product: {
         itemName: itemName,
