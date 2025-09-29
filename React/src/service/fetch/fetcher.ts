@@ -35,6 +35,9 @@ export async function fetchAPI(url: string, option: RequestInit): Promise<any> {
     if (response.status === 204) {
       return null;
     }
+    if (response.status === 401) {
+      return null;
+    }
     const data = await response.json();
 
     if (!response.ok) {
