@@ -5,11 +5,11 @@ export function useUserNameValidation(initialValue = '') {
   const [userName, setUserName] = useState(initialValue);
   const [isNameValid, setIsNameValid] = useState(true);
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleInputName = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
     setUserName(value);
     setIsNameValid(validateUserName(value));
   };
 
-  return { userName, setUserName, isNameValid, handleChange };
+  return { userName, setUserName, isNameValid, handleInputName };
 }

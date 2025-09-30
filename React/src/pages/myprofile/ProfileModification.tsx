@@ -5,14 +5,18 @@ import TextInput from '../../components/TextInput';
 import { imageAPI, userAPI } from '../../service/fetch/api';
 import { useNavigate } from 'react-router-dom';
 import React, { useEffect, useState } from 'react';
-import { validateUserName } from '../../utils/validation';
+import { useUserNameValidation } from './component/useUserNameValidation';
 
 function ProfileModification() {
   //라우팅
   const navigate = useNavigate();
-  //유저 이름 상태관리
-  const [userName, setUserName] = useState('');
-  const [isNameValid, setIsNameValid] = useState(false);
+
+  //유저 이름 Init
+  const [userNameInit, setUserNameInit] = useState('');
+
+  //새로 제작한 커스텀 훅 유저 이름.
+  const { userName, isNameValid, handleInputName } = useUserNameValidation(userNameInit);
+
   //유저 어카운트 네임 상태관리
   const [userAcountName, setUserAcountName] = useState('');
   const [isAccountNameValid, setIsAccountNameValid] = useState(false);
@@ -29,7 +33,7 @@ function ProfileModification() {
   //프로필 가져오기
   const getMyInfo = async () => {
     const res = await userAPI.getMyInfo();
-    setUserName(res.user.username);
+    setUserNameInit(res.user.username);
     setUserAcountName(res.user.accountname);
     setUserIntro(res.user.intro);
     setUserImageUrl(res.user.image);
@@ -73,12 +77,12 @@ function ProfileModification() {
         finalImageUrl = resImg.info.filename;
       }
 
-      //유저 이름 검사
-      if (!validateUserName(userName)) {
-        setIsNameValid(true);
-        alert('올바르지 않은 이름 형식입니다.');
-        return;
-      }
+      // //유저 이름 검사
+      // if (!validateUserName(userName)) {
+      //   setIsNameValid(true);
+      //   alert('올바르지 않은 이름 형식입니다.');
+      //   return;
+      // }
 
       //계정명 검사
       // 현재 계정명과 다를 때만 검증
@@ -103,9 +107,7 @@ function ProfileModification() {
   };
 
   //인풋 핸들러
-  const handleInputName = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setUserName(e.target.value);
-  };
+
   const handleInputAccount = (e: React.ChangeEvent<HTMLInputElement>) => {
     setUserAcountName(e.target.value);
   };
@@ -140,7 +142,7 @@ function ProfileModification() {
             labelText="사용자 이름"
             inputValue={userName}
             errorMessage="2-10자 이내여야 합니다."
-            showErrorMessage={isNameValid}
+            showErrorMessage={!isNameValid}
             onChange={handleInputName}
             placeholderText="2~10자 이내여야 합니다."
           />
