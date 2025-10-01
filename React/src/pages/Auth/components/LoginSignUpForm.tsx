@@ -1,4 +1,3 @@
-import React from 'react';
 import { useState } from 'react';
 import Button from '../../../components/button/Button';
 import TextInput from '../../../components/TextInput';
@@ -59,7 +58,7 @@ export default function LoginSignUpForm({ formName, btnText, isLogin }: LoginSig
 
       // 성공처리
       if (res.accountname && res.token) {
-        localStorage.setItem('TOKEN_KEY', res.token);
+        sessionStorage.setItem('TOKEN_KEY', res.token);
 
         // 로그인 성공시 감귤피드로 이동
         navigate('/');
