@@ -5,7 +5,9 @@ import TextInput from '../../components/TextInput';
 import { imageAPI, userAPI } from '../../service/fetch/api';
 import { useNavigate } from 'react-router-dom';
 import React, { useEffect, useState } from 'react';
-import { useUserNameValidation } from './component/useUserNameValidation';
+import { useUserNameValidation } from './hooks/useUserNameValidation';
+import { useUserAccountNameValidation } from './hooks/useUserAccountValidation';
+import useImageInput from './hooks/useImageInput';
 
 function ProfileModification() {
   //라우팅
@@ -18,23 +20,24 @@ function ProfileModification() {
   const { userName, isNameValid, handleInputName } = useUserNameValidation(userNameInit);
 
   //유저 어카운트 네임 상태관리
-  const [userAcountName, setUserAcountName] = useState('');
-  const [isAccountNameValid, setIsAccountNameValid] = useState(false);
+  const [accountnameInit, setAccountNameInit] = useState('');
+
+  //새로 제작한 커스텀 훅 유저 어카운트
+  const { accountName, isAccountNameValid, handleAccountName } = useUserAccountNameValidation(accountnameInit);
+
+  //새로 제작한 커스텀 훅 이미지
+  const { image, previewUrl, handleFileChange } = useImageInput();
+
   //유저 인트로 관리
   const [userIntro, setUserIntro] = useState('');
   //유저 이미지 관리(url) - 실제 업로드용
   const [userImageUrl, setUserImageUrl] = useState('');
 
-  //이미지 파일 관리
-  const [image, setImage] = useState<File[]>([]);
-  //이미지 미리보기 url - base64용
-  const [previewUrl, setPreviewUrl] = useState('');
-
   //프로필 가져오기
   const getMyInfo = async () => {
     const res = await userAPI.getMyInfo();
     setUserNameInit(res.user.username);
-    setUserAcountName(res.user.accountname);
+    setAccountNameInit(res.user.accountname);
     setUserIntro(res.user.intro);
     setUserImageUrl(res.user.image);
   };
@@ -42,29 +45,6 @@ function ProfileModification() {
   useEffect(() => {
     getMyInfo();
   }, []);
-
-  //이미지 파일 관리 함수(인풋)
-  // 파일 리더라는 자바스크립트 인터페이스를 사용(이미지를 로컬에서 보여주기 위해 사용)
-  // 이미지를 base64로 인코딩해서 문자열로 만들어줌
-  const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
-    try {
-      if (e.target.files) {
-        const files = Array.from(e.target.files);
-        setImage(files);
-        const readFileAsDataURL = (file: File) =>
-          new Promise<string>((resolve, reject) => {
-            const reader = new FileReader();
-            reader.onload = () => resolve(reader.result as string);
-            reader.onerror = reject;
-            reader.readAsDataURL(file);
-          });
-        const urls = await Promise.all(files.map(readFileAsDataURL));
-        setPreviewUrl(urls[0]);
-      }
-    } catch (error) {
-      console.error(error);
-    }
-  };
 
   //프로필 업데이트
   const updateInfo = async () => {
@@ -77,26 +57,8 @@ function ProfileModification() {
         finalImageUrl = resImg.info.filename;
       }
 
-      // //유저 이름 검사
-      // if (!validateUserName(userName)) {
-      //   setIsNameValid(true);
-      //   alert('올바르지 않은 이름 형식입니다.');
-      //   return;
-      // }
-
-      //계정명 검사
-      // 현재 계정명과 다를 때만 검증
-      if (userAcountName !== userAcountName) {
-        const resAcountName = await userAPI.validateAccountName(userAcountName);
-        if (resAcountName.message === '이미 가입된 계정ID 입니다.') {
-          setIsAccountNameValid(true);
-          alert('이미 가입된 계정ID 입니다.');
-          return;
-        }
-      }
-
       // 새로 업로드된 파일명 또는 기존 이미지 URL 사용
-      await userAPI.updateProfile(userName, userAcountName, userIntro, finalImageUrl);
+      await userAPI.updateProfile(userName, accountName, userIntro, finalImageUrl);
 
       // 성공 후 상태 업데이트
       alert('프로필을 성공적으로 수정했습니다!');
@@ -108,9 +70,6 @@ function ProfileModification() {
 
   //인풋 핸들러
 
-  const handleInputAccount = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setUserAcountName(e.target.value);
-  };
   const handleInputIntro = (e: React.ChangeEvent<HTMLInputElement>) => {
     setUserIntro(e.target.value);
   };
@@ -122,7 +81,7 @@ function ProfileModification() {
         updateInfo();
       }}
     >
-      <Header navStyle="top-save" button={userName && userAcountName && userIntro ? true : false} />
+      <Header navStyle="top-save" button={userName && accountName && userIntro ? true : false} />
       <main>
         <div className="my-[30px] flex flex-col items-center relative">
           <img
@@ -149,10 +108,10 @@ function ProfileModification() {
           <TextInput
             inputId="accountId"
             labelText="계정 ID"
-            inputValue={userAcountName}
+            inputValue={accountName}
             errorMessage="영문, 숫자, 특수문자(.),(_)만 사용 가능합니다."
             showErrorMessage={isAccountNameValid}
-            onChange={handleInputAccount}
+            onChange={handleAccountName}
             placeholderText="영문, 숫자, 특수문자(.),(_)만 사용 가능합니다."
           />
           <TextInput
