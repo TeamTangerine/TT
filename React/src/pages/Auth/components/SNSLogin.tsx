@@ -1,5 +1,3 @@
-import React from 'react';
-
 type EmailLoginProps = {
   name: string;
   logoImg: string;
