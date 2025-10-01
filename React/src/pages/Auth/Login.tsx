@@ -1,7 +1,6 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import SNSLogin from './components/SNSLogin';
-
 import SymbolLogoW from '../../assets/symbol-logo-W.png';
 import kakaoLogo from '../../assets/kakao-logo.png';
 import googleLogo from '../../assets/google.png';
@@ -9,7 +8,6 @@ import facebookLogo from '../../assets/facebook.png';
 
 function Login() {
   const navigate = useNavigate();
-
 
   const borderColors = {
     kakao: 'border-[#F2C94C]',
