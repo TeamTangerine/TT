@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { validateUserName } from '../../../utils/validation';
+import { validateUserName } from '../../utils/validation';
 
 export function useUserNameValidation(initialValue = '') {
   const [userName, setUserName] = useState(initialValue);

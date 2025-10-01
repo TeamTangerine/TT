@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
-import { userAPI } from '../../../service/fetch/api';
-import useDebounce from '../../../utils/debouncer';
+import { userAPI } from '../../service/fetch/api';
+import useDebounce from '../../utils/debouncer';
 
 export function useUserAccountNameValidation(initialValue = '') {
   const [accountName, setAccountName] = useState(initialValue);

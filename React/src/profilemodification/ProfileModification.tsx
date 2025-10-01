@@ -1,8 +1,8 @@
-import Header from '../../components/Header';
+import Header from '../components/Header';
 import basicProfileImg from '../../assets/basic-profile-img.png';
 import ImgBtn from '../../assets/upload-file.png';
-import TextInput from '../../components/TextInput';
-import { imageAPI, userAPI } from '../../service/fetch/api';
+import TextInput from '../components/TextInput';
+import { imageAPI, userAPI } from '../service/fetch/api';
 import { useNavigate } from 'react-router-dom';
 import React, { useEffect, useState } from 'react';
 import { useUserNameValidation } from './hooks/useUserNameValidation';
